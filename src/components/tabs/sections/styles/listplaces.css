@@ -1,0 +1,32 @@
+.__section_places {
+    width: 100%;
+}
+
+.__section_places .__section_tti {
+    width: 100%;
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+}
+
+.__section_places .__section_tti h2 {
+    font-size: 1.2rem;
+}
+
+.__section_places .__section_scroll {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-left: 1rem;
+}
+
+.__section_places .__section_scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.__section_places .__section_scroll:first-child {
+    padding-left: 1rem;
+}
+.__section_places .__section_scroll:last-child {
+    padding-right: 1rem;
+}

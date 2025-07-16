@@ -1,0 +1,29 @@
+.__section_publish .__list_publish {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    overflow-y: auto;
+}
+
+.__section_publish .__list_publish::-webkit-scrollbar {
+    display: none;
+}
+
+.__section_publish .__list_publish:first-child {
+    padding-left: 1rem;
+}
+
+.__section_publish .__list_publish:last-child {
+    padding-right: 1rem;
+}
+
+.__section_publish .__list_publish .__banner {
+    width: calc(100dvw - 2rem);
+    height: 200px;
+    background-size: cover;
+    min-width: calc(100dvw - 2rem);
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-gray);
+}

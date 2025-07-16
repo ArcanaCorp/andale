@@ -1,0 +1,9 @@
+.__main {
+    width: 100dvw;
+}
+
+.__main .__section {
+    width: 100%;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+}

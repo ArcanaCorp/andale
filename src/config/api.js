@@ -1,0 +1,1 @@
+export const URL_API = 'https://places.ttutis.com/api/v1'

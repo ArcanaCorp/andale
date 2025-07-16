@@ -1,0 +1,35 @@
+.__header_place {
+    position: sticky;
+    top: 0;
+    width: 100dvw;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #EEEEEE;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.__header_place .__header_flex {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    padding: 1rem 0;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.__header_place .__header_flex .__btn_opc {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-white);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, .1);
+}
+
+.__header_place .__header_flex .__btn_opc .tabler-icon {
+    stroke-width: 1.2;
+}
