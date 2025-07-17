@@ -1,3 +1,4 @@
+import { Toaster } from "sonner";
 import { Outlet } from "react-router-dom";
 import Header from "../../components/tabs/header";
 
@@ -14,6 +15,8 @@ export default function TabLayout () {
             <main className="__main">
                 <Outlet/>
             </main>
+
+            <Toaster position="top-center" richColors />
 
         </>
 
