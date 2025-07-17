@@ -9,8 +9,13 @@ import HomeTab from "./app/tabs";
 
 import PlaceId from "./app/tabs/screens/places/details/PlaceId";
 
+import Search from "./app/tabs/screens/search/search";
+
 import './assets/css/variables.css'
 import './assets/css/global.css'
+import FoodTab from "./app/tabs/food";
+import EmptyTab from "./app/tabs/empty";
+import { DBProvider } from "./context/DBContext";
 
 const router = createBrowserRouter([
     {
@@ -22,13 +27,16 @@ const router = createBrowserRouter([
                 element: <HomeTab/>
             },
             {
-                path: '/restaurants'
+                path: '/restaurants',
+                element: <FoodTab/>
             },
             {
-                path: '/hotels'
+                path: '/hotels',
+                element: <EmptyTab/>
             },
             {
-                path: '/transport'
+                path: '/transport',
+                element: <EmptyTab/>
             }
         ]
     },
@@ -40,6 +48,10 @@ const router = createBrowserRouter([
                 element: <PlaceId/>
             }
         ]
+    },
+    {
+        path: '/search',
+        element: <Search/>
     }
 ])
 
@@ -50,8 +62,12 @@ root.render(
     <>
 
         <UIProvider>
+
+            <DBProvider>
     
-            <RouterProvider router={router} />
+                <RouterProvider router={router} />
+            
+            </DBProvider>
         
         </UIProvider>
 
