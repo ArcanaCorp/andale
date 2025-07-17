@@ -14,7 +14,7 @@ export default function HeaderPlace ({ info }) {
             <div className='__header_flex'>
                 <button className='__btn_opc' onClick={() => navigate('/', { viewTransition: true })}><IconChevronLeft/></button>
                 <div style={{display: 'flex', gap: '1rem'}}>
-                    <button className='__btn_opc'><IconHeart/></button>
+                    <button className='__btn_opc' style={{display: 'none'}}><IconHeart/></button>
                     <button className='__btn_opc'><IconShare3/></button>
                 </div>
             </div>
