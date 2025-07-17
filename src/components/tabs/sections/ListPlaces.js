@@ -26,7 +26,7 @@ export default function ListPlaces () {
             }
         }
         getSectionsList();
-    }, [])
+    }, [sections, savedSections])
 
     return (
 
