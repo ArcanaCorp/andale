@@ -1,9 +1,52 @@
 .__main {
     width: 100dvw;
+    overflow-y: auto;
+}
+
+.__main::-webkit-scrollbar {
+    display: none;
 }
 
 .__main .__section {
     width: 100%;
     padding: 1rem 0;
     margin-bottom: 1rem;
+}
+
+.__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: rgba(0, 0, 0, .2);
+}
+
+.__overlay .__modal {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--color-white);
+    border-top-left-radius: var(--radius-lg);
+    border-top-right-radius: var(--radius-lg);
+}
+
+.__overlay .__modal .__modal_head {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.__overlay .__modal .__modal_head  .__btn_close {
+    display: grid;
+    width: 50px;
+    height: 50px;
+    place-items: center;
+    border-radius: var(--radius-pill);
+}
+
+.__overlay .__modal .__modal_head .__btn_close .tabler-icon {
+    stroke-width: 1.2;
 }

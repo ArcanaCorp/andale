@@ -1,0 +1,25 @@
+.__card_top_food {
+    display: block;
+}
+
+.__card_top_food .__image {
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-secondary);
+}
+
+.__card_top_food .__image img {
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
+}
+
+.__card_top_food .__name {
+    padding: .5rem 0;
+    font-size: .8rem;
+    text-align: center;
+    color: var(--color-dark);
+}

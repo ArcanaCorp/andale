@@ -2,10 +2,14 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { UIProvider } from "./context/UIContext";
+import { DBProvider } from "./context/DBContext";
 
 import TabLayout from "./app/tabs/layout";
 import HomeTab from "./app/tabs";
-
+import FoodTab from "./app/tabs/food";
+import EmptyTab from "./app/tabs/empty";
+import Restaurant from "./app/tabs/screens/foods/Restaurant";
+import OnlineGuard from "./guards/OnlineGuard";
 
 import PlaceId from "./app/tabs/screens/places/details/PlaceId";
 
@@ -13,14 +17,11 @@ import Search from "./app/tabs/screens/search/search";
 
 import './assets/css/variables.css'
 import './assets/css/global.css'
-import FoodTab from "./app/tabs/food";
-import EmptyTab from "./app/tabs/empty";
-import { DBProvider } from "./context/DBContext";
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <TabLayout/>,
+        element: <OnlineGuard><TabLayout/></OnlineGuard>,
         children: [
             {
                 index: true,
@@ -50,6 +51,15 @@ const router = createBrowserRouter([
         ]
     },
     {
+        path: '/r/:slug',
+        children: [
+            {
+                index: true,
+                element: <Restaurant/>
+            }
+        ]
+    },
+    {
         path: '/search',
         element: <Search/>
     }
@@ -74,3 +84,15 @@ root.render(
     </>
 
 )
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('ServiceWorker registrado con éxito:', registration)
+            })
+            .catch(error => {
+                console.log('Error registrando ServiceWorker:', error)
+            })
+    })
+}

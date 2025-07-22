@@ -12,6 +12,7 @@ export default function Header () {
                 <div className="__row __row_A">
                     <p className='__parraph'>Bienvenido,</p>
                     <h1 className='__welcome'>Que gusto tenerte</h1>
+                    
                 </div>
                 <div className="__row __row_B">
                     <a href="/search" className='__search'>Busca lugares, restaurantes, hoteles y más</a>

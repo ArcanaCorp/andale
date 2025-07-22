@@ -1,5 +1,5 @@
-import ListPlaces from '../../components/tabs/sections/ListPlaces'
-import ListPublish from '../../components/tabs/sections/ListPublish'
+import ListPlaces from '@/components/tabs/places/ListPlaces'
+import ListPublish from '@/components/tabs/places/ListPublish'
 
 import './styles/index.css'
 

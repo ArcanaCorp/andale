@@ -1,0 +1,22 @@
+.__section_top {
+    width: 100%;
+}
+
+.__section_top ul {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+}
+
+.__section_top ul::-webkit-scrollbar {
+    display: none;
+}
+
+.__section_top ul:first-child {
+    padding-left: 1rem;
+}
+
+.__section_top ul:last-child {
+    padding-right: 1rem;
+}

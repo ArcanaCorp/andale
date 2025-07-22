@@ -4,13 +4,15 @@ const DBContext = createContext();
 
 export const DBProvider = ({ children }) => {
 
-    const [ sections, setSections ] = useState([]);
+    const [ placesList, setPlacesList ] = useState([]);
+    const [ foodsList, setFoodsList ] = useState([]);
 
-    const savedSections = (info) => setSections(info)
+    const savedPlacesList = (lst) => setPlacesList(lst)
+    const savedFoodsList = (lst) => setFoodsList(lst)
 
     const contextValue = {
-        sections,
-        savedSections
+        placesList, savedPlacesList,
+        foodsList, savedFoodsList
     }
 
     return (

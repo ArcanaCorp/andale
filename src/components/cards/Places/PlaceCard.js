@@ -5,7 +5,7 @@ import placeholder from '@/assets/img/placeholder.png'
 
 import './styles/place.css'
 
-export default function Place ({ place }) {
+export default function PlaceCard ({ place }) {
 
     const image = place?.image === 'URL_ADDRESS' ? placeholder : place?.image;
 
