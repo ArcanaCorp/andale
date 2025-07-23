@@ -19,7 +19,7 @@ export const getDishes = async () => {
 
     try {
         
-        const response = await fetch(`https://socio.ttutis.com/api/v1/partners/foods/dishes`)
+        const response = await fetch(`${URL_SOCIO_API}/partners/foods/dishes`)
         const data = await response.json()
         if (!response.ok) throw new Error(data.message);
             return data
@@ -37,7 +37,7 @@ export const getInfoBussines = async (short) => {
         const response = await fetch(`${URL_SOCIO_API}/partners/foods/company/${short}`)
         const data = await response.json();
         if (!data.ok) throw new Error(data.message);
-            const info = { ok: data.ok, bussines: data.data.bussines, dishes: data.data.dishes}
+            const info = { ok: data.ok, bussines: data.data.bussines, dishes: data.data.dishes, categories: data.data.categories}
             return info;
 
     } catch (error) {

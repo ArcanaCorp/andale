@@ -8,7 +8,7 @@ import { getInfoBussines } from '@/services/foods.services';
 import Loading from '@/components/screens/Loading';
 import NotFound from '@/components/screens/NotFound';
 import HeaderFood from '@/components/foods/header';
-import ListFoodCategories from '@/components/foods/ListFoodCategories';
+import FoodCard from '@/components/cards/Foods/FoodCard';
 import DishDetails from './details/dish';
 
 import './styles/restaurant.css'
@@ -20,7 +20,11 @@ export default function Restaurant () {
     const { slug } = useParams();
     const [ info, setInfo ] = useState(null)
     const [ dishes, setDishes ] = useState([])
+    const [ categories, setCategories ] = useState([])
+    const [ filter, setFilter ] = useState('all')
     const [ loading, setLoading ] = useState(true)
+
+    const handleChooseFilter = (f) => setFilter(f);
 
     useEffect(() => {
         const getInfo = async () => {
@@ -31,6 +35,7 @@ export default function Restaurant () {
                     return;
                 }
                 setInfo(data?.bussines)
+                setCategories(data?.categories)
                 setDishes(data?.dishes)
             } catch (error) {
                 console.error(error);
@@ -49,13 +54,15 @@ export default function Restaurant () {
 
         <>
         
-            <HeaderFood slug={slug} info={info} />
+            <HeaderFood slug={slug} info={info} filter={filter} categories={categories} onFilter={handleChooseFilter} />
 
             <main className='__main_restau'>
-                {dishes.length < 0 ? (
-                    <div><h1>No hay platos</h1></div>
+                {dishes.length === 0 ? (
+                    <></>
                 ) : (
-                    dishes.map((d, i) => ( <ListFoodCategories key={i} buss={info} data={d} /> ))
+                    dishes.map((d) => (
+                        <FoodCard key={d.id} buss={info} food={d} filter={filter} />
+                    ))
                 )}
             </main>
 
