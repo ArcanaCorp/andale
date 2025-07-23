@@ -15,6 +15,24 @@ export default function TabLayout () {
     const { modal } = useUI();
 
     useEffect(() => {
+        const existingUser = () => {
+            // Revisamos si existe la cookie
+            const cookies = document.cookie.split("; ").reduce((acc, current) => {
+                const [name, value] = current.split("=");
+                acc[name] = value;
+                return acc;
+            }, {});
+
+            if (!cookies.c_user) {
+                const timestamp = Date.now(); // 13 dígitos
+                document.cookie = `c_user=${timestamp}; path=/; samesite=strict`;
+            }
+        };
+
+        existingUser();
+    }, [])
+
+    useEffect(() => {
         const observer = new ResizeObserver(([entry]) => {
             const { width, height } = entry.contentRect;
             setHeaderSize({ width, height });

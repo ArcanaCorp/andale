@@ -45,3 +45,16 @@ export const getInfoBussines = async (short) => {
     }
 
 }
+
+export const getInfoDish = async (sub, productId) => {
+    try {
+        
+        const response = await fetch(`${URL_SOCIO_API}/partners/foods/${sub}/dish/${productId}`)
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message);
+            return data;
+
+    } catch (error) {
+        return { ok: false, message: error, error, code: 500 }
+    }
+}

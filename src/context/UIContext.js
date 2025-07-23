@@ -8,10 +8,11 @@ export const UIProvider = ({ children }) => {
     const [ modal, setModal ] = useState({
         view: false,
         type: '',
+        bussines: '',
         id: ''
     })
     
-    const handleChangeModal = (type, id) => setModal({ view: !modal.view, type: type, id: id })
+    const handleChangeModal = (type, buss, id) => setModal({ view: !modal.view, type: type, bussines: buss, id: id })
 
     useEffect(() => {
         const handleOnline = () => setOnline(true);

@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { UIProvider } from "./context/UIContext";
 import { DBProvider } from "./context/DBContext";
+import { CartProvider } from "./context/CartContext";
 
 import TabLayout from "./app/tabs/layout";
 import HomeTab from "./app/tabs";
@@ -14,6 +15,7 @@ import OnlineGuard from "./guards/OnlineGuard";
 import PlaceId from "./app/tabs/screens/places/details/PlaceId";
 
 import Search from "./app/tabs/screens/search/search";
+import Cart from "./app/tabs/screens/cart/Cart";
 
 import './assets/css/variables.css'
 import './assets/css/global.css'
@@ -62,6 +64,10 @@ const router = createBrowserRouter([
     {
         path: '/search',
         element: <Search/>
+    },
+    {
+        path: '/cart',
+        element: <Cart/>
     }
 ])
 
@@ -74,8 +80,12 @@ root.render(
         <UIProvider>
 
             <DBProvider>
+
+                <CartProvider>
     
-                <RouterProvider router={router} />
+                    <RouterProvider router={router} />
+                
+                </CartProvider>
             
             </DBProvider>
         

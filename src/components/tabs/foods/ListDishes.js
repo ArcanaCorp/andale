@@ -40,7 +40,7 @@ export default function ListDishes () {
                     </div>
                     <ul className="__section_scroll">
                         {d.dishes.map((dd) => (
-                            <FoodCard key={dd.id} buss={d.name} food={dd} />
+                            <FoodCard key={dd.id} buss={d} food={dd} />
                         ))}
                     </ul>
                 </section>

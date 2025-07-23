@@ -1,13 +1,39 @@
+import { useEffect, useState } from "react";
 import { IconX } from "@tabler/icons-react";
 import { useUI } from "@/context/UIContext";
-import { useDB } from "@/context/DBContext";
+import { useCart } from "@/context/CartContext";
+import { toast } from "sonner";
 
-export default function DishDetails ({ id, list }) {
+import { getInfoDish } from "@/services/foods.services";
+
+export default function DishDetails () {
 
     const { modal, handleChangeModal } = useUI();
-    const { foodsList } = useDB()
+    const { addToCartItem } = useCart();
 
-    console.log(foodsList);
+    const [ info, setInfo ] = useState(null)
+    const [ loading, setLoading ] = useState(true)
+
+    const handleAddToCart = (itm) => {
+        addToCartItem(itm)
+        toast.success('Se agregó al carrito')
+    }
+
+    useEffect(() => {
+        const getDishInfo = async () => {
+            try {
+                const data = await getInfoDish(modal?.bussines, modal?.id);
+                if (!data.ok) return console.warn(data.message);
+                    setInfo(data?.dish)
+            } catch (error) {
+                console.error(error);
+                setInfo(null)
+            } finally {
+                setLoading(false)
+            }
+        }
+        getDishInfo();
+    }, [modal])
 
     return (
 
@@ -16,11 +42,33 @@ export default function DishDetails ({ id, list }) {
             <div className="__overlay">
                 <div className="__modal __modal_dish">
                     <div className="__modal_head">
-                        <button className="__btn_close" onClick={() => handleChangeModal('', '')}><IconX/></button>
+                        <button className="__btn_close" onClick={() => handleChangeModal('', '', '')}><IconX/></button>
                     </div>
-                    <div className="__modal_body">
-                        <h1>Plato {modal?.id}</h1>
-                    </div>
+                    {loading ? (
+                        <div className="__modal_load">
+                            <span className="__loader"></span>
+                        </div>
+                    ) : (
+                        <>
+                        
+                            <div className="__modal_body">
+                                <div className="__head_img"></div>
+                                <div className="__head_info">
+                                    <div>
+                                        <p>{info?.category}</p>
+                                        <h1>{info?.name}</h1>
+                                        <p>{info?.text}</p>
+                                    </div>
+                                    <p className="__price">S/ {info?.price}</p>
+                                </div>
+                            </div>
+
+                            <div className="__modal_footer">
+                                <button className="__btn_add" onClick={() => handleAddToCart(info)}>Agregar al carrito</button>
+                            </div>
+
+                        </>
+                    )}
                 </div>
             </div>
 

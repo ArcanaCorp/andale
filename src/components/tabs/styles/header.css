@@ -24,12 +24,46 @@
     padding: 0 1rem;
 }
 
+.__header_tab .__content_header_tab .__row_A {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .__header_tab .__content_header_tab .__row_A .__parraph {
     color: var(--color-gray);
 }
 
 .__header_tab .__content_header_tab .__row_A .__welcome {
     font-size: 1.5rem;
+}
+
+.__header_tab .__content_header_tab .__row_A .__btn_shopping {
+    position: relative;
+    display: grid;
+    width: 50px;
+    height: 50px;
+    background: none;
+    place-items: center;
+}
+
+.__header_tab .__content_header_tab .__row_A .__btn_shopping .tabler-icon {
+    stroke-width: 1.2;
+}
+
+.__header_tab .__content_header_tab .__row_A .__btn_shopping .__span_badge {
+    position: absolute;
+    display: grid;
+    top: 0;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    font-size: .8rem;
+    place-items: center;
+    color: var(--color-white);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-primary);
 }
 
 .__header_tab .__content_header_tab .__row_B .__search {
