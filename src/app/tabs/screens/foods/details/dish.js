@@ -9,14 +9,18 @@ import { getInfoDish } from "@/services/foods.services";
 export default function DishDetails () {
 
     const { modal, handleChangeModal } = useUI();
-    const { addToCartItem } = useCart();
+    const { cart, addToCartItem } = useCart();
 
     const [ info, setInfo ] = useState(null)
     const [ loading, setLoading ] = useState(true)
 
+    // Verifica si el producto ya está en el carrito
+    const isInCart = cart.products?.some(item => item.id === modal?.id);
+
     const handleAddToCart = (itm) => {
         addToCartItem(itm)
-        toast.success('Se agregó al carrito')
+        if (isInCart) return toast.success('Se actualizó el carrito')
+            toast.success('Se agregó al carrito')
     }
 
     useEffect(() => {
@@ -64,7 +68,7 @@ export default function DishDetails () {
                             </div>
 
                             <div className="__modal_footer">
-                                <button className="__btn_add" onClick={() => handleAddToCart(info)}>Agregar al carrito</button>
+                                <button className="__btn_add" onClick={() => handleAddToCart(info)}>{isInCart ? 'Se agregó al carrito' : 'Agregar al carrito'}</button>
                             </div>
 
                         </>

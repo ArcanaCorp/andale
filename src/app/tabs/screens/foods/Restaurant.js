@@ -41,7 +41,6 @@ export default function Restaurant () {
         getInfo();
     }, [slug])
 
-
     if (loading) return <Loading/>;
 
     if (!info) return <NotFound/>;
