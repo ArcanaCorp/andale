@@ -2,6 +2,7 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { IconBrandWhatsapp, IconChevronLeft, IconMapPin, IconPhone, IconShare3 } from "@tabler/icons-react";
 
+import placeholder from '@/assets/img/placeholder.png'
 import './styles/header.css'
 
 export default function HeaderFood ({ slug, info, filter, categories, onFilter }) {
@@ -23,29 +24,42 @@ export default function HeaderFood ({ slug, info, filter, categories, onFilter }
         window.open(url, '_blank');
     };
 
+    const message = `Hola *${info?.name}*\n\nMe gustaría hacer un pedido.`
+
+    const contactsMap = {
+        'phone': `tel:${info?.phone}`,
+        'location': `https://www.google.com/maps?q=${encodeURIComponent(info?.location)}`,
+        'whatsapp': `https://wa.me/51${info?.phone}?text=${encodeURIComponent(message)}`
+    }
+
+    const handleNavigationContacts = (contact) => window.open(contactsMap[contact], '_blank')
+
     return (
 
         <header className='__header_rtrt'>
-            <div className="__portada">
+            <div className={`__portada`} style={{backgroundImage: `url(${info?.portada === '' ? placeholder : info?.portada})`}}>
+                <img src={info?.portada === '' ? placeholder : info?.portada} alt={`Foto de portada de ${info?.name} - ${info.category} - Ándale Ya!`} loading="lazy" />
                 <div className="__actions">
                     <button className="__action_btn" onClick={handleBack}><IconChevronLeft/></button>
                     <button className="__action_btn" onClick={handleShared}><IconShare3/></button>
                 </div>
-                <div className="__avatar"></div>
+                <div className="__avatar" style={{backgroundImage: `url(${info?.photo})`}}>
+                    <img src={info?.photo} alt={`Foto de perfil de ${info?.name} - ${info.category} - Ándale Ya!`} loading="lazy" />
+                </div>
             </div>
             <div className="__info">
                 <h1 className="__name">{info?.name}</h1>
                 <p className="__text">{info?.text}</p>
                 <ul className="__contacts">
-                    <li className="__contact">
+                    <li className="__contact" onClick={() => handleNavigationContacts('phone')}>
                         <IconPhone size={18} />
                         <p>Llámanos</p>
                     </li>
-                    <li className="__contact">
+                    <li className="__contact" onClick={() => handleNavigationContacts('location')}>
                         <IconMapPin size={18} />
                         <p>Ubícanos</p>
                     </li>
-                    <li className="__contact">
+                    <li className="__contact" onClick={() => handleNavigationContacts('whatsapp')}>
                         <IconBrandWhatsapp size={18} />
                         <p>Escríbenos</p>
                     </li>

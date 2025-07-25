@@ -19,6 +19,7 @@ import Cart from "./app/tabs/screens/cart/Cart";
 
 import './assets/css/variables.css'
 import './assets/css/global.css'
+import { BussinesProfileProvider } from "./context/BussinesProfileContext";
 
 const router = createBrowserRouter([
     {
@@ -81,11 +82,15 @@ root.render(
 
             <DBProvider>
 
-                <CartProvider>
+                <BussinesProfileProvider>
+
+                    <CartProvider>
     
-                    <RouterProvider router={router} />
+                        <RouterProvider router={router} />
+                    
+                    </CartProvider>
                 
-                </CartProvider>
+                </BussinesProfileProvider>
             
             </DBProvider>
         

@@ -1,9 +1,11 @@
 import { Toaster } from "sonner";
-import { Outlet } from "react-router-dom";
-import { useUI } from "@/context/UIContext";
-import Header from "../../components/tabs/header";
 import { useEffect, useRef, useState } from "react";
-import DishDetails from "./screens/foods/details/dish";
+import { Outlet } from "react-router-dom";
+
+import { useUI } from "@/context/UIContext";
+
+import Header from "@/components/tabs/header";
+import ModalDish from "@/components/modals/ModalDish";
 
 import './styles/layout.css'
 
@@ -54,9 +56,7 @@ export default function TabLayout () {
 
             <main className="__main" style={{height: `calc(100dvh - ${headerSize.height}px)`}}>
                 <Outlet/>
-                {modal.view && (
-                    modal.type === 'food' && ( <DishDetails/> )
-                )}
+                {modal.view && (modal.type === 'food' && ( <ModalDish/> ))}
             </main>
 
             <Toaster position="top-center" richColors duration={1000}/>

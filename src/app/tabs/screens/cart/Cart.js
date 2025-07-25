@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
-import { useCart } from "@/context/CartContext";
-import FoodCart from "@/components/cards/Foods/FoodCart";
+import { IconChevronLeft } from "@tabler/icons-react";
 
+import { useCart } from "@/context/CartContext";
+
+import Avatars from "@/components/ui/avatars";
+import FoodCart from "@/components/cards/Foods/FoodCart";
 import emptyCart from '@/assets/img/empty_cart.png'
+
 import './styles/cart.css'
 
 export default function Cart () {
@@ -17,7 +20,7 @@ export default function Cart () {
             return;
         }
 
-        let message = `Hola, quisiera hacer el siguiente pedido:\n\n`;
+        let message = `Hola *${cart?.bussines.name}*, quisiera hacer el siguiente pedido:\n\n`;
 
         cart.products.forEach(item => {
             message += `• ${item.amount}x ${item.name} - S/ ${item.price}\n`;
@@ -25,7 +28,7 @@ export default function Cart () {
 
         message += `\nTotal: S/ ${cart.total.toFixed(2)}`;
 
-        const phone = "51995984231";
+        const phone = `51${cart?.bussines.phone}`;
         const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
         window.open(url, '_blank');
     };
@@ -48,13 +51,16 @@ export default function Cart () {
             ) : (
                 <>
                     <main className="__main_cart">
+                        <div className="__main_cart_head">
+                            <Avatars image={cart?.bussines?.photo} name={cart?.bussines?.name} size={50} radius={'pill'} />
+                            <h3>{cart?.bussines?.name}</h3>
+                        </div>
                         {cart?.products.map((c) => (
                             <FoodCart key={c.id} item={c} />
                         ))}
                         <div className="__orders">
                             <div className="__row_order_head">
-                                <p>Productos</p>
-                                <p>Total</p>
+                                <h3>Resumen</h3>
                             </div>
                             {cart?.products.map((c) => (
                                 <div key={c.id} className="__row_order">
@@ -73,10 +79,11 @@ export default function Cart () {
                         </div>
                     </main>
                     <footer className="__footer_cart">
-                        <button className="__btn_order" onClick={handleOrder}>
-                            <p className="__txt_total">S/. {(cart?.total).toFixed(2)}</p>
-                            <p className="__txt_order">Hacer Pedido <IconChevronRight/></p>
-                        </button>
+                        <div className="__txt_subtotal">
+                            <h3>Subtotal</h3>
+                            <h3>S/. {(cart?.total).toFixed(2)}</h3>
+                        </div>
+                        <button className="__btn_order" onClick={handleOrder}>Realizar pedido</button>
                     </footer>
                 </>
             )}

@@ -1,16 +1,20 @@
-.__food_cart {
+.__modal_body {
+    width: 100%;
+}
+
+.__modal_body .__food_edit {
     width: 100%;
     display: flex;
-    margin-bottom: 1rem;
+    align-items: center;
     justify-content: space-between;
 }
 
-.__food_cart .__rowA {
+.__modal_body .__food_edit .__col_A {
     display: flex;
     gap: 1rem;
 }
 
-.__food_cart .__rowA .__image {
+.__modal_body .__food_edit .__col_A .__avatar {
     width: 80px;
     height: 80px;
     min-width: 80px;
@@ -21,13 +25,13 @@
     background-color: var(--color-secondary);
 }
 
-.__food_cart .__rowB .__controls {
+.__modal_body .__food_edit .__col_B .__controls {
     display: flex;
     border-radius: var(--radius-pill);
     background-color: var(--color-secondary);
 }
 
-.__food_cart .__rowB .__controls .__btn_controls {
+.__modal_body .__food_edit .__col_B .__controls .__control {
     display: grid;
     width: 35px;
     height: 35px;
@@ -36,7 +40,7 @@
     place-items: center;
 }
 
-.__food_cart .__rowB .__controls .__btn_controls .tabler-icon {
+.__modal_body .__food_edit .__col_B .__controls .__control .tabler-icon {
     width: 18px;
     height: 18px;
 }

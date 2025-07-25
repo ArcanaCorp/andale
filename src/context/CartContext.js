@@ -6,7 +6,7 @@ export const CartProvider = ({ children }) => {
 
     const [cart, setCart] = useState(() => {
         const stored = sessionStorage.getItem("cart");
-        return stored ? JSON.parse(stored) : { products: [], total: 0 };
+        return stored ? JSON.parse(stored) : { products: [], bussines: {}, total: 0 };
     });
 
     useEffect(() => {
@@ -17,20 +17,21 @@ export const CartProvider = ({ children }) => {
         return products.reduce((sum, item) => sum + item.price * item.amount, 0);
     };
 
-    const addToCartItem = (item) => {
+    const addToCartItem = (item, amount, bussines) => {
         setCart(prevCart => {
+
             const existingItemIndex = prevCart.products.findIndex(i => i.id === item.id);
             let updatedProducts;
 
             if (existingItemIndex !== -1) {
                 updatedProducts = [...prevCart.products];
-                updatedProducts[existingItemIndex].amount += 1;
+                updatedProducts[existingItemIndex].amount = amount;
             } else {
-                updatedProducts = [...prevCart.products, { ...item, amount: 1 }];
+                updatedProducts = [...prevCart.products, { ...item, amount: amount }];
             }
 
             const newTotal = calculateTotal(updatedProducts);
-            return { products: updatedProducts, total: newTotal };
+            return { products: updatedProducts, bussines: bussines, total: newTotal };
         });
     };
 
@@ -58,7 +59,7 @@ export const CartProvider = ({ children }) => {
             }, []);
 
             const newTotal = calculateTotal(updatedProducts);
-            return { products: updatedProducts, total: newTotal };
+            return { ...prevCart, products: updatedProducts, total: newTotal };
         });
     };
 
