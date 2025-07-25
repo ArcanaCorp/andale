@@ -9,7 +9,7 @@ export default function HeaderFood ({ slug, info, filter, categories, onFilter }
 
     const navigate = useNavigate();
 
-    const handleBack = () => navigate('/restaurants', { viewTransition:true })
+    const handleBack = () => navigate(-1, { viewTransition:true })
 
     const handleShared = () => {
         toast.success('Se compartio con éxito')
@@ -24,7 +24,12 @@ export default function HeaderFood ({ slug, info, filter, categories, onFilter }
         window.open(url, '_blank');
     };
 
-    const message = `Hola *${info?.name}*\n\nMe gustaría hacer un pedido.`
+    const msgMap = {
+        'restaurant': 'Me gustaría hacer un pedido.',
+        'agency': 'Me gustaría reservar un paquete de viaje.'
+    }
+
+    const message = `Hola *${info?.name}*\n\n${msgMap[info?.category]}`
 
     const contactsMap = {
         'phone': `tel:${info?.phone}`,

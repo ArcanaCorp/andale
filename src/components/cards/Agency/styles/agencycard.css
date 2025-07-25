@@ -1,0 +1,26 @@
+.__agency_card {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.__agency_card--hidden {
+    display: none;
+}
+
+.__agency_card .__info p {
+    font-size: .8rem;
+    color: var(--color-gray);
+}
+
+.__agency_card .__image {
+    width: 120px;
+    height: 120px;
+    min-width: 120px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: var(--radius-md);
+    background-color: var(--color-secondary);
+}

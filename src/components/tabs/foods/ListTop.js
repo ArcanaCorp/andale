@@ -7,7 +7,6 @@ import FoodsTopCard from "@/components/cards/Foods/FoodsTopCard"
 
 import './styles/listtop.css'
 
-
 export default function ListTop () {
 
     const { foodsList, savedFoodsList } = useDB();

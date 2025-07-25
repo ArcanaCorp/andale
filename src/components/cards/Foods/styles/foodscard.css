@@ -1,0 +1,24 @@
+.__foods_card {
+    --width: calc(100dvw - 2rem);
+    width: var(--width);
+    min-width: var(--width);
+    overflow: hidden;
+}
+
+.__foods_card .__foods_card_image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-secondary);
+}
+
+.__foods_card .__foods_card_text {
+    width: 100%;
+    padding: .5rem 0;
+}
+
+.__foods_card .__foods_card_text h3 {
+    font-size: 1.2rem;
+}

@@ -4,12 +4,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { UIProvider } from "./context/UIContext";
 import { DBProvider } from "./context/DBContext";
 import { CartProvider } from "./context/CartContext";
+import { BussinesProfileProvider } from "./context/BussinesProfileContext";
 
 import TabLayout from "./app/tabs/layout";
 import HomeTab from "./app/tabs";
 import FoodTab from "./app/tabs/food";
 import EmptyTab from "./app/tabs/empty";
 import Restaurant from "./app/tabs/screens/foods/Restaurant";
+import Agency from "./app/tabs/screens/agency/Agency";
 import OnlineGuard from "./guards/OnlineGuard";
 
 import PlaceId from "./app/tabs/screens/places/details/PlaceId";
@@ -19,7 +21,6 @@ import Cart from "./app/tabs/screens/cart/Cart";
 
 import './assets/css/variables.css'
 import './assets/css/global.css'
-import { BussinesProfileProvider } from "./context/BussinesProfileContext";
 
 const router = createBrowserRouter([
     {
@@ -50,6 +51,15 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <PlaceId/>
+            }
+        ]
+    },
+    {
+        path: '/a/:slug',
+        children: [
+            {
+                index: true,
+                element: <Agency/>
             }
         ]
     },

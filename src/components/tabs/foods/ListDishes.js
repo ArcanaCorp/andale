@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react"
 import { getDishes } from "@/services/foods.services";
 
+import FoodsCard from "../../cards/Foods/FoodsCard";
+
 import './styles/listdishes.css'
-import FoodCard from "../../cards/Foods/FoodCard";
 
 export default function ListDishes () {
 
@@ -40,7 +41,7 @@ export default function ListDishes () {
                     </div>
                     <ul className="__section_scroll">
                         {d.dishes.map((dd) => (
-                            <FoodCard key={dd.id} buss={d} food={dd} />
+                            <FoodsCard key={dd.id} id={dd.bussines} name={d.name} photo={d.photo}  food={dd} />
                         ))}
                     </ul>
                 </section>

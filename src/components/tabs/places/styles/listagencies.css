@@ -1,0 +1,31 @@
+.__section_agencies {
+    width: 100%;
+}
+
+.__section_agencies .__list_agencies {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+}
+
+.__section_agencies .__list_agencies::-webkit-scrollbar {
+    display: none;
+}
+
+.__section_agencies .__list_agencies:first-child {
+    padding-left: 1rem;
+}
+.__section_agencies .__list_agencies:last-child {
+    padding-right: 1rem;
+}
+
+.__section_agencies .__list_agencies li {
+    text-align: center;
+}
+
+.__section_agencies .__list_agencies li .__avatar {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+}
