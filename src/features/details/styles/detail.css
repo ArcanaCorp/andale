@@ -1,0 +1,14 @@
+.__main_details {
+    position: fixed;
+    top: 180px;
+    width: 100dvw;
+    height: calc(100dvh - 180px);
+    overflow-y: auto;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    background-color: var(--color-white);
+}
+
+.__main_details::-webkit-scrollbar {
+    display: none;
+}

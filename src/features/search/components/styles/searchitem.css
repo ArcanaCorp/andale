@@ -1,0 +1,35 @@
+.__search_item {
+    width: 100%;
+}
+
+.__search_item .__search_item_link {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+
+.__search_item .__search_item_link .__search_item_avatar {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-secondary);
+}
+
+.__search_item .__search_item_link .__search_item_text {
+    width: 100%;
+}
+
+.__search_item .__search_item_link .__search_item_text .__search_item_text_h3 {
+    color: var(--color-dark);
+    margin-bottom: .2rem;
+    white-space: nowrap;        /* evita que el texto salte de línea */
+    overflow: hidden;           /* oculta el texto que sobrepasa el ancho */
+    text-overflow: ellipsis;
+}
+
+.__search_item .__search_item_link .__search_item_text .__search_item_text_p {
+    font-size: .8rem;
+    color: var(--color-gray);
+    text-transform: capitalize;
+}

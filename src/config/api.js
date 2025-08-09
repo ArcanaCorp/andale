@@ -1,0 +1,1 @@
+export const REACT_APP_API_URL = 'https://andale.ttutis.com/api/v1'

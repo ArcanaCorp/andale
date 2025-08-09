@@ -1,0 +1,25 @@
+.__wdn_splash {
+    display: grid;
+    width: 100dvw;
+    height: 100dvh;
+    overflow: hidden;
+    place-items: center;
+    background-color: var(--color-primary);
+}
+
+.__wdn_splash .__img_logo {
+    width: 40%;
+    animation: pulse-scale 2s ease-in-out infinite;
+}
+
+@keyframes pulse-scale {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

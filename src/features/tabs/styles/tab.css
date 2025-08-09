@@ -1,0 +1,60 @@
+.__wdn_tabs {
+    --height-tab: 60px;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: var(--color-background);
+}
+
+.__wdn_tabs .__wdn {
+    width: 100%;
+    height: calc(100dvh - var(--height-tab));
+    overflow-x: auto;
+}
+
+.__wdn_tabs .__wdn::-webkit-scrollbar {
+    display: none;
+}
+
+.__wdn_tabs .__tabs {
+    width: 100dvw;
+    height: var(--height-tab);
+    background-color: var(--color-white);
+    border-top: 1px solid var(--color-border);
+}
+
+.__wdn_tabs .__tabs .__tabs_grouped {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    height: inherit;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.__wdn_tabs .__tabs .__tabs_grouped .__tab {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    transition: .3s ease all;
+}
+
+.__wdn_tabs .__tabs .__tabs_grouped .__tab .__tab_ico .tabler-icon {
+    stroke: var(--color-gray);
+}
+
+.__wdn_tabs .__tabs .__tabs_grouped .__tab .__tab_txt {
+    font-size: .65rem;
+    color: var(--color-gray);
+}
+
+.__wdn_tabs .__tabs .__tabs_grouped .__tab--active .__tab_ico .tabler-icon {
+    stroke-width: 1.5;
+    stroke: var(--color-dark);
+}
+
+.__wdn_tabs .__tabs .__tabs_grouped .__tab--active .__tab_txt {
+    font-size: .65rem;
+    font-weight: bold;
+    color: var(--color-dark);
+}
