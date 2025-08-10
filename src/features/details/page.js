@@ -5,8 +5,10 @@ import Header from "./layout/header";
 
 import { getDetailSlug } from "./services/details.service";
 
-import './styles/detail.css'
 import PlaceView from "./views/PlaceView";
+import BussinesView from "./views/BussinesView";
+
+import './styles/detail.css'
 
 export default function Details () {
 
@@ -35,6 +37,7 @@ export default function Details () {
             <Header type={detail?.type} data={detail} />
             <main className={`__main_details`}>
                 {detail?.type === 'place' && ( <PlaceView data={detail} /> )}
+                {detail?.type === 'bussines' && ( <BussinesView data={detail} /> )}
             </main>
         </>
 

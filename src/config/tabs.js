@@ -1,4 +1,4 @@
-import { IconShoppingBag, IconHome, IconUserCircle, IconDiscount, IconScan } from "@tabler/icons-react";
+import { IconShoppingBag, IconHome, IconUserCircle, IconDiscount, IconHeart } from "@tabler/icons-react";
 
 export const tabs = [
     {
@@ -12,9 +12,9 @@ export const tabs = [
         ico: <IconDiscount/>
     },
     {
-        key: 'scan',
-        name: 'Escanear',
-        ico: <IconScan/>
+        key: 'favorite',
+        name: 'Favoritos',
+        ico: <IconHeart/>
     },
     {
         key: 'orders',

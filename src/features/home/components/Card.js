@@ -4,14 +4,12 @@ import './styles/card.css'
 export default function Card ({ data }) {
 
     const navigate = useNavigate();
-    console.log(data);
-    
     
     return (
 
         <li className={`__card`} onClick={() => navigate(`/${data.sub}`, { viewTransition: true })}>
             <div className={`__card_image`}>
-                <img className='__image' src={data.image || placeholder} alt={`Foto de portada de ${data?.name}`} loading='lazy' style={{viewTransitionName: `photo-${data?.sub}`}} />
+                <img className='__image' src={data?.image || placeholder} alt={`Foto de portada de ${data?.name}`} loading='lazy' style={{viewTransitionName: `photo-${data?.sub}`}} />
             </div>
             <div className={`__card_info`}>
                 <h4>{data?.name}</h4>
