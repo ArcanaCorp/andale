@@ -1,9 +1,21 @@
+import { Suspense, useState } from "react";
 import { IconBrandWhatsapp, IconMapPin, IconPhone } from "@tabler/icons-react";
-import Card from "../components/Card";
+import ProductList from "../components/ProductList";
+import SkeletonCard from "../components/SkeletonCard";
 
 import './styles/bussinesview.css'
 
 export default function BussinesView ({ data }) {
+
+    const [ filter, setFilter ] = useState('all');
+
+    const company = {
+        sub: data?.sub,
+        short: data?.short,
+        name: data?.name,
+        photo: data?.photo,
+        location: data?.location
+    }
 
     const message = `Hola *${data?.name}*\nDeseo más información de sus productos.`
     const handleSendMessage = () => window.open(`https://wa.me/51${data?.phone}/?text=${encodeURIComponent(message)}`, '_blank')
@@ -39,24 +51,21 @@ export default function BussinesView ({ data }) {
 
             <section className={`__section __section_detail`}>
                 <ul className={`__categories`}>
-                    <li className={`__category __category--active`}>
+                    <li className={`__category ${filter === 'all' ? '__category--active' : ''}`} onClick={() => setFilter('all')}>
                         <span>Todo</span>
                     </li>
-                    <li className={`__category`}>
-                        <span>Clásico</span>
-                    </li>
-                    <li className={`__category`}>
-                        <span>Premium</span>
-                    </li>
+                    {data?.filters.map((f, index) => (
+                        <li key={index} className={`__category ${filter === f ? '__category--active' : ''}`} onClick={() => setFilter(f)}>
+                            <span>{f}</span>
+                        </li>
+                    ))}
                 </ul>
             </section>
 
             <section className={`__section __section_detail`}>
-                <ul className={`__list_product`}>
-                    {data?.products.map((p) => (
-                        <Card key={p.id} type={data?.category} data={p} />
-                    ))}
-                </ul>
+                <Suspense fallback={<SkeletonCard/>}>
+                    <ProductList type={data?.type} company={company} hidden={filter} />
+                </Suspense>
             </section>
 
         </>

@@ -3,11 +3,13 @@ import { IconBell, IconChevronDown, IconSearch, IconShoppingCart } from '@tabler
 import { usePermissions } from '../permissions/hooks/usePermissions'
 
 import './styles/header.css'
+import { useCart } from '../cart/context/CartContext';
 
 export default function Header () {
 
     const navigate = useNavigate();
     const { requestLocationPermission, locationAddress, locationPermission, loadingLocation } = usePermissions();
+    const { cart } = useCart();
 
     return (
 
@@ -23,8 +25,8 @@ export default function Header () {
                     <IconChevronDown/>
                 </div>
                 <div className='__navigate'>
-                    <button className='__btn __btn_bell'><IconBell/></button>
-                    <button className='__btn __btn_cart'><IconShoppingCart/></button>
+                    <button className='__btn __btn_bell' onClick={() => navigate('/notify', { viewTransition: true })}><IconBell/></button>
+                    <button className='__btn __btn_cart' onClick={() => navigate('/cart', { viewTransition: true })}><IconShoppingCart/> {cart?.products.length > 0 && ( <span className='__badge'>{cart?.products.length}</span> )} </button>
                 </div>
             </div>
 

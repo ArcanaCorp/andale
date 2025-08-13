@@ -1,0 +1,21 @@
+.__wdg_empty {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+}
+
+.__wdg_empty .__box_empty {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.__wdg_empty .__box_empty h3 {
+    margin-bottom: .4rem;
+}
+
+.__wdg_empty .__box_empty p {
+    font-size: .8rem;
+    color: var(--color-gray);
+}

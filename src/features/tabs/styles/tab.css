@@ -1,7 +1,19 @@
+.__wdn .__wdn_main {
+    width: 100%;
+    height: calc(100dvh - 180px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.__wdn .__wdn_main::-webkit-scrollbar {
+    display: none;
+}
+
 .__wdn_tabs {
     --height-tab: 60px;
     width: 100dvw;
     height: 100dvh;
+    overflow: hidden;
     background-color: var(--color-background);
 }
 

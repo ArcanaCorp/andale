@@ -40,8 +40,9 @@
     width: 100%;
     display: flex;
     padding: 0 1rem;
-    align-items: center;
+    text-wrap: nowrap;
     overflow-x: auto;
+    align-items: center;
 }
 
 .__section_detail .__categories::-webkit-scrollbar {

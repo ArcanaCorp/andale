@@ -3,20 +3,28 @@ import { useTab } from './hooks/useTab'
 
 import Header from './header';
 import Home from '../home/page';
+import Promo from '../promo/page';
 
 import './styles/tab.css'
+import Favorite from '../favorite/page';
+import Orders from '../orders/page';
+import Profile from '../profile/page';
 export default function TabLayout () {
 
     const { tab, handleChangeTab } = useTab();
-
+    
     return (
 
         <div className='__wdn_tabs'>
 
             <div className='__wdn'>
                 <Header/>
-                <main style={{overflowX: 'hidden'}}>
+                <main className='__wdn_main'>
                     {tab === 'home' && ( <Home/> )}
+                    {tab === 'promotions' && ( <Promo/> )}
+                    {tab === 'favorite' && ( <Favorite/> )}
+                    {tab === 'orders' && ( <Orders/> )}
+                    {tab === 'profile' && ( <Profile/> )}
                 </main>
             </div>
 

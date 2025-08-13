@@ -20,10 +20,6 @@ body {
     background-color: var(--color-background);
 }
 
-@view-transition {
-    navigation: auto;
-}
-
 #root {
     position: relative;
     width: 100dvw;

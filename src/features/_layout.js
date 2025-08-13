@@ -1,14 +1,27 @@
 import { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
+import Cookies from "js-cookie";
 
 import SplashScreen from "./pages/SplashScreen";
+import { useCart } from "./cart/context/CartContext";
+import BannerShop from "./components/BannerShop";
 
 export default function RootLayout () {
 
+    const { cart } = useCart();
     const [ showSplash, setShowSplash ] = useState(true);
 
     useEffect(() => {
+
+        const existingCookie = Cookies.get("c_user");
+
+        if (!existingCookie) {
+            // Generar código de 13 dígitos en base al timestamp
+            const code = Date.now().toString().slice(-13);
+            Cookies.set("c_user", code, { expires: 365 }); // 1 año
+        }
+
         const timer = setTimeout(() => {
             setShowSplash(false);
         }, 3000);
@@ -22,6 +35,8 @@ export default function RootLayout () {
         <>
         
             <Outlet/>
+
+            {cart?.products.length > 0 && ( <BannerShop/> )}
 
             <Toaster position="top-center" richColors duration={1000} />
 

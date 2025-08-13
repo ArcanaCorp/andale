@@ -1,3 +1,5 @@
+import { CartProvider } from "../features/cart/context/CartContext";
+import { DetailProvider } from "../features/details/context/DetailContext";
 import { PermissionsProvider } from "../features/permissions/context/PermissionsContext";
 import { TabProvider } from "../features/tabs/context/TabContext";
 
@@ -10,7 +12,11 @@ export default function AppProviders ({ children }) {
         <PermissionsProvider>
             <QueryClientProvider client={queryClient}>
                 <TabProvider>
-                    {children}
+                    <CartProvider>
+                        <DetailProvider>
+                            {children}
+                        </DetailProvider>
+                    </CartProvider>
                 </TabProvider>
             </QueryClientProvider>
         </PermissionsProvider>

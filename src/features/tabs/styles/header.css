@@ -3,6 +3,7 @@
     top: 0;
     z-index: 1;
     width: 100%;
+    height: 120px;
     display: flex;
     padding: .8rem 0;
     gap: 1rem;
@@ -43,11 +44,27 @@
 }
 
 .__header .__header_row_A .__navigate .__btn {
+    position: relative;
     display: grid;
     width: 40px;
     height: 40px;
     background: none;
     place-items: center;
+}
+
+.__header .__header_row_A .__navigate .__btn_cart .__badge {
+    position: absolute;
+    display: grid;
+    top: 0;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    font-size: .6rem;
+    place-items: center;
+    color: var(--color-primary);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-white);
 }
 
 .__header .__header_row_A .__navigate .__btn .tabler-icon {

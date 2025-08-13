@@ -1,0 +1,52 @@
+.skeleton {
+    background-color: var(--color-secondary);
+    background-image: linear-gradient(90deg, var(--color-secondary) 0%, #dddddd 50%, var(--color-secondary) 100%);
+    background-size: 200% 100%;
+    animation: loadingShimmer 1.5s infinite linear;
+}
+
+.__skl_content {
+    width: 100%;
+    display: flex;
+    gap: .8rem;
+}
+
+.__skl_content_product {
+    padding: 0;
+}
+
+.__skl_content .__skl_row {
+    width: 100%;
+    display: flex;
+    gap: .4rem;
+    flex-direction: column;
+}
+
+.__skl_content .__skl_row .__skl_name {
+    width: 100%;
+    height: 20px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-secondary);
+}
+
+.__skl_content .__skl_row .__skl_text {
+    width: 60%;
+    height: 20px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-secondary);
+}
+
+.__skl_content .__skl_row .__skl_price {
+    width: 30%;
+    height: 20px;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-secondary);
+}
+
+.__skl_content .__skl_photo {
+    width: 120px;
+    height: 120px;
+    min-width: 120px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-secondary);
+}
