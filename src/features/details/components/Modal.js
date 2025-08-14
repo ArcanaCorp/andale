@@ -5,6 +5,7 @@ import { useDetail } from "../context/DetailContext";
 import { useCart } from "../../cart/context/CartContext";
 
 import './styles/modal.css'
+import ImageView from "../../components/ImageView";
 
 export default function Modal () {
 
@@ -47,7 +48,7 @@ export default function Modal () {
                         <p className="__prc">S/ {((product?.priceu !== '0.00' ? product?.priceu : product?.priced) * amount)}</p>
                     </div>
                     <div className="__avatar">
-                        <img src={product?.image} alt={`Foto del producto de ${product?.name}`} loading="lazy" />
+                        <ImageView url={product?.image} alt="Foto del plato" width={'100%'} height={'100%'} lazy />
                     </div>
                 </div>
                 <div className="__modal_footer">

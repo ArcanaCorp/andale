@@ -1,0 +1,21 @@
+.__card_recomend .__card_recomend_avatar {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    min-width: 120px;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-secondary);
+}
+
+.__card_recomend .__card_recomend_avatar .__btn_add {
+    position: absolute;
+    display: grid;
+    bottom: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    place-items: center;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-white);
+}

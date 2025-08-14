@@ -11,6 +11,7 @@ export default function Header ({ type, data }) {
     const navigate = useNavigate();
 
     const images = data?.images || [];
+    
     const scrollRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const intervalRef = useRef(null);
@@ -60,7 +61,7 @@ export default function Header ({ type, data }) {
                         {images.length > 0 ? (
                             images.map((i) => (
                                 <li key={i.id} className='__image_box'>
-                                    <img src={i.image} className='__image_background' alt={`Foto de user`} loading='lazy' style={{viewTransitionName: `photo-${data?.sub}`}} />
+                                    <img src={i.image} className='__image_background' alt={`Foto de user`} loading='lazy' style={{viewTransitionName: `photo-${data?.sub}-${i?.id}`}} />
                                 </li>
                             ))
                         ) : (
@@ -70,7 +71,7 @@ export default function Header ({ type, data }) {
                         )}
                     </ul>
                     <div className='__content_box'>
-                        <button className='__btn' onClick={() => navigate(-1, { viewTransition: true })}><IconChevronLeft/></button>
+                        <button className='__btn' onClick={() => navigate(-1)}><IconChevronLeft/></button>
                         <div className='__row'>
                             <button className='__btn'><IconHeart/></button>
                             <button className='__btn'><IconShare3/></button>
@@ -83,7 +84,7 @@ export default function Header ({ type, data }) {
                 <header className={`__header_details`}>
                     <img src={data?.photo} className='__image_background' alt={`Foto de user`} loading='lazy' style={{viewTransitionName: `photo-${data?.sub}`}} />
                     <div className='__content_box'>
-                        <button className='__btn' onClick={() => navigate(-1, { viewTransition: true })}><IconChevronLeft/></button>
+                        <button className='__btn' onClick={() => navigate(-1)}><IconChevronLeft/></button>
                         <div className='__row'>
                             <button className='__btn'><IconHeart/></button>
                             <button className='__btn'><IconShare3/></button>

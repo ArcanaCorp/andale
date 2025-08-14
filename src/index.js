@@ -24,3 +24,17 @@ root.render(
 
     </>
 )
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        const url = 'service-worker.js'
+        navigator.serviceWorker
+            .register(url) // Debe iniciar con "/"
+            .then((registration) => {
+                console.log('SW registrado con éxito:', registration.scope);
+            })
+            .catch((error) => {
+                console.error('Error registrando SW:', error);
+            });
+    });
+}

@@ -13,7 +13,7 @@ export default function Notifications () {
         <>
         
             <header className="__header_notify">
-                <button className="__btn" onClick={() => navigate(-1, { viewTransition: true })}><IconChevronLeft/></button>
+                <button className="__btn" onClick={() => navigate(-1)}><IconChevronLeft/></button>
                 <h3>Notificaciones</h3>
             </header>
 

@@ -19,7 +19,7 @@
 
 .__main_cart {
     width: 100%;
-    height: calc(100dvh - 60px);
+    height: calc(100dvh - 120px);
     overflow-y: auto;
 }
 
@@ -68,6 +68,37 @@
     font-weight: bold;
 }
 
+.__main_cart .__send {
+    width: 100%;
+    padding: 1rem;
+}
+
+.__main_cart .__send .__box_send {
+    display: flex;
+    padding: .2rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-secondary);
+}
+
+.__main_cart .__send .__box_send .__btn {
+    display: grid;
+    width: 100%;
+    height: 30px;
+    font-size: .8rem;
+    place-items: center;
+    border-radius: inherit;
+}
+
+.__main_cart .__send .__box_send .__btn--active {
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}
+
+.__main_cart .__box_alert {
+    width: 100%;
+    padding: 1rem;
+}
+
 .__main_cart .__product_lst {
     width: 100%;
     padding: 1rem;
@@ -78,4 +109,80 @@
     display: flex;
     gap: 1rem;
     flex-direction: column;
+}
+
+.__main_cart .__notes_company {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.__main_cart .__notes_company .__rowA {
+    width: 100%;
+    display: flex;
+    padding: .4rem 0;
+    margin-bottom: .5rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.__main_cart .__notes_company .__rowA .__tlt {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+}
+
+.__main_cart .__notes_company .__rowB .__textbox {
+    width: 100%;
+    padding: 1rem;
+    height: 100px;
+    resize: none;
+    max-height: 100px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+}
+
+.__main_cart .__target {
+    width: 100%;
+    padding: 1rem;
+}
+
+.__main_cart .__target .__row {
+    width: 100%;
+}
+
+.__main_cart .__target .__row h2 {
+    margin-bottom: 1rem;
+}
+
+.__main_cart .__target .__row .__lst_prices {
+    width: 100%;
+    display: flex;
+    gap: .8rem;
+    flex-direction: column;
+}
+
+.__main_cart .__target .__row .__lst_prices .__lst_price {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.__footer_cart {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    padding: 0 1rem;
+    align-items: center;
+    background-color: var(--color-white);
+}
+
+.__footer_cart .__btn_primary {
+    width: 100%;
+    height: 45px;
+    font-weight: bold;
+    color: var(--color-white);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-primary);
 }

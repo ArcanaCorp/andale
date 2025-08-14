@@ -61,7 +61,7 @@ export default function Search () {
         <>
         
             <header className='__header_search'>
-                <button className='__btn __btn_back' onClick={() => navigate(-1, { viewTransition: true })}><IconChevronLeft/></button>
+                <button className='__btn __btn_back' onClick={() => navigate(-1)}><IconChevronLeft/></button>
                 <div className='__search_box'>
                     <input className='__entry' name='search' id='search' inputMode='search' value={query} placeholder='Lugares, restaurantes, hoteles, market y mucho más' onKeyDown={(e) => handleKeyPress(e)} onChange={e => setQuery(e.target.value)} />
                     <div className='__ico' onClick={handleManualSearch}><IconSearch/></div>

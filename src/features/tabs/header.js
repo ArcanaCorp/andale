@@ -25,13 +25,13 @@ export default function Header () {
                     <IconChevronDown/>
                 </div>
                 <div className='__navigate'>
-                    <button className='__btn __btn_bell' onClick={() => navigate('/notify', { viewTransition: true })}><IconBell/></button>
-                    <button className='__btn __btn_cart' onClick={() => navigate('/cart', { viewTransition: true })}><IconShoppingCart/> {cart?.products.length > 0 && ( <span className='__badge'>{cart?.products.length}</span> )} </button>
+                    <button className='__btn __btn_bell' onClick={() => navigate('/notify')}><IconBell/></button>
+                    <button className='__btn __btn_cart' onClick={() => navigate('/cart')}><IconShoppingCart/> {cart?.products.length > 0 && ( <span className='__badge'>{cart?.products.length}</span> )} </button>
                 </div>
             </div>
 
             <div className={`__header_row_B`}>
-                <div className='__search_box' onClick={() => navigate('/search', { viewTransition: true })}>
+                <div className='__search_box' onClick={() => navigate('/search')}>
                     <div className='__ico'><IconSearch/></div>
                     <p className='__txt_placeholder'>Lugares, restaurantes, hoteles y más</p>
                 </div>

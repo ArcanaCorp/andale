@@ -11,7 +11,7 @@ export default function CartCard ({ product }) {
 
         <li className="__cart">
             <div className="__cart_avatar">
-                <img src={product?.image ? product?.image : placeholder} alt={`Foto del producto ${product?.name}`} />
+                <img src={product?.image ? product?.image : placeholder} alt={`Foto del producto ${product?.name}`} loading="eager" fetchPriority="high" />
             </div>
             <div className="__cart_text">
                 <h4>{product.name}</h4>

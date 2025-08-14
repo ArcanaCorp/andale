@@ -4,6 +4,7 @@
     left: 0;
     width: 100dvw;
     height: 100dvh;
+    z-index: 1001;
     background-color: rgba(0, 0, 0, .5);
 }
 
@@ -36,6 +37,8 @@
     width: 100%;
     padding: 1rem;
     display: flex;
+    gap: .5rem;
+    justify-content: space-between;
 }
 
 .__overlay .__modal .__modal_body .__ifo h2 {

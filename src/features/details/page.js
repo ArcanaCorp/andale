@@ -44,7 +44,7 @@ export default function Details () {
 
         <>
             <Header type={detail?.type} data={detail} />
-            <main className={`__main_details`}>
+            <main className={`__main_details`} style={{paddingBottom: '10px'}}>
                 {detail?.type === 'place' && ( <PlaceView data={detail} /> )}
                 {detail?.type === 'bussines' && ( <BussinesView data={detail} /> )}
             </main>

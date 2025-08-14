@@ -1,22 +1,27 @@
-import { IconChevronLeft } from "@tabler/icons-react";
+import { useState } from "react";
+import { IconChevronDown, IconChevronLeft, IconChevronUp, IconFilePlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./context/CartContext";
 import Empty from "../pages/Empty";
 
 import './styles/page.css'
 import CartCard from "./components/Cart";
+import Alert from "../components/Alert";
+import Recommend from "./components/Recommend";
 
 export default function Cart () {
 
     const navigate = useNavigate();
     const { cart } = useCart();
+    const [ delivery, setDelivery ] = useState(true)
+    const [ notesView, setNotesView ] = useState(false);
 
     return (
 
         <>
         
             <header className="__header_cart">
-                <button className="__btn" onClick={() => navigate(-1, { viewTransition: true })}><IconChevronLeft/></button>
+                <button className="__btn" onClick={() => navigate(-1)}><IconChevronLeft/></button>
                 <h3>Carrito de compras</h3>
             </header>
 
@@ -34,6 +39,17 @@ export default function Cart () {
                     </div>
                     <a href={`/${cart?.company?.short}`} className="__link __link_primary">Ir al local</a>
                 </section>
+                <section className="__send">
+                    <div className="__box_send">
+                        <button className={`__btn ${delivery ? '__btn--active' : ''}`} onClick={() => setDelivery(true)}>Delivery</button>
+                        <button className={`__btn ${!delivery ? '__btn--active' : ''}`} onClick={() => setDelivery(false)}>Retiro en local</button>
+                    </div>
+                </section>
+                {!delivery && (
+                    <section className="__box_alert">
+                        <Alert title={'Pedido para llevar'} text={'Acércate al local a buscar tu pedido'} type={'info'} />
+                    </section>
+                )}
                 <section className="__product_lst">
                     <ul className="__lst">
                         {cart.products.map((p) => (
@@ -41,7 +57,42 @@ export default function Cart () {
                         ))}
                     </ul>
                 </section>
+                <Recommend/>
+                <section className="__notes_company">
+                    <div className="__rowA" onClick={() => setNotesView(!notesView)}>
+                        <div className="__tlt"><IconFilePlus/> <h3>Notas para el local</h3></div>
+                        {!notesView ? <IconChevronDown/> : <IconChevronUp/>}
+                    </div>
+                    {notesView && (
+                        <div className="__rowB">
+                            <textarea className="__textbox" name="notes" id="notes" placeholder="Ej. quiero más kepchup"/>
+                        </div>
+                    )}
+                </section>
+                <section className="__target">
+                    <div className="__row">
+                        <h2>Resumen</h2>
+                        <ul className="__lst_prices">
+                            <li className="__lst_price">
+                                <p>Productos</p>
+                                <p>S/ {cart?.total}</p>
+                            </li>
+                            <li className="__lst_price">
+                                <p>Delivery</p>
+                                <p>S/ 2.0</p>
+                            </li>
+                            <li className="__lst_price">
+                                <p>Total</p>
+                                <p>S/ {(cart?.total + 2)}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
             </main>
+
+            <footer className="__footer_cart">
+                <button className="__btn __btn_primary">Realizar pedido</button>
+            </footer>
 
         </>
 

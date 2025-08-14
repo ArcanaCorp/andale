@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import Cookies from "js-cookie";
 
@@ -9,6 +9,7 @@ import BannerShop from "./components/BannerShop";
 
 export default function RootLayout () {
 
+    const location = useLocation();
     const { cart } = useCart();
     const [ showSplash, setShowSplash ] = useState(true);
 
@@ -36,7 +37,7 @@ export default function RootLayout () {
         
             <Outlet/>
 
-            {cart?.products.length > 0 && ( <BannerShop/> )}
+            {cart?.products.length > 0 && location.pathname !== '/' && location.pathname !== '/cart'  && ( <BannerShop/> )}
 
             <Toaster position="top-center" richColors duration={1000} />
 
