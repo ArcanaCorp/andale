@@ -15,12 +15,12 @@ export default function RootLayout () {
 
     useEffect(() => {
 
-        const existingCookie = Cookies.get("c_user");
+        const existingCookie = Cookies.get("guest_id");
 
         if (!existingCookie) {
             // Generar código de 13 dígitos en base al timestamp
             const code = Date.now().toString().slice(-13);
-            Cookies.set("c_user", code, { expires: 365 }); // 1 año
+            Cookies.set("guest_id", code, { expires: 365 }); // 1 año
         }
 
         const timer = setTimeout(() => {

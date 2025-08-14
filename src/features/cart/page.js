@@ -3,12 +3,11 @@ import { IconChevronDown, IconChevronLeft, IconChevronUp, IconFilePlus } from "@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./context/CartContext";
 import Empty from "../pages/Empty";
-
-import './styles/page.css'
 import CartCard from "./components/Cart";
 import Alert from "../components/Alert";
 import Recommend from "./components/Recommend";
 
+import './styles/page.css'
 export default function Cart () {
 
     const navigate = useNavigate();
@@ -57,7 +56,6 @@ export default function Cart () {
                         ))}
                     </ul>
                 </section>
-                <Recommend/>
                 <section className="__notes_company">
                     <div className="__rowA" onClick={() => setNotesView(!notesView)}>
                         <div className="__tlt"><IconFilePlus/> <h3>Notas para el local</h3></div>
@@ -91,7 +89,9 @@ export default function Cart () {
             </main>
 
             <footer className="__footer_cart">
-                <button className="__btn __btn_primary">Realizar pedido</button>
+                {cart?.products.length > 0 && (
+                    <button className="__btn __btn_primary">Realizar pedido</button>
+                )}
             </footer>
 
         </>

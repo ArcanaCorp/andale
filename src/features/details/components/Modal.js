@@ -9,8 +9,9 @@ import ImageView from "../../components/ImageView";
 
 export default function Modal () {
 
-    const { cart, addToCart } = useCart();
+    const { cart, addToCart, clearCart } = useCart();
     const { toogleModalDetail, modalD } = useDetail();
+    const { data } = modalD;
 
     const product = modalD?.data.product;
 
@@ -28,6 +29,25 @@ export default function Modal () {
     const handleChangeAmount = (inc) => setAmount(p => inc ? p + 1 : Math.max(1, p - 1));
 
     const handleAddToCart = () => {
+        if (cart?.company.sub !== data.company.sub) {
+            toast('¿Deseas cambiar tu carrito de compras?', {
+                cancel: {
+                    label: 'Cancelar'
+                },
+                action: {
+                    label: 'Sí, cambiar',
+                    onClick: () => {
+                        clearCart();
+                        addToCart(modalD?.data, amount);
+                        navigator.vibrate(200)
+                        toast.success('Se añadió al carrito')
+                        toogleModalDetail();
+                    }
+                },
+                duration: 5000
+            })
+            return;
+        }
         addToCart(modalD?.data, amount)
         navigator.vibrate(200)
         toast.success('Se añadió al carrito')

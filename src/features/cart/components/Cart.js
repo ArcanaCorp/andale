@@ -1,11 +1,20 @@
-import { IconPlus, IconTrash } from "@tabler/icons-react";
+import { IconMinus, IconPlus, IconTrash } from "@tabler/icons-react";
+import { useCart } from "../context/CartContext";
+
 import placeholder from '@/shared/images/placeholder.png'
 import './styles/cart.css'
 
 export default function CartCard ({ product }) {
 
-    console.log(product);
-    
+    const { increaseQuantity, decreaseQuantity, removeFromCart } = useCart();
+
+    const handleMinusCart = () => {
+        if (product.amount === 1) {
+            removeFromCart(product.id)
+        } else {
+            decreaseQuantity(product.id)
+        }
+    }
 
     return (
 
@@ -18,9 +27,9 @@ export default function CartCard ({ product }) {
                 <p>S/ {product.price}</p>
             </div>
             <div className="__cart_btts">
-                <button className="__btts __btts_delete"><IconTrash/></button>
+                <button className="__btts __btts_delete" onClick={handleMinusCart}>{product.amount > 1 ? <IconMinus/> : <IconTrash/>}</button>
                 <div className="__btts __btts_amount">{product.amount}</div>
-                <button className="__btts __btts_add"><IconPlus/></button>
+                <button className="__btts __btts_add" onClick={() => increaseQuantity(product?.id)}><IconPlus/></button>
             </div>
         </li>
 

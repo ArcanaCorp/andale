@@ -5,7 +5,6 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
 
     const [cart, setCart] = useState(() => {
-        // Leer desde sessionStorage en la inicialización
         const savedCart = sessionStorage.getItem("cart");
         return savedCart
             ? JSON.parse(savedCart)
@@ -82,9 +81,75 @@ export const CartProvider = ({ children }) => {
         });
     };
 
+    const increaseQuantity = (productId) => {
+        setCart((prev) => {
+            const updatedProducts = prev.products.map((p) =>
+                p.id === productId
+                    ? { ...p, amount: p.amount + 1, subtotal: (p.amount + 1) * p.price }
+                    : p
+            );
+
+            return {
+                ...prev,
+                products: updatedProducts,
+                total: updatedProducts.reduce((acc, item) => acc + item.subtotal, 0)
+            };
+        });
+    };
+
+    const decreaseQuantity = (productId) => {
+        setCart((prev) => {
+            const updatedProducts = prev.products
+                .map((p) =>
+                    p.id === productId
+                        ? { ...p, amount: p.amount - 1, subtotal: (p.amount - 1) * p.price }
+                        : p
+                )
+                .filter((p) => p.amount > 0);
+
+            if (updatedProducts.length === 0) {
+                sessionStorage.removeItem("cart");
+                return { company: null, products: [], total: 0 };
+            }
+
+            return {
+                ...prev,
+                products: updatedProducts,
+                total: updatedProducts.reduce((acc, item) => acc + item.subtotal, 0)
+            };
+        });
+    };
+
+    const removeFromCart = (productId) => {
+        setCart((prev) => {
+            const updatedProducts = prev.products.filter(p => p.id !== productId);
+
+            if (updatedProducts.length === 0) {
+                sessionStorage.removeItem("cart");
+                return { company: null, products: [], total: 0 };
+            }
+
+            return {
+                ...prev,
+                products: updatedProducts,
+                total: updatedProducts.reduce((acc, item) => acc + item.subtotal, 0)
+            };
+        });
+    };
+
+    const clearCart = () => {
+        const emptyCart = { company: null, products: [], total: 0 };
+        setCart(emptyCart);
+        sessionStorage.setItem("cart", JSON.stringify(emptyCart));
+    };   
+
     const contextValue = {
         cart,
-        addToCart
+        addToCart,
+        increaseQuantity,
+        decreaseQuantity,
+        removeFromCart,
+        clearCart
     };
 
     return (
