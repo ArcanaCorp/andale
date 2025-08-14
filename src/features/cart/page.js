@@ -5,7 +5,6 @@ import { useCart } from "./context/CartContext";
 import Empty from "../pages/Empty";
 import CartCard from "./components/Cart";
 import Alert from "../components/Alert";
-import Recommend from "./components/Recommend";
 
 import './styles/page.css'
 export default function Cart () {
