@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import { IconChevronDown, IconChevronLeft, IconChevronUp, IconFilePlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./context/CartContext";
@@ -13,6 +14,18 @@ export default function Cart () {
     const { cart } = useCart();
     const [ delivery, setDelivery ] = useState(true)
     const [ notesView, setNotesView ] = useState(false);
+    const [ notes, setNotes ] = useState('')
+    const [ sending, setSending ] = useState(false);
+
+    const handleSendOrder = async () => {
+        try {
+            setSending(true)
+        } catch (error) {
+            toast.error('Ups', { description: 'Hubo un error al enviar la orden' })
+        } finally {
+            setSending(false)
+        }
+    }
 
     return (
 
@@ -62,7 +75,7 @@ export default function Cart () {
                     </div>
                     {notesView && (
                         <div className="__rowB">
-                            <textarea className="__textbox" name="notes" id="notes" placeholder="Ej. quiero más kepchup"/>
+                            <textarea className="__textbox" name="notes" id="notes" placeholder="Ej. quiero más kepchup" value={notes} onChange={(e) => setNotes(e.target.value)}/>
                         </div>
                     )}
                 </section>
@@ -72,15 +85,15 @@ export default function Cart () {
                         <ul className="__lst_prices">
                             <li className="__lst_price">
                                 <p>Productos</p>
-                                <p>S/ {cart?.total}</p>
+                                <p>S/ {(cart?.total).toFixed(2)}</p>
                             </li>
                             <li className="__lst_price">
                                 <p>Delivery</p>
-                                <p>S/ 2.0</p>
+                                <p>S/ 2.00</p>
                             </li>
                             <li className="__lst_price">
                                 <p>Total</p>
-                                <p>S/ {(cart?.total + 2)}</p>
+                                <p>S/ {(cart?.total + 2).toFixed(2)}</p>
                             </li>
                         </ul>
                     </div>
@@ -89,7 +102,7 @@ export default function Cart () {
 
             <footer className="__footer_cart">
                 {cart?.products.length > 0 && (
-                    <button className="__btn __btn_primary">Realizar pedido</button>
+                    <button className="__btn __btn_primary" onClick={handleSendOrder}>{sending ? 'Enviando...' : 'Realizar pedido'}</button>
                 )}
             </footer>
 

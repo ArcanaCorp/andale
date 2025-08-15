@@ -1,0 +1,88 @@
+.__auth_lyt {
+    width: 100dvw;
+    height: 100dvh;
+    background-color: var(--color-white);
+}
+
+.__auth_lyt .__auth_lyt_banner {
+    width: 100%;
+    height: 200px;
+    display: grid;
+    place-items: center;
+    background-color: var(--color-primary);
+    border-bottom-left-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius-lg);
+}
+
+.__auth_lyt .__auth_lyt_content {
+    width: 100%;
+    padding: 1rem;
+    height: calc(100dvh - 200px);
+}
+
+.__auth_lyt .__auth_lyt_content .__tit {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.__auth_lyt .__auth_lyt_content .__form {
+    width: 100%;
+}
+
+.__auth_lyt .__auth_lyt_content .__form .__form_group {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.__auth_lyt .__auth_lyt_content .__form .__form_group label {
+    display: inline-block;
+    margin-bottom: .8rem;
+    color: var(--color-gray);
+}
+
+.__auth_lyt .__auth_lyt_content .__form .__form_group .__entry_box {
+    position: relative;
+    width: 100%;
+    height: 60px;
+}
+
+.__auth_lyt .__auth_lyt_content .__form .__form_group .__entry_box .__ico {
+    position: absolute;
+    display: grid;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    place-items: center;
+}
+
+.__auth_lyt .__auth_lyt_content .__form .__form_group .__entry_box .__ico .tabler-icon {
+    stroke: var(--color-gray);
+}
+
+.__auth_lyt .__auth_lyt_content .__form .__form_group .__entry_box .__entry {
+    width: 100%;
+    height: inherit;
+    padding: 0 1rem 0 70px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+}
+
+.__auth_lyt .__auth_lyt_content .__form .__form_group .__entry_box .__entry:focus {
+    border: 2px solid var(--color-dark);
+}
+
+.__auth_lyt .__auth_lyt_content .__form .__form_group .__btn {
+    width: 100%;
+    height: 60px;
+    font-weight: bold;
+    color: var(--color-white);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-primary);
+}
+
+.__auth_lyt .__auth_lyt_content .__form .__form_group .__txt_terms {
+    font-size: .75rem;
+    text-align: center;
+    color: var(--color-gray);
+}

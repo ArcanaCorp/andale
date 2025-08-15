@@ -12,6 +12,7 @@ export default function Modal () {
     const { cart, addToCart, clearCart } = useCart();
     const { toogleModalDetail, modalD } = useDetail();
     const { data } = modalD;
+    console.log(data);
 
     const product = modalD?.data.product;
 
@@ -29,7 +30,14 @@ export default function Modal () {
     const handleChangeAmount = (inc) => setAmount(p => inc ? p + 1 : Math.max(1, p - 1));
 
     const handleAddToCart = () => {
-        if (cart?.company.sub !== data.company.sub) {
+        if (!cart.company) {
+            addToCart(modalD?.data, amount);
+            navigator.vibrate(200);
+            toast.success('Se añadió al carrito');
+            toogleModalDetail();
+            return;
+        }
+        if (cart?.company.sub !== data?.company.sub) {
             toast('¿Deseas cambiar tu carrito de compras?', {
                 cancel: {
                     label: 'Cancelar'
