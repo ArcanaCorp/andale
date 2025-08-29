@@ -34,7 +34,7 @@ export default function Cart () {
             setSending(true)
 
             const detalles = {
-                user: user.sub_user,
+                user: user.sub,
                 company: cart?.company.sub,
                 products: cart.products,
                 notes: notes,

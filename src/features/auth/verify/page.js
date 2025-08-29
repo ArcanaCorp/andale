@@ -29,8 +29,8 @@ export default function VerifyPage () {
                 
                 toast.success('Éxito', { description: data.message })
                 if (data.complete) {
-                    navigate(`/${redirectParam}`)
-                    getAccount();
+                    navigate(`${redirectParam !== null ? `/${redirectParam}` : '/'}`)
+                    await getAccount();
                     return;
                 }
                 navigate(`/login/complete`)

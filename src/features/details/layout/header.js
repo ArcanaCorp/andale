@@ -17,6 +17,32 @@ export default function Header ({ type, data }) {
     const intervalRef = useRef(null);
     const userInteractedRef = useRef(false);
 
+    const handleShared = async () => {
+        try {
+            const shareData = {
+                title: data?.name || "Compartir",
+                text: type === "place"
+                    ? `¿Conocías este lugar? \n\n*${data?.name}*\n\n📍 ${data?.locationName || "tu zona"}\n🔗 Descúbrelo aquí:\n`
+                    : `Hay que visitar\n\n🏪 *${data?.name}*\n📍 ${data?.location || "tu ciudad"} \n🔗 Mira más aquí:\n`,
+                url: window.location.href,
+            };
+
+            // Guardar en BD que se compartió
+            //await shareRegister({type,id: data?.sub});
+
+            if (navigator.share) {
+                // Si el dispositivo soporta la Web Share API (ej: móviles)
+                await navigator.share(shareData);
+            } else {
+                // En Desktop: redirigir a WhatsApp Web
+                const text = encodeURIComponent(`${shareData.text}: ${shareData.url}`);
+                window.open(`https://wa.me/send?text=${text}`, "_blank");
+            }
+        } catch (err) {
+            console.error("Error al compartir:", err);
+        }
+    }
+
     useEffect(() => {
         if (!scrollRef.current || images.length === 0) return;
 
@@ -55,43 +81,33 @@ export default function Header ({ type, data }) {
 
         <>
             
-            {type === 'place' && (
-                <header className={`__header_details`}>
-                    <ul className='__content_images' ref={scrollRef}>
+            <header className="__header_details">
+                {type === "place" ? (
+                    <ul className="__content_images" ref={scrollRef}>
                         {images.length > 0 ? (
                             images.map((i) => (
-                                <li key={i.id} className='__image_box'>
-                                    <img src={i.image} className='__image_background' alt={`Foto de user`} loading='lazy' style={{viewTransitionName: `photo-${data?.sub}-${i?.id}`}} />
+                                <li key={i.id} className="__image_box">
+                                    <img src={i.image} className="__image_background" alt={`Visita ${data?.name} y encuentrá muchos más solo con ÁndaleYa - Jauja`} loading="lazy" style={{ viewTransitionName: `photo-${data?.sub}-${i?.id}` }} />
                                 </li>
                             ))
                         ) : (
-                            <li className='__image_box'>
-                                <img src={placeholder} className='__image_background' alt={`Foto de user`} loading='lazy' style={{viewTransitionName: `photo-${data?.sub}`}} />
+                            <li className="__image_box">
+                                <img src={placeholder} className="__image_background" alt="Foto" loading="lazy" style={{ viewTransitionName: `photo-${data?.sub}` }} />
                             </li>
                         )}
                     </ul>
-                    <div className='__content_box'>
-                        <button className='__btn' onClick={() => navigate(-1)}><IconChevronLeft/></button>
-                        <div className='__row'>
-                            <button className='__btn'><IconHeart/></button>
-                            <button className='__btn'><IconShare3/></button>
-                        </div>
+                ) : (
+                    <img src={data?.photo || placeholder} className="__image_background" alt={`Foto de ${data?.name} en ÁndaleYa!`} loading="lazy" style={{ viewTransitionName: `photo-${data?.sub}` }} />
+                )}
+                <div className="__content_box">
+                    <button className="__btn" onClick={() => navigate(-1)}><IconChevronLeft/></button>
+                    <div className="__row">
+                        <button className="__btn"><IconHeart/></button>
+                        <button className="__btn" onClick={handleShared}><IconShare3/></button>
                     </div>
-                </header>
-            )}
+                </div>
+            </header>
 
-            {type === 'bussines' && (
-                <header className={`__header_details`}>
-                    <img src={data?.photo} className='__image_background' alt={`Foto de user`} loading='lazy' style={{viewTransitionName: `photo-${data?.sub}`}} />
-                    <div className='__content_box'>
-                        <button className='__btn' onClick={() => navigate(-1)}><IconChevronLeft/></button>
-                        <div className='__row'>
-                            <button className='__btn'><IconHeart/></button>
-                            <button className='__btn'><IconShare3/></button>
-                        </div>
-                    </div>
-                </header>
-            )}
 
         </>
 

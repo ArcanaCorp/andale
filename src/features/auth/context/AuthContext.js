@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
             if (data.ok) {
                 const decoded = jwtDecode(data.user);
                 setUser(decoded);
+                console.log(decoded);
                 sessionStorage.setItem("user", JSON.stringify(data.user)); // guarda el token
             }
         } catch (error) {
