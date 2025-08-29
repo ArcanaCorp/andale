@@ -16,8 +16,15 @@
     background-color: var(--color-secondary);
 }
 
-.__search_item .__search_item_link .__search_item_text {
+.__search_item .__search_item_link .__search_item_avatar img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+.__search_item .__search_item_link .__search_item_text {
+    width: 80%;
 }
 
 .__search_item .__search_item_link .__search_item_text .__search_item_text_h3 {

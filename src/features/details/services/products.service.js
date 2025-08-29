@@ -2,6 +2,7 @@
 import { REACT_APP_API_URL } from "@/config/api";
 
 export const getProducts = async ({ sub, category = 'all', limit = 10, page = 1 }) => {
+
     try {
 
         const response = await fetch(`${REACT_APP_API_URL}/bussines/${sub}/products?category=${category}&limit=${limit}&page=${page}`);

@@ -3,11 +3,12 @@ import { toast } from "sonner";
 import Cookies from "js-cookie";
 import { IconPhone } from "@tabler/icons-react";
 import { serviceLogin } from "../services/auth.service";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function LoginPage () {
 
     const navigate = useNavigate();
+    const location = useLocation();
     const [ phone, setPhone ] = useState('');
     const [ loading, setLoading ] = useState(false);
 
@@ -27,7 +28,7 @@ export default function LoginPage () {
 
             toast.success('Éxito', { description: data.message })
             Cookies.set('o_auth', data.data, { expires: 365 })
-            navigate('/login/verify')
+            navigate(`/login/verify/${location.search === '' ? '' : location.search}`)
             
         } catch (error) {
             toast.error('Error', {

@@ -17,7 +17,9 @@ export default function Empty ({ scrn }) {
         },
         profile: {
             title: 'Únete a nosotros',
-            text: 'Únete a nosotros para recibir promociones especiales y descuentos.'
+            text: 'Únete a nosotros para recibir promociones especiales y descuentos.',
+            link: '/login',
+            label: 'Ingresar a la cuenta'
         },
         notify: {
             title: 'Aún no tienes notificaciones',
@@ -30,9 +32,11 @@ export default function Empty ({ scrn }) {
     }
 
     // Si no existe el key, fallback genérico
-    const { title, text } = emptyTexts[scrn] || {
+    const { title, text, link, label } = emptyTexts[scrn] || {
         title: 'Sin datos',
-        text: 'No hay información disponible en este momento.'
+        text: 'No hay información disponible en este momento.',
+        link: '',
+        label: ''
     }
 
     return (
@@ -41,6 +45,9 @@ export default function Empty ({ scrn }) {
             <div className='__box_empty'>
                 <h3>{title}</h3>
                 <p>{text}</p>
+                {link && (
+                    <a href={link} className='__btn_link'>{label}</a>
+                )}
             </div>
         </div>
 

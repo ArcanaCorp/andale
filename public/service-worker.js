@@ -1,86 +1,139 @@
-// Nombre de caché
-const CACHE_NAME = 'andale-app-cache-v3';
-const IMAGE_CACHE = 'andale-images-cache-v1';
+// sw.js - AndaleYa PWA (imágenes desde andale.ttutis.com)
+const CACHE_VERSION = 'v2';
+const CORE_CACHE = `andale-core-${CACHE_VERSION}`;
+const IMAGE_CACHE = `andale-images-${CACHE_VERSION}`;
 
-// Archivos iniciales a precachear
-const PRECACHE_URLS = [
-    '/',            // index.html implícito
+const CORE_ASSETS = [
+    '/',
     '/index.html',
+    '/manifest.json',
+    '/favicon.ico',
     '/logo192.png',
+    '/logo512.png',
+    '/offline.html',      // crea este archivo en public/
+    '/offline-image.png'  // crea este archivo en public/ (pequeña imagen de fallback)
 ];
 
-// Instalación y precache
-self.addEventListener('install', (event) => {
-    console.log('[SW] Instalando Service Worker...');
+// Patrón específico para tus endpoints de imagen (ajusta si cambian)
+const IMAGE_API_PATTERN = new RegExp('^https://andale\\.ttutis\\.com/api/v1/');
+
+const MAX_IMAGES = 80; // tope de imágenes en cache (ajusta según uso y tamaño)
+
+// ---------- INSTALL ----------
+self.addEventListener('install', event => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(PRECACHE_URLS);
-        })
+        caches.open(CORE_CACHE)
+            .then(cache => cache.addAll(CORE_ASSETS.map(u => new Request(u, { cache: 'reload' }))))
+            .then(() => self.skipWaiting())
     );
-    self.skipWaiting();
 });
 
-// Activación y limpieza de caches antiguos
-self.addEventListener('activate', (event) => {
-    console.log('[SW] Activando y limpiando caches antiguos...');
+// ---------- ACTIVATE ----------
+self.addEventListener('activate', event => {
     event.waitUntil(
-        caches.keys().then((keys) => {
-            return Promise.all(
-                keys.map((key) => {
-                    if (key !== CACHE_NAME && key !== IMAGE_CACHE) {
-                        return caches.delete(key);
-                    }
-                })
-            );
-        })
+        caches.keys()
+            .then(keys => Promise.all(keys
+                .filter(k => k !== CORE_CACHE && k !== IMAGE_CACHE)
+                .map(k => caches.delete(k))
+            ))
+            .then(() => self.clients.claim())
     );
-    self.clients.claim();
 });
 
-// Intercepción de requests
-self.addEventListener('fetch', (event) => {
-    if (event.request.method !== 'GET') return;
+// ---------- HELPERS ----------
+async function trimCache(cacheName, maxItems) {
+    const cache = await caches.open(cacheName);
+    const requests = await cache.keys();
+    if (requests.length <= maxItems) return;
+    const deleteCount = requests.length - maxItems;
+    for (let i = 0; i < deleteCount; i++) {
+        await cache.delete(requests[i]);
+    }
+}
 
-    const url = new URL(event.request.url);
+// Estrategia para imágenes: stale-while-revalidate
+async function handleImageRequest(event) {
+    
+    const req = event.request;
+    const cache = await caches.open(IMAGE_CACHE);
 
-    // Estrategia para imágenes
-    if (event.request.destination === 'image') {
+    // Intenta cache primero
+    const cached = await cache.match(req);
+    if (cached) {
+        // refresco en background
+        event.waitUntil((async () => {
+            try {
+                const net = await fetch(req);
+                if (net && (net.status === 200 || net.type === 'opaque')) {
+                    await cache.put(req, net.clone());
+                    await trimCache(IMAGE_CACHE, MAX_IMAGES);
+                }
+            } catch (e) {
+                // no hacemos nada; dejamos la versión cacheada
+            }
+        })());
+        return cached;
+    }
+
+    // Si no está en cache, intenta la red
+    try {
+        const networkResp = await fetch(req);
+        if (networkResp && (networkResp.status === 200 || networkResp.type === 'opaque')) {
+            cache.put(req, networkResp.clone());
+            trimCache(IMAGE_CACHE, MAX_IMAGES);
+            return networkResp;
+        } else {
+            return caches.match('/offline-image.png');
+        }
+    } catch (err) {
+        return caches.match('/offline-image.png');
+    }
+}
+
+// ---------- FETCH ----------
+self.addEventListener('fetch', event => {
+    const req = event.request;
+
+    if (req.method !== 'GET') return; // solo GET
+
+    const url = new URL(req.url);
+
+    // 1) SPA navigation: network-first con fallback a offline.html
+    if (req.mode === 'navigate') {
         event.respondWith(
-            caches.open(IMAGE_CACHE).then((cache) => {
-                return cache.match(event.request).then((cachedResponse) => {
-                if (cachedResponse) return cachedResponse;
-
-                return fetch(event.request)
-                    .then((networkResponse) => {
-                        cache.put(event.request, networkResponse.clone());
-                        return networkResponse;
-                    })
-                    .catch(() => cachedResponse);
-                });
-            })
+            fetch(req)
+                .then(res => {
+                    // opcional: actualizar cache core
+                    const copy = res.clone();
+                    caches.open(CORE_CACHE).then(c => c.put(req, copy));
+                    return res;
+                })
+                .catch(() => caches.match('/offline.html'))
         );
         return;
     }
 
-    // Estrategia para otros archivos
-    event.respondWith(
-        caches.match(event.request).then((cachedResponse) => {
-        if (cachedResponse) return cachedResponse;
+    // 2) Si coincide con el patrón de tu API -> usar estrategia de imágenes
+    if (IMAGE_API_PATTERN.test(req.url) || req.destination === 'image') {
+        event.respondWith(handleImageRequest(event));
+        return;
+    }
 
-        return fetch(event.request)
-            .then((networkResponse) => {
-                if (
-                    networkResponse &&
-                    networkResponse.status === 200 &&
-                    networkResponse.type === 'basic'
-                ) {
-                    caches.open(CACHE_NAME).then((cache) => {
-                    cache.put(event.request, networkResponse.clone());
-                    });
-                }
-                return networkResponse;
-            })
-            .catch(() => caches.match('/index.html'));
+    // 3) Otros assets estáticos: cache-first (core)
+    event.respondWith(
+        caches.match(req).then(cached => {
+            if (cached) return cached;
+            return fetch(req)
+                .then(networkResp => {
+                    // opcional: cachear ciertos recursos estáticos dinámicamente
+                    return networkResp;
+                })
+                .catch(() => {
+                    // si falla y es imagen, fallback; si no, retornar lo que haya en cache (o undefined)
+                    if (req.destination === 'image') return caches.match('/offline-image.png');
+                        return caches.match('/offline.html');
+                });
         })
     );
+    
 });

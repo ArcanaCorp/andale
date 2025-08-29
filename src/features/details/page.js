@@ -9,9 +9,9 @@ import { useDetail } from "./context/DetailContext";
 import PlaceView from "./views/PlaceView";
 import BussinesView from "./views/BussinesView";
 import Modal from "./components/Modal";
+import SplashScreen from "../pages/SplashScreen";
 
 import './styles/detail.css'
-import SplashScreen from "../pages/SplashScreen";
 
 export default function Details () {
 

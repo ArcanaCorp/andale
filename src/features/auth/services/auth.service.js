@@ -80,3 +80,27 @@ export const serviceComplete = async (name) => {
     }
 
 }
+
+export const serviceAccount = async () => {
+    try {
+
+        const token = Cookies.get('o_auth');
+
+        const response = await fetch(`${REACT_APP_API_URL}/user/account`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+
+        const data = await response.json();
+
+        if (!response.ok) throw new Error(data.message || response.statusText);
+
+            return data;
+
+    } catch (error) {
+        return { ok: false, message: `Error: ${error.message}`, data: null, error: error, code: 500 }
+    }
+}

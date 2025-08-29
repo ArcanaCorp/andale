@@ -1,19 +1,22 @@
 import { useNavigate } from 'react-router-dom';
 import { IconBell, IconChevronDown, IconSearch, IconShoppingCart } from '@tabler/icons-react'
 import { usePermissions } from '../permissions/hooks/usePermissions'
+import { useCart } from '../cart/context/CartContext';
 
 import './styles/header.css'
-import { useCart } from '../cart/context/CartContext';
+import { useTab } from './hooks/useTab';
 
 export default function Header () {
 
     const navigate = useNavigate();
+    const { tab } = useTab()
     const { requestLocationPermission, locationAddress, locationPermission, loadingLocation } = usePermissions();
     const { cart } = useCart();
 
     return (
 
-        <header className={`__header`}>
+        tab !== 'profile' && (
+            <header className={`__header`}>
 
             <div className={`__header_row_A`}>
                 <div className='__location' onClick={requestLocationPermission}>
@@ -37,7 +40,8 @@ export default function Header () {
                 </div>
             </div>
         
-        </header>
+            </header>
+        )
 
     )
 

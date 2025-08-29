@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { IconChevronDown, IconChevronLeft, IconChevronUp, IconFilePlus } from "@tabler/icons-react";
+import { IconChevronDown, IconChevronLeft, IconChevronUp, IconEdit, IconFilePlus } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./context/CartContext";
+import { useAuth } from "../auth/context/AuthContext";
+import { usePermissions } from "../permissions/hooks/usePermissions";
+
 import Empty from "../pages/Empty";
 import CartCard from "./components/Cart";
 import Alert from "../components/Alert";
@@ -11,15 +14,37 @@ import './styles/page.css'
 export default function Cart () {
 
     const navigate = useNavigate();
+    const { locationAddress } = usePermissions();
+    const { user } = useAuth();
     const { cart } = useCart();
     const [ delivery, setDelivery ] = useState(true)
+    const [ deliveryAddr, setDeliveryAddr ] = useState(locationAddress || '')
     const [ notesView, setNotesView ] = useState(false);
     const [ notes, setNotes ] = useState('')
     const [ sending, setSending ] = useState(false);
 
+    const subttl = (cart?.total).toFixed(2)
+    const ttl = delivery ? (cart?.total + 2) : cart?.total; 
+
     const handleSendOrder = async () => {
+        
+        if (user === null) return toast.warning('Alerta', { description: 'Ingresa a una cuenta antes de enviar el pedido.' })
+
         try {
             setSending(true)
+
+            const detalles = {
+                user: user.sub_user,
+                company: cart?.company.sub,
+                products: cart.products,
+                notes: notes,
+                delivery: delivery,
+                deliveryAddr: deliveryAddr,
+                total: cart?.total
+            }
+
+            console.log(detalles);
+
         } catch (error) {
             toast.error('Ups', { description: 'Hubo un error al enviar la orden' })
         } finally {
@@ -79,21 +104,32 @@ export default function Cart () {
                         </div>
                     )}
                 </section>
+                {delivery && (
+                    <section className="__box_delivery">
+                        <h3>Enviaremos tu pedido aquí</h3>
+                        <div className="__bx_entry">
+                            <span className="__ico"><IconEdit/></span>
+                            <input type="text" name="deliveryAddr" id="deliveryAddr" value={deliveryAddr} placeholder="Ingresa tu dirección a enviar" onChange={(e) => setDeliveryAddr(e.target.value)} />
+                        </div>
+                    </section>
+                )}
                 <section className="__target">
                     <div className="__row">
                         <h2>Resumen</h2>
                         <ul className="__lst_prices">
                             <li className="__lst_price">
                                 <p>Productos</p>
-                                <p>S/ {(cart?.total).toFixed(2)}</p>
+                                <p>S/ {subttl}</p>
                             </li>
-                            <li className="__lst_price">
-                                <p>Delivery</p>
-                                <p>S/ 2.00</p>
-                            </li>
+                            {delivery && (
+                                <li className="__lst_price">
+                                    <p>Delivery</p>
+                                    <p>S/ 2.00</p>
+                                </li>
+                            )}
                             <li className="__lst_price">
                                 <p>Total</p>
-                                <p>S/ {(cart?.total + 2).toFixed(2)}</p>
+                                <p>S/ {(ttl).toFixed(2)}</p>
                             </li>
                         </ul>
                     </div>
@@ -101,8 +137,12 @@ export default function Cart () {
             </main>
 
             <footer className="__footer_cart">
-                {cart?.products.length > 0 && (
-                    <button className="__btn __btn_primary" onClick={handleSendOrder}>{sending ? 'Enviando...' : 'Realizar pedido'}</button>
+                {user === null ? (
+                    <button className="__btn __btn_primary" onClick={() => navigate(`/login/?redirect=cart`)}>Crea una cuenta para continuar</button>
+                ) : (
+                    cart?.products.length > 0 && (
+                        <button className="__btn __btn_primary" onClick={handleSendOrder}>{sending ? 'Enviando...' : 'Ir a pagar'}</button>
+                    )
                 )}
             </footer>
 

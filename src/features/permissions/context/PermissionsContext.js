@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { reverseGeocode } from "../../../libs/geolocation";
+import { reverseGeocodeCached } from "../../../libs/geolocation";
 
 const PermissionsContext = createContext();
 
@@ -32,7 +32,7 @@ export const PermissionsProvider = ({ children }) => {
                     };
                     setLocation(coords);
 
-                    const address = await reverseGeocode(coords.lat, coords.lng);
+                    const address = await reverseGeocodeCached(coords.lat, coords.lng);
                     setLocationAddress(address);
                 },
                 () => setLocationPermission('denied')

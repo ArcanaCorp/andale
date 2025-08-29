@@ -5,10 +5,11 @@ import Header from './header';
 import Home from '../home/page';
 import Promo from '../promo/page';
 
-import './styles/tab.css'
 import Favorite from '../favorite/page';
 import Orders from '../orders/page';
 import Profile from '../profile/page';
+
+import './styles/tab.css'
 export default function TabLayout () {
 
     const { tab, handleChangeTab } = useTab();
@@ -19,7 +20,7 @@ export default function TabLayout () {
 
             <div className='__wdn'>
                 <Header/>
-                <main className='__wdn_main'>
+                <main className={`__wdn_main ${tab === 'profile' ? '__wdn_main_p' : ''}`}>
                     {tab === 'home' && ( <Home/> )}
                     {tab === 'promotions' && ( <Promo/> )}
                     {tab === 'favorite' && ( <Favorite/> )}

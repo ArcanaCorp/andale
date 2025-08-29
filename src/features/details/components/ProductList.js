@@ -9,7 +9,7 @@ export default function ProductList ({ type, company, hidden }) {
 
     const { data } = useQuery({
         queryKey: ["products", {sub, hidden}],
-        queryFn: () => getProducts({sub, hidden}),
+        queryFn: () => getProducts({sub, category: hidden}),
         suspense: true,
         staleTime: Infinity,
         cacheTime: Infinity,

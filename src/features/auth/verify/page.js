@@ -2,13 +2,18 @@ import { IconKey } from "@tabler/icons-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { serviceVerify } from "../services/auth.service";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function VerifyPage () {
 
     const navigate = useNavigate()
+    const location = useLocation();
+    const { getAccount } = useAuth();
     const [ code, setCode ] = useState('');
     const [ loading, setLoading ] = useState(false);
+    const params = new URLSearchParams(location.search);
+    const redirectParam = params.get('redirect');
 
     const handleVerify = async () => {
 
@@ -23,7 +28,12 @@ export default function VerifyPage () {
             if (!data.ok) return toast.warning('Alerta', { description: data.message })
                 
                 toast.success('Éxito', { description: data.message })
-                navigate('/login/complete')
+                if (data.complete) {
+                    navigate(`/${redirectParam}`)
+                    getAccount();
+                    return;
+                }
+                navigate(`/login/complete`)
 
         } catch (error) {
             toast.error('Error', {description: error.message})

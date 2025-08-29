@@ -9,6 +9,8 @@ import AuthLayout from "../features/auth/page";
 import LoginPage from "../features/auth/login/page";
 import VerifyPage from "../features/auth/verify/page";
 import CompletePage from "../features/auth/complete/page";
+import PlacesPage from "../features/places/page";
+import Profile from "../features/profile/page";
 
 const router = createBrowserRouter([
     {
@@ -18,6 +20,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <TabLayout/>
+            },
+            {
+                path: '/places',
+                element: <PlacesPage/>
             },
             {
                 path: '/:slug',
@@ -34,6 +40,13 @@ const router = createBrowserRouter([
             {
                 path: '/cart',
                 element: <Cart/>
+            },
+            {
+                path: '/payment'
+            },
+            {
+                path: '/me',
+                element: <Profile/>
             }
         ]
     },

@@ -37,7 +37,7 @@ export default function RootLayout () {
         
             <Outlet/>
 
-            {cart?.products.length > 0 && location.pathname !== '/' && location.pathname !== '/cart'  && ( <BannerShop/> )}
+            {cart?.products.length > 0 && location.pathname !== '/' && location.pathname !== '/cart' && location.pathname !== '/me'  && ( <BannerShop/> )}
 
             <Toaster position="top-center" richColors duration={1000} />
 

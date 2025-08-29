@@ -5,6 +5,10 @@
     overflow-x: hidden;
 }
 
+.__wdn .__wdn_main_p {
+    height: calc(100dvh - 60px);
+}
+
 .__wdn .__wdn_main::-webkit-scrollbar {
     display: none;
 }
