@@ -1,0 +1,26 @@
+.__section_install {
+    width: 100%;
+    padding: 1rem;
+}
+
+.__section_install .__baner_install {
+    width: 100%;
+    display: flex;
+    padding: .8rem;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: var(--radius-md);
+    background-color: var(--color-secondary);
+}
+
+.__section_install .__baner_install .__col p {
+    font-size: .75rem;
+}
+
+.__section_install .__baner_install .__btn_install {
+    padding: .5rem .8rem;
+    color: var(--color-white);
+    border-radius: var(--radius-md);
+    background-color: var(--color-primary);
+}
