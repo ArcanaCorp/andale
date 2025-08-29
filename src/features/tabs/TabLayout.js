@@ -10,6 +10,7 @@ import Orders from '../orders/page';
 import Profile from '../profile/page';
 
 import './styles/tab.css'
+import Install from '../components/Install';
 export default function TabLayout () {
 
     const { tab, handleChangeTab } = useTab();
@@ -21,6 +22,7 @@ export default function TabLayout () {
             <div className='__wdn'>
                 <Header/>
                 <main className={`__wdn_main ${tab === 'profile' ? '__wdn_main_p' : ''}`}>
+                    <Install/>
                     {tab === 'home' && ( <Home/> )}
                     {tab === 'promotions' && ( <Promo/> )}
                     {tab === 'favorite' && ( <Favorite/> )}
