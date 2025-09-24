@@ -1,6 +1,7 @@
 import { AuthProvider } from "../features/auth/context/AuthContext";
 import { CartProvider } from "../features/cart/context/CartContext";
 import { DetailProvider } from "../features/details/context/DetailContext";
+import { OrdersProvider } from "../features/orders/context/OrdersContext";
 import { PermissionsProvider } from "../features/permissions/context/PermissionsContext";
 import { TabProvider } from "../features/tabs/context/TabContext";
 
@@ -16,7 +17,9 @@ export default function AppProviders ({ children }) {
                     <TabProvider>
                         <CartProvider>
                             <DetailProvider>
-                                {children}
+                                <OrdersProvider>
+                                    {children}
+                                </OrdersProvider>
                             </DetailProvider>
                         </CartProvider>
                     </TabProvider>

@@ -2,10 +2,14 @@ import { useEffect, useState } from "react"
 import { Outlet, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import Cookies from "js-cookie";
+import moment from "moment";
 
 import SplashScreen from "./pages/SplashScreen";
 import { useCart } from "./cart/context/CartContext";
 import BannerShop from "./components/BannerShop";
+
+import "moment/locale/es.js";
+moment.locale('es')
 
 export default function RootLayout () {
 
