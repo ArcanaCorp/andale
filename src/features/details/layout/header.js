@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { IconChevronLeft, IconHeart, IconShare3 } from '@tabler/icons-react'
+import { IconChevronLeft, IconHeart, IconHeartFilled, IconShare3 } from '@tabler/icons-react'
 
 import placeholder from '@/shared/images/placeholder.png'
 
@@ -12,8 +12,9 @@ export default function Header ({ type, data }) {
 
     const images = data?.images || [];
     
+    const [ isLiked, setIsLiked ] = useState(false);
+    const [ currentIndex, setCurrentIndex ] = useState(0);
     const scrollRef = useRef(null);
-    const [currentIndex, setCurrentIndex] = useState(0);
     const intervalRef = useRef(null);
     const userInteractedRef = useRef(false);
 
@@ -102,7 +103,7 @@ export default function Header ({ type, data }) {
                 <div className="__content_box">
                     <button className="__btn" onClick={() => navigate(-1)}><IconChevronLeft/></button>
                     <div className="__row">
-                        <button className="__btn"><IconHeart/></button>
+                        <button className="__btn" onClick={() => setIsLiked(!isLiked)}>{!isLiked ?  <IconHeart/> : <IconHeartFilled/>}</button>
                         <button className="__btn" onClick={handleShared}><IconShare3/></button>
                     </div>
                 </div>

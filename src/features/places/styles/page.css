@@ -66,6 +66,11 @@
     display: none;
 }
 
+.__main_place .__ptn_scy {
+    font-size: .8rem;
+    margin-bottom: .8rem;
+}
+
 .__main_place .__list_places {
     width: 100%;
     display: flex;

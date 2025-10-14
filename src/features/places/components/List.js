@@ -29,13 +29,17 @@ export default function List ({ filter }) {
 
         <>
         
+            {places.length > 0 && (
+                <p className="__ptn_scy">Se encontraron <b>{places.length}</b> resultados</p>
+            )}
+
             <ul className={`__list_places`}>
 
                 {!loading ? (
                     places.length > 0 ? (
                         places.map((p) => ( <Place key={p.id} place={p} /> ))
                     ) : (
-                        <li>No hay lugares</li>
+                        <li>No hay lugares en <b>"{filter}"</b> para poder visitar.</li>
                     )
                 ) : (
                     <li>Cargando...</li>
