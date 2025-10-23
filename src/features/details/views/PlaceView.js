@@ -7,8 +7,6 @@ import './styles/placeview.css'
 
 export default function PlaceView ({ data }) {
 
-    console.log(data?.schedule);
-
     const formatBoldText = (text) => {
         if (!text) return ""; 
         // Reemplaza **texto** → <strong>texto</strong>

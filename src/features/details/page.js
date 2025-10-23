@@ -20,8 +20,6 @@ export default function Details () {
     const [ detail, setDetails ] = useState(null);
     const [ loading, setLoading ] = useState(true);
 
-    console.log(detail);
-
     const getDetail = async (short) => {
         try {
             

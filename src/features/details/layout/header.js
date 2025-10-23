@@ -101,7 +101,7 @@ export default function Header ({ type, data }) {
                     <img src={data?.photo || placeholder} className="__image_background" alt={`Foto de ${data?.name} en ÁndaleYa!`} loading="lazy" style={{ viewTransitionName: `photo-${data?.sub}` }} />
                 )}
                 <div className="__content_box">
-                    <button className="__btn" onClick={() => navigate(-1)}><IconChevronLeft/></button>
+                    <button className="__btn" onClick={() => navigate('/')}><IconChevronLeft/></button>
                     <div className="__row">
                         <button className="__btn" onClick={() => setIsLiked(!isLiked)}>{!isLiked ?  <IconHeart/> : <IconHeartFilled/>}</button>
                         <button className="__btn" onClick={handleShared}><IconShare3/></button>
