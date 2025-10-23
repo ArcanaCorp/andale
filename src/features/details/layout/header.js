@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { IconChevronLeft, IconHeart, IconHeartFilled, IconShare3 } from '@tabler/icons-react'
+import { IconChevronLeft, IconHeart, IconHeartFilled } from '@tabler/icons-react'
 
 import placeholder from '@/shared/images/placeholder.png'
 
@@ -18,32 +18,6 @@ export default function Header ({ type, data }) {
     const scrollRef = useRef(null);
     const intervalRef = useRef(null);
     const userInteractedRef = useRef(false);
-
-    const handleShared = async () => {
-        try {
-            const shareData = {
-                title: data?.name || "Compartir",
-                text: type === "place"
-                    ? `¿Conocías este lugar? \n\n*${data?.name}*\n\n📍 ${data?.locationName || "tu zona"}\n🔗 Descúbrelo aquí:\n`
-                    : `Hay que visitar\n\n🏪 *${data?.name}*\n📍 ${data?.location || "tu ciudad"} \n🔗 Mira más aquí:\n`,
-                url: window.location.href,
-            };
-
-            // Guardar en BD que se compartió
-            //await shareRegister({type,id: data?.sub});
-
-            if (navigator.share) {
-                // Si el dispositivo soporta la Web Share API (ej: móviles)
-                await navigator.share(shareData);
-            } else {
-                // En Desktop: redirigir a WhatsApp Web
-                const text = encodeURIComponent(`${shareData.text}: ${shareData.url}`);
-                window.open(`https://wa.me/send?text=${text}`, "_blank");
-            }
-        } catch (err) {
-            console.error("Error al compartir:", err);
-        }
-    }
 
     useEffect(() => {
         if (!scrollRef.current || images.length === 0) return;
