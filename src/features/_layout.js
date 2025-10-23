@@ -29,6 +29,11 @@ export default function RootLayout () {
 
         // --- 2️⃣ Tracking ---
         const sendTracking = async () => {
+            
+            if (!Cookies.get("tracking_info")) {
+                localStorage.removeItem("tracking_info");
+            }
+            
             const existingTracking = localStorage.getItem("tracking_info");
             if (!existingTracking) {
                 const user = Cookies.get("guest_id");
@@ -37,11 +42,43 @@ export default function RootLayout () {
                 const campaign = searchParams.get("utm_campaign");
                 const partnerId = searchParams.get("utm_partner") || "none";
 
-                const device = /iPad|Tablet/i.test(navigator.userAgent)
-                    ? "tablet"
-                    : /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-                    ? "mobile"
-                    : "desktop";
+                // --- 📱 Detección de dispositivo ---
+                const userAgent = navigator.userAgent;
+                const isTablet = /iPad|Tablet/i.test(userAgent);
+                const isMobile = /iPhone|Android|iPod/i.test(userAgent);
+                const device = isTablet ? "tablet" : isMobile ? "mobile" : "desktop";
+
+                // --- 🌐 Detección de navegador ---
+                const browser = (() => {
+                    if (userAgent.includes("Chrome") && !userAgent.includes("Edge")) return "Chrome";
+                    if (userAgent.includes("Safari") && !userAgent.includes("Chrome")) return "Safari";
+                    if (userAgent.includes("Firefox")) return "Firefox";
+                    if (userAgent.includes("Edg")) return "Edge";
+                    if (userAgent.includes("Opera") || userAgent.includes("OPR")) return "Opera";
+                    return "Desconocido";
+                })();
+
+                // --- 💻 Detección de sistema operativo ---
+                const os = (() => {
+                    if (/Windows/i.test(userAgent)) return "Windows";
+                    if (/Mac OS/i.test(userAgent)) return "MacOS";
+                    if (/Android/i.test(userAgent)) return "Android";
+                    if (/iOS|iPhone|iPad/i.test(userAgent)) return "iOS";
+                    if (/Linux/i.test(userAgent)) return "Linux";
+                    return "Desconocido";
+                })();
+
+                // --- 🌍 Datos adicionales ---
+                const metadata = {
+                    browser,
+                    os,
+                    language: navigator.language || "unknown",
+                    screen: `${window.screen.width}x${window.screen.height}`,
+                    userAgent,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    platform: navigator.platform || "unknown",
+                    referrer: document.referrer || "directo",
+                };
 
                 const trackingData = {
                     user,
@@ -51,12 +88,13 @@ export default function RootLayout () {
                     partnerId,
                     landing: window.location.href,
                     device,
+                    metadata,
                     hour: moment().format('HH:mm:ss'),
                     date: moment().format("YYYY-MM-DD"),
                 };
 
                 localStorage.setItem("tracking_info", JSON.stringify(trackingData));
-                Cookies.set("tracking_info", JSON.stringify(trackingData), { expires: 30 });
+                Cookies.set("tracking_info", JSON.stringify(trackingData), { expires: 1 });
 
                 try {
                     await addVisitUser(trackingData); // <-- Llamada al backend

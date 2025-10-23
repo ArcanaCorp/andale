@@ -5,6 +5,7 @@ import { IconChevronLeft, IconHeart, IconHeartFilled, IconShare3 } from '@tabler
 import placeholder from '@/shared/images/placeholder.png'
 
 import './styles/header.css'
+import ButtonShared from '../components/ButtonShared';
 
 export default function Header ({ type, data }) {
 
@@ -104,7 +105,7 @@ export default function Header ({ type, data }) {
                     <button className="__btn" onClick={() => navigate('/')}><IconChevronLeft/></button>
                     <div className="__row">
                         <button className="__btn" onClick={() => setIsLiked(!isLiked)}>{!isLiked ?  <IconHeart/> : <IconHeartFilled/>}</button>
-                        <button className="__btn" onClick={handleShared}><IconShare3/></button>
+                        <ButtonShared type={type} data={data} />
                     </div>
                 </div>
             </header>
