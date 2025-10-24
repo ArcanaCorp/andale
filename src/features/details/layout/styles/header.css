@@ -56,3 +56,7 @@
     gap: .5rem;
     justify-content: flex-end;
 }
+
+.__header_details .__content_box .__row .__btn_liked .tabler-icon {
+    fill: #FF0000;
+}
