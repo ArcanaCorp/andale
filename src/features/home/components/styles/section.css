@@ -1,5 +1,7 @@
 .__section {
     width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 1rem;
 }
 
@@ -41,4 +43,11 @@
     margin-bottom: .8rem;
     border-radius: var(--radius-lg);
     background-color: var(--color-secondary);
+}
+
+
+@media (min-width: 1024px) {
+    .__section {
+        width: 60%;
+    }
 }

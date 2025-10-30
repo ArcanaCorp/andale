@@ -1,8 +1,9 @@
 import { REACT_APP_API_URL } from "../../../config/api"
 
-export const getRecommendations = async () => {
+export const getRecommendations = async ({ province, region }) => {
+
     try {
-        const response = await fetch(`${REACT_APP_API_URL}/recommendations`)
+        const response = await fetch(`${REACT_APP_API_URL}/recommendations/?province=${encodeURIComponent(province)}&region=${encodeURIComponent(region)}`)
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || response.statusText);
             return data;

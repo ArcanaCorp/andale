@@ -92,21 +92,26 @@ export async function reverseGeocodeCached(lat, lng, opts = {}) {
         if (data.status === "OK" && data.results.length > 0) {
             const components = data.results[0].address_components;
 
-            let street = '';
-            let number = '';
+            const find = (type) => {
+                const comp = components.find(c => c.types.includes(type));
+                return comp ? comp.long_name : null;
+            };
 
-            for (const component of components) {
-                if (component.types.includes("route")) street = component.long_name;
-                if (component.types.includes("street_number")) number = component.long_name;
-            }
-
-            const address = (street && number) ? `${street} ${number}` : data.results[0].formatted_address;
+            const addressData = {
+                street: find("route"),
+                number: find("street_number"),
+                district: find("sublocality") || find("locality"),
+                province: find("administrative_area_level_2"), // Provincia
+                department: find("administrative_area_level_1"), // Departamento / Región
+                country: find("country"),
+                formatted: data.results[0].formatted_address,
+            };
 
             const payload = {
                 ts: now(),
                 lat: rLat, // guardamos redondeadas para la key y para "lastCoord"
                 lng: rLng,
-                address,
+                address: addressData,
             };
 
             // Guardar en cache por la key de coords redondeadas
@@ -114,7 +119,7 @@ export async function reverseGeocodeCached(lat, lng, opts = {}) {
             // Guardar como lastCoord (útil para threshold)
             saveToStorage('revgeo:lastCoord', { ...payload, lat: lat, lng: lng });
 
-            return address;
+            return addressData;
         } else {
             // No encontrado
             console.error('No se encontró dirección:', data.status);

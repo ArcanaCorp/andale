@@ -17,3 +17,10 @@
     height: 100%;
     object-fit: cover;
 }
+
+@media (min-width: 1024px) {
+    .__card {
+        width: 350px;
+        min-width: 350px;
+    }
+}

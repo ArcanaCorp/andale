@@ -7,6 +7,12 @@ export const PermissionsProvider = ({ children }) => {
     
     const [location, setLocation] = useState(null);
     const [locationAddress, setLocationAddress] = useState(null)
+    const [ locationRegion, setLocationRegion ] = useState({
+        district: '',
+        province: '',
+        region: '',
+        country: ''
+    })
     const [locationPermission, setLocationPermission] = useState(null);     // 'granted' | 'denied' | 'prompt'
     const [ loadingLocation, setLoadingLocation ] = useState(false);
     
@@ -33,7 +39,13 @@ export const PermissionsProvider = ({ children }) => {
                     setLocation(coords);
 
                     const address = await reverseGeocodeCached(coords.lat, coords.lng);
-                    setLocationAddress(address);
+                    setLocationRegion({
+                        district: address?.district || '',
+                        province: address?.province || '',
+                        region: address?.department || '',
+                        country: address?.country || ''
+                    })
+                    setLocationAddress(address?.street);
                 },
                 () => setLocationPermission('denied')
             );
@@ -74,6 +86,7 @@ export const PermissionsProvider = ({ children }) => {
     const contextValue = {
         location,
         locationAddress,
+        locationRegion,
         locationPermission,
         loadingLocation,
         notificationPermission,

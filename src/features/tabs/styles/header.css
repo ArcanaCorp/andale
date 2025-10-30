@@ -106,3 +106,16 @@
     font-size: .8rem;
     color: var(--color-gray);
 }
+
+
+@media (min-width: 1024px) {
+
+    .__header .__header_row_A {
+        width: 60%;
+    }
+
+    .__header .__header_row_B .__search_box {
+        width: 60%;
+    }
+
+}

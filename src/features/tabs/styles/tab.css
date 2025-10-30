@@ -74,3 +74,10 @@
     font-weight: bold;
     color: var(--color-dark);
 }
+
+
+@media (min-width: 1024px) {
+    .__wdn_tabs .__tabs .__tabs_grouped {
+        width: 60%;
+    }
+}
