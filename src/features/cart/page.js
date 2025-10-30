@@ -28,7 +28,7 @@ export default function Cart () {
     const [ notes, setNotes ] = useState('')
     const [ sending, setSending ] = useState(false);
 
-    const [ booking, setBooking ] = useState(true);
+    const [ booking, setBooking ] = useState(false);
 
     const subttl = (cart?.total).toFixed(2)
     const ttl = delivery ? (cart?.total + 2) : cart?.total; 
