@@ -16,6 +16,7 @@ export default function LikedButton ({ info }) {
     const handleToogleLiked = async () => {
         try {
             const data = await toogleLiked(info.sub);
+            console.log(data);
         } catch (error) {
             toast.error('Error', { description: error.message })
         }
