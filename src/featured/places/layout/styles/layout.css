@@ -1,0 +1,23 @@
+.__header_places {
+    width: 100%;
+    height: 100px;
+}
+
+.__main_places {
+    width: 100%;
+    padding: 1rem 0;
+    overflow-y: auto;
+    height: calc(100dvh - 100px);
+}
+
+.__main_places::-webkit-scrollbar {
+    display: none;
+}
+
+.__main_places .__list_places {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    padding: 0 1rem;
+    flex-direction: column;
+}

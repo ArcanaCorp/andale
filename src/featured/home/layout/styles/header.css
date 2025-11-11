@@ -1,0 +1,100 @@
+.__header_content {
+    width: 100%;
+}
+
+.__header_content .__header_mobile {
+    width: 100%;
+    height: 120px;
+    background-color: var(--color-primary);
+    border-bottom-left-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius-lg);
+}
+
+.__header_content .__header_mobile .__row {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    padding: .5rem 1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.__header_content .__header_mobile .__row_A .__btn_location {
+    display: flex;
+    gap: .5rem;
+    background: none;
+    padding: .5rem 0;
+    align-items: center;
+    color: var(--color-white);
+    font-size: var(--font-size-xs);
+    white-space: nowrap; /* 🔥 evita que el texto se divida en varias líneas */
+    overflow: hidden; /* opcional: oculta el exceso si se desborda */
+    text-overflow: ellipsis;
+}
+
+.__header_content .__header_mobile .__row_A .__btn_location .tabler-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.__header_content .__header_mobile .__row_A .__flx {
+    display: flex;
+    gap: .5rem;
+}
+
+.__header_content .__header_mobile .__row_A .__flx .__a_btn {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+}
+
+.__header_content .__header_mobile .__row_A .__flx .__a_btn .tabler-icon {
+    stroke: var(--color-white);
+}
+
+.__header_content .__header_mobile .__row_B .__a_search_bar {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 40px;
+    padding: 0 1rem;
+    align-items: center;
+    color: var(--color-gray);
+    font-size: var(--font-size-xs);
+    border-radius: var(--radius-rounded);
+    background-color: var(--color-white);
+}
+
+.__header_content .__header_mobile .__row_B .__a_search_bar .__btn_search {
+    position: absolute;
+    top: 2.5px;
+    right: 2.5px;
+    display: grid;
+    width: 35px;
+    height: 35px;
+    place-items: center;
+    border-radius: var(--radius-rounded);
+    background-color: var(--color-primary);
+}
+
+.__header_content .__header_mobile .__row_B .__a_search_bar .__btn_search .tabler-icon {
+    width: 18px;
+    height: 18px;
+    stroke: var(--color-white);
+}
+
+.__header_content .__header_mobile_me {
+    height: 60px;
+    border-radius: 0;
+    background-color: var(--color-white);
+}
+
+.__header_content .__header_mobile_me .__row_C {
+    height: inherit;
+    justify-content: center;
+}
+
+.__header_content .__header_desktop {
+    display: none;
+}

@@ -1,0 +1,25 @@
+.__section_recommendation {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.__section_recommendation .__title {
+    width: 100%;
+    display: flex;
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.__section_recommendation .__items {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    padding: 0 1rem;
+    overflow-x: auto;
+}
+
+.__section_recommendation .__items::-webkit-scrollbar {
+    display: none;
+}

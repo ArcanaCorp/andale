@@ -1,0 +1,106 @@
+.__nav_drive {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    background-color: var(--color-white);
+    border-top-left-radius: var(--radius-lg);
+    border-top-right-radius: var(--radius-lg);
+}
+
+.__nav_drive .__nav_drive_top {
+    padding: 1rem;
+}
+
+.__nav_drive .__nav_drive_top .__drive_group {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--color-secondary);
+}
+
+.__nav_drive .__nav_drive_top .__drive_group .__drive_control {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    height: 50px;
+    align-items: center;
+}
+
+.__nav_drive .__nav_drive_top .__drive_group .__drive_control .__pin {
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-rounded);
+}
+
+.__nav_drive .__nav_drive_top .__drive_group .__drive_control .__pin_me {
+    background-color: var(--color-primary);
+}
+
+.__nav_drive .__nav_drive_top .__drive_group .__drive_control .__pin_dst {
+    background-color: var(--color-gray);
+}
+
+.__nav_drive .__nav_drive_top .__drive_group .__drive_control .__pin::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px; /* tamaño del círculo interno */
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-background, #fff); /* color de contraste */
+  transform: translate(-50%, -50%);
+}
+
+.__nav_drive .__nav_drive_top .__drive_group_list {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.__nav_drive .__nav_drive_top .__drive_group_list .__subtitle {
+    margin-bottom: .5rem;
+}
+
+.__nav_drive .__nav_drive_top .__drive_group_list .__list {
+    display: flex;
+    gap: 1rem;
+}
+
+.__nav_drive .__nav_drive_top .__drive_group_list .__list .__itm_method {
+    display: grid;
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    place-items: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-gray);
+    
+}
+
+.__nav_drive .__nav_drive_top .__drive_group_list .__list .__itm_method--active {
+    font-weight: var(--font-weight-semibold);
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+}
+
+.__nav_drive .__nav_drive_bottom {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    padding: 0 1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.__nav_drive .__nav_drive_bottom .__btn_pedir {
+    width: 100%;
+    height: 50px;
+    color: var(--color-white);
+    border-radius: var(--radius-md);
+    background-color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+}

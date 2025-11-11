@@ -1,0 +1,18 @@
+.__main_foodies {
+    width: 100%;
+    padding: 1rem 0;
+    overflow-y: auto;
+    height: calc(100dvh - 100px);
+}
+
+.__main_foodies::-webkit-scrollbar {
+    display: none;
+}
+
+.__main_foodies .__list_foodies {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    padding: 0 1rem;
+    flex-direction: column;
+}

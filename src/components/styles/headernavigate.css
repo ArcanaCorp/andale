@@ -1,0 +1,21 @@
+.__header_navigate {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    height: 50px;
+    padding: 5px 1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.__header_navigate .__a_btn {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    place-items: center;
+}
+
+.__header_navigate .__a_btn .tabler-icon {
+    stroke: var(--color-dark);
+}

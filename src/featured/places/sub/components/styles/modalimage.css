@@ -1,0 +1,33 @@
+.__overlay_modal_image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    width: 100dvw;
+    height: 100dvh;
+    place-items: center;
+    background-color: rgba(0, 0, 0, .7);
+}
+
+.__overlay_modal_image .__btn_close {
+    position: absolute;
+    display: grid;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    place-items: center;
+    background-color: var(--color-white);
+    border-radius: var(--radius-rounded);
+}
+
+.__overlay_modal_image picture {
+    width: 90%;
+    margin: auto;
+    height: 250px;
+}
+
+.__overlay_modal_image img {
+    width: 100%;
+}

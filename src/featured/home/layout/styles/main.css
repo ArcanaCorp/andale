@@ -1,0 +1,19 @@
+.__main_app {
+    width: 100%;
+    padding: 1rem 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100dvh - 180px);
+}
+
+.__main_app::-webkit-scrollbar {
+    display: none;
+}
+
+.__main_app_me {
+    height: calc(100dvh - 120px);
+}
+
+.__main_app_me::-webkit-scrollbar {
+    display: none;
+}

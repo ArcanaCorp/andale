@@ -1,0 +1,26 @@
+.__error_app {
+    display: grid;
+    width: 100dvw;
+    height: 100dvh;
+    place-items: center;
+}
+
+.__error_app .__box_error_app {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.__error_app .__box_error_app p {
+    margin-bottom: 1rem;
+    color: var(--color-gray);
+    font-size: var(--font-size-xs);
+}
+
+.__error_app .__box_error_app a {
+    display: inline-block;
+    padding: .5rem 1rem;
+    color: var(--color-primary);
+    border-radius: var(--radius-sm);
+    background-color: rgb(249, 0, 80, .2);
+}
