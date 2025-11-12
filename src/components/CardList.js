@@ -16,7 +16,7 @@ export default function CardList ({ info }) {
         <li className='__card_li'>
             <a href={`/${category}/${info?.sub}`} className='__card_link'>
                 <div className='__card_link_image'>
-                    <Images img={info?.image} alt={`Restaurante ${info?.name} ubicado en ${info?.text} y solo por Ándale Ya`} />
+                    <Images img={info?.image || info?.photo} alt={`Restaurante ${info?.name} ubicado en ${info?.text} y solo por Ándale Ya`} />
                 </div>
                 <div className='__card_link_text'>
                     <h4>{info?.name}</h4>

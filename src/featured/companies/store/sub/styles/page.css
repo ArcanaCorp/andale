@@ -1,0 +1,26 @@
+.__main_company {
+    width: 100dvw;
+    height: calc(100dvh - 180px);
+    overflow-y: auto;
+}
+
+.__main_company::-webkit-scrollbar {
+    display: none;
+}
+
+.__main_company .__section_company {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.__main_company .__section_company_lst .__lst {
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+}
+
+.__main_company .__section_company_rvw h3 {
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+}

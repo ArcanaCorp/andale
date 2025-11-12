@@ -1,0 +1,24 @@
+.__card_food {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.__card_food .__card_info h3 {
+    margin-bottom: .5rem;
+}
+
+.__card_food .__card_info p span {
+    color: var(--color-gray);
+    font-size: var(--font-size-xxs);
+}
+
+.__card_food .__card_image {
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background-color: var(--color-secondary);
+}
