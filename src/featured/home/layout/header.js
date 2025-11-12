@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 import { usePermissions } from '@/context/PermissionsContext'
 import { IconBell, IconChevronDown, IconShoppingBag } from '@tabler/icons-react'
 
@@ -8,8 +9,9 @@ import './styles/header.css'
 export default function Header () {
 
     const location = useLocation();
-    const { locationAddress } = usePermissions();
-
+    const { user } = useAuth();
+    const { locationAddress, locationPermission, requestLocationPermission, loadingLocation } = usePermissions();
+    
     return (
 
         <div className='__header_content'>
@@ -17,7 +19,21 @@ export default function Header () {
                 {location.pathname !== '/profile' ? (
                     <>
                         <div className='__row __row_A'>
-                            <button className='__btn __btn_location'>{locationAddress || 'Ubicación no disponible'} <IconChevronDown/></button>
+                            <button className='__btn __btn_location' onClick={requestLocationPermission}>
+                                {loadingLocation ? (
+                                    <>Cargando...</>
+                                ) : (
+                                    locationPermission === 'denied' ? (
+                                        <>
+                                            {'Permiso denegado'} <IconChevronDown/>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {locationAddress || 'Ubicación no disponible'} <IconChevronDown/>
+                                        </>
+                                    )
+                                )}
+                            </button>
                             <div className='__flx'>
                                 <a href='/notifications' className='__a __a_btn __a_btn_ico'><IconBell/></a>
                                 <a href='/cart' className='__a __a_btn __a_btn_ico'><IconShoppingBag/></a>
@@ -29,7 +45,11 @@ export default function Header () {
                     </>
                 ) : (
                     <div className='__row __row_C'>
-                        <h3>¡Hola, Franco Pérez Caro!</h3>
+                        {user !== null ? (
+                            <h3>¡Hola, Franco Pérez Caro!</h3>
+                        ) : (
+                            <h3>Inicia sesión</h3>
+                        )}
                     </div>
                 )}
             </header>

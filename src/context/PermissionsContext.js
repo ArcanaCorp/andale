@@ -22,6 +22,8 @@ export const PermissionsProvider = ({ children }) => {
 
     // Solicita permiso de ubicación
     const requestLocationPermission = async () => {
+        console.log('Solicitando permiso de ubicación...');
+        
         if (!navigator.geolocation) {
             setLocationPermission('unsupported');
             return;
@@ -29,6 +31,14 @@ export const PermissionsProvider = ({ children }) => {
 
         try {
             setLoadingLocation(true);
+
+            // Revisa estado previo del permiso (si el navegador lo soporta)
+            if (navigator.permissions) {
+                const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
+                console.log('Estado previo:', permissionStatus.state);
+                setLocationPermission(permissionStatus.state); // granted | denied | prompt
+            }
+
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
                     setLocationPermission('granted');
@@ -44,15 +54,29 @@ export const PermissionsProvider = ({ children }) => {
                         province: address?.province || '',
                         region: address?.department || '',
                         country: address?.country || ''
-                    })
+                    });
                     setLocationAddress(address?.street);
                 },
-                () => setLocationPermission('denied')
+                (error) => {
+                    console.error('Error al obtener ubicación:', error);
+                    if (error.code === error.PERMISSION_DENIED) {
+                        setLocationPermission('denied');
+                    }
+                }
             );
         } catch (error) {
             console.error(error);
         } finally {
             setLoadingLocation(false);
+        }
+    };
+
+    // Checkear el permiso de ubicación
+    const checkLocationPermission = async () => {
+        if (navigator.permissions) {
+            const status = await navigator.permissions.query({ name: 'geolocation' });
+            setLocationPermission(status.state); // granted | denied | prompt
+            if (status.state === 'granted') requestLocationPermission();
         }
     };
 
@@ -92,6 +116,7 @@ export const PermissionsProvider = ({ children }) => {
         notificationPermission,
         cameraPermission,
         requestLocationPermission,
+        checkLocationPermission,
         requestNotificationPermission,
         requestCameraPermission
     }

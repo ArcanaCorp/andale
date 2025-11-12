@@ -5,6 +5,7 @@ import { getRecommendations } from '../services/recomend';
 import CardRecommend from './CardRecommend';
 import { usePermissions } from '@/context/PermissionsContext';
 import { useQuery } from '@tanstack/react-query';
+import SkeletonRecommend from './SkeletonRecommend';
 
 export default function Recomendations() {
 
@@ -32,7 +33,7 @@ export default function Recomendations() {
 
     return (
         <>
-            {isFetching && <p className="text-center text-gray-500">Cargando recomendaciones...</p>}
+            {isFetching && <SkeletonRecommend/>}
 
             {recomendations.map((r, idx) => (
                 <section key={idx} className="__section_recommendation">

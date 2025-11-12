@@ -2,6 +2,7 @@
   "name": "andale",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/",
   "dependencies": {
     "@googlemaps/js-api-loader": "^2.0.2",
     "@tabler/icons-react": "^3.35.0",

@@ -26,6 +26,15 @@ import StoreSubPage from "@/featured/companies/store/sub/page";
 import DriveLayout from "@/featured/drive/layout";
 import DrivePage from "@/featured/drive/page";
 
+import SearchLayout from "@/featured/search/layout";
+import SearchPage from "@/featured/search/page";
+
+import NotificationsLayout from "@/featured/notifications/layout";
+import NotificationsPage from "@/featured/notifications/page";
+
+import CartLayout from "@/featured/cart/layout";
+import CartPage from "@/featured/cart/page";
+
 import LegalLayout from "@/featured/legal/layout";
 import TermsPage from "@/featured/legal/page";
 import PrivacyPage from "@/featured/legal/privacy";
@@ -138,6 +147,39 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <DrivePage/>
+            }
+        ],
+        errorElement: <ErrorScreen/>
+    },
+    {
+        path: '/search',
+        element: <SearchLayout/>,
+        children: [
+            {
+                index: true,
+                element: <SearchPage/>
+            }
+        ],
+        errorElement: <ErrorScreen/>
+    },
+    {
+        path: '/notifications',
+        element: <NotificationsLayout/>,
+        children: [
+            {
+                index: true,
+                element: <NotificationsPage/>
+            }
+        ],
+        errorElement: <ErrorScreen/>
+    },
+    {
+        path: '/cart',
+        element: <CartLayout/>,
+        children: [
+            {
+                index: true,
+                element: <CartPage/>
             }
         ],
         errorElement: <ErrorScreen/>

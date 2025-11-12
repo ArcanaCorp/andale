@@ -17,3 +17,25 @@
 .__main_app_me::-webkit-scrollbar {
     display: none;
 }
+
+.__box_denied {
+    width: 90%;
+    margin: auto;
+    height: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.__box_denied .__content_denied {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-direction: column;
+}
+
+.__box_denied .__content_denied button {
+    padding: .8rem 1rem;
+    color: var(--color-white);
+    border-radius: var(--radius-md);
+    background-color: var(--color-primary);
+}

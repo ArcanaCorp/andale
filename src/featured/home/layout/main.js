@@ -1,14 +1,26 @@
 import { Outlet, useLocation } from "react-router-dom";
+import { usePermissions } from "@/context/PermissionsContext";
 import './styles/main.css'
 
 export default function Main () {
 
     const location = useLocation();
+    const { locationPermission, checkLocationPermission } = usePermissions();
 
     return (
 
         <main className={`__main_app ${location.pathname === '/profile' ? '__main_app_me' : ''}`}>
-            <Outlet/>
+            {locationPermission === 'denied' ? (
+                <div className="__box_denied">
+                    <div className="__content_denied">
+                        <h3>Has bloqueado el acceso a tu ubicación</h3>
+                        <p>Para volver a activarlo, ve a la barra de direcciones → ícono del candado → "Permisos" → habilita la ubicación.</p>
+                        <button onClick={checkLocationPermission}>Ya lo habilite</button>
+                    </div>
+                </div>
+            ) : (
+                <Outlet/>
+            )}
         </main>
 
     )
