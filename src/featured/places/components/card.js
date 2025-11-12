@@ -1,5 +1,5 @@
 import { REACT_APP_API_URL } from '@/config/config'
-import Images from '../../../components/Images'
+import Images from '@/components/Images'
 import placeholder from '@/shared/img/placeholder.png'
 import './styles/card.css'
 export default function PlaceCard ({ info }) {
