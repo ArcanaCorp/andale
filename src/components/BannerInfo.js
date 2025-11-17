@@ -6,7 +6,16 @@ import { IconFlagX } from '@tabler/icons-react';
 
 moment.locale('es-mx');
 
-export default function BannerInfo ({ banner, details }) {
+export default function BannerInfo ({ banner, details, filter, onChangeFilter }) {
+
+    const subTypes = {
+        'restaurant': 'Foodies',
+        'hotel': 'Hoteles',
+        'agency': 'Agencia de viajes',
+        'ecommerce': 'Comercios',
+    }
+
+    const txt = subTypes[details?.category] || ''
 
     return (
         
@@ -15,13 +24,13 @@ export default function BannerInfo ({ banner, details }) {
                 <>
 
                     <section className={`__section_main_banner`}>
-                        <span>Agencia de viajes</span>
+                        <span>{txt}</span>
                         <h1>{details?.name}</h1>
                         <p>{details?.text}</p>
                     </section>
 
                     {details?.categories.length > 0 && (
-                        <FilterBussines filters={details?.categories} />
+                        <FilterBussines filters={details?.categories} filter={filter} onChangeFilter={onChangeFilter} />
                     )}
 
                 </>

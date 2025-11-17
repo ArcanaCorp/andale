@@ -14,7 +14,7 @@ export default function HeaderPlace ({ details }) {
             <div className="__row_place">
                 <a href="/" className="__btn __btn_back"><IconChevronLeft/></a>
                 <div className="__flex">
-                    <SharedButton/>
+                    <SharedButton data={details} />
                     <LikedButton info={details} />
                 </div>
             </div>

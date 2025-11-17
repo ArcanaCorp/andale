@@ -3,7 +3,11 @@ import { IconMapPin } from '@tabler/icons-react'
 import Maps from '../components/Maps'
 import Images from '@/components/Images'
 import './styles/main.css'
+import RecomendPlaces from '../components/RecomendPlaces'
 export default function MainPlace ({ details, openModalImage }) {
+
+    console.log(details);
+    
 
     return (
 
@@ -23,8 +27,8 @@ export default function MainPlace ({ details, openModalImage }) {
                 <h3 className='__subtitle'>Galeria</h3>
                 <ul className='__list_gallery'>
                     {details?.images.length > 0 && (
-                        details?.images.map((img) => (
-                            <li key={img?.id} className='__photo' onClick={() => openModalImage(img, details?.sub)}>
+                        details?.images.map((img, idx) => (
+                            <li key={idx} className='__photo' onClick={() => openModalImage(img, details?.sub)}>
                                 <Images img={`${REACT_APP_API_URL}/places/${details?.sub}/image/${img}`} alt={`Galeria de fotos de ${details?.name}${img?.image}`} />
                             </li>
                         ))
@@ -35,6 +39,11 @@ export default function MainPlace ({ details, openModalImage }) {
             <section className='__section_place'>
                 <h3 className='__subtitle'>¿Cómo llegar?</h3>
                 <Maps locationMap={details?.location} />
+            </section>
+
+            <section className='__section_place'>
+                <h3 className='__subtitle'>Lugares recomendados</h3>
+                <RecomendPlaces info={details} />
             </section>
 
         </main>

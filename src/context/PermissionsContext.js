@@ -4,109 +4,143 @@ import { reverseGeocodeCached } from "@/libs/geolocation";
 const PermissionsContext = createContext();
 
 export const PermissionsProvider = ({ children }) => {
-    
-    const [ location, setLocation] = useState(null);
-    const [ locationAddress, setLocationAddress] = useState(null)
-    const [ locationRegion, setLocationRegion ] = useState({
+
+    // --- Estados ---
+    const [location, setLocation] = useState(null);
+    const [locationAddress, setLocationAddress] = useState(null);
+    const [locationRegion, setLocationRegion] = useState({
         district: '',
         province: '',
         region: '',
         country: ''
-    })
-    const [ locationPermission, setLocationPermission] = useState(null);     // 'granted' | 'denied' | 'prompt'
-    const [ loadingLocation, setLoadingLocation ] = useState(false);
-    
+    });
+    const [locationPermission, setLocationPermission] = useState(null);
+    const [loadingLocation, setLoadingLocation] = useState(false);
+
     const [notificationPermission, setNotificationPermission] = useState(null);
-    
     const [cameraPermission, setCameraPermission] = useState(null);
 
-    // Solicita permiso de ubicación
+    // -------------------------------------------------------------
+    // 🧲 1. HIDRATACIÓN desde localStorage antes de pedir permisos
+    // -------------------------------------------------------------
+    const hydrateLocationFromCache = () => {
+        try {
+            const last = JSON.parse(localStorage.getItem("revgeo:lastCoord"));
+
+            if (!last?.address) return; // no hay cache válido
+
+            setLocation({
+                lat: last.lat,
+                lng: last.lng
+            });
+
+            setLocationAddress(last.address.street || null);
+
+            setLocationRegion({
+                district: last.address.district || '',
+                province: last.address.province || '',
+                region: last.address.department || '',
+                country: last.address.country || ''
+            });
+
+        } catch (err) {
+            console.error("Error al hidratar ubicación desde cache:", err);
+        }
+    };
+
+    // -------------------------------------------------------------
+    // 🚀 2. Solicitar permiso + reverse geocode
+    // -------------------------------------------------------------
     const requestLocationPermission = async () => {
-        console.log('Solicitando permiso de ubicación...');
-        
         if (!navigator.geolocation) {
-            setLocationPermission('unsupported');
+            setLocationPermission("unsupported");
             return;
         }
 
         try {
             setLoadingLocation(true);
 
-            // Revisa estado previo del permiso (si el navegador lo soporta)
+            // Estado previo del permiso
             if (navigator.permissions) {
-                const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
-                console.log('Estado previo:', permissionStatus.state);
-                setLocationPermission(permissionStatus.state); // granted | denied | prompt
+                const status = await navigator.permissions.query({ name: "geolocation" });
+                setLocationPermission(status.state);
             }
 
             navigator.geolocation.getCurrentPosition(
-                async (position) => {
-                    setLocationPermission('granted');
+                async (pos) => {
+                    setLocationPermission("granted");
+
                     const coords = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
+                        lat: pos.coords.latitude,
+                        lng: pos.coords.longitude
                     };
                     setLocation(coords);
 
+                    // Obtener dirección CON cache
                     const address = await reverseGeocodeCached(coords.lat, coords.lng);
-                    setLocationRegion({
-                        district: address?.district || '',
-                        province: address?.province || '',
-                        region: address?.department || '',
-                        country: address?.country || ''
-                    });
-                    setLocationAddress(address?.street);
+
+                    if (address) {
+                        setLocationAddress(address.street);
+                        setLocationRegion({
+                            district: address.district || "",
+                            province: address.province || "",
+                            region: address.department || "",
+                            country: address.country || "",
+                        });
+                    }
                 },
-                (error) => {
-                    console.error('Error al obtener ubicación:', error);
-                    if (error.code === error.PERMISSION_DENIED) {
-                        setLocationPermission('denied');
+                (err) => {
+                    if (err.code === err.PERMISSION_DENIED) {
+                        setLocationPermission("denied");
                     }
                 }
             );
-        } catch (error) {
-            console.error(error);
+        } catch (e) {
+            console.error("Error al solicitar ubicación:", e);
         } finally {
             setLoadingLocation(false);
         }
     };
 
-    // Checkear el permiso de ubicación
-    const checkLocationPermission = async () => {
-        if (navigator.permissions) {
-            const status = await navigator.permissions.query({ name: 'geolocation' });
-            setLocationPermission(status.state); // granted | denied | prompt
-            if (status.state === 'granted') requestLocationPermission();
-        }
-    };
-
-    // Solicita permiso de notificaciones
+    // -------------------------------------------------------------
+    // 📌 3. Notificaciones
+    // -------------------------------------------------------------
     const requestNotificationPermission = async () => {
         if (!("Notification" in window)) {
-            setNotificationPermission('unsupported');
+            setNotificationPermission("unsupported");
             return;
         }
-
         const result = await Notification.requestPermission();
-        setNotificationPermission(result); // granted | denied | default
+        setNotificationPermission(result);
     };
 
-    // Solicita permiso de cámara
+    // -------------------------------------------------------------
+    // 🎥 4. Cámara
+    // -------------------------------------------------------------
     const requestCameraPermission = async () => {
         try {
             await navigator.mediaDevices.getUserMedia({ video: true });
-            setCameraPermission('granted');
-        } catch (error) {
-            setCameraPermission('denied');
+            setCameraPermission("granted");
+        } catch {
+            setCameraPermission("denied");
         }
     };
 
-    // Puedes pedir los permisos automáticamente o dejarlo a componentes específicos
+    // -------------------------------------------------------------
+    // 🛠 5. Inicialización del contexto
+    // -------------------------------------------------------------
     useEffect(() => {
+
+        // ① Primero hidratar datos persistidos → UI arranca lista
+        hydrateLocationFromCache();
+
+        // ② Luego pedir permisos y refrescar datos
         requestNotificationPermission();
         requestLocationPermission();
+
     }, []);
 
+    // -------------------------------------------------------------
     const contextValue = {
         location,
         locationAddress,
@@ -116,13 +150,14 @@ export const PermissionsProvider = ({ children }) => {
         notificationPermission,
         cameraPermission,
         requestLocationPermission,
-        checkLocationPermission,
         requestNotificationPermission,
-        requestCameraPermission
-    }
+        requestCameraPermission,
+    };
 
     return (
-        <PermissionsContext.Provider value={contextValue}>{children}</PermissionsContext.Provider>
+        <PermissionsContext.Provider value={contextValue}>
+            {children}
+        </PermissionsContext.Provider>
     );
 };
 

@@ -11,12 +11,16 @@ import Reviews from "@/components/Reviews";
 import { getBussinesBySub } from "@/services/bussines.service";
 
 import '@/featured/companies/styles/page.css'
+import Dishes from "./components/Dishes";
 
 export default function FoodieSubPage () {
 
     const { sub } = useParams();
     const [ details, setDetails ] = useState(null);
     const [ loading, setLoading ] = useState(true);
+    const [ filter, setFilter ] = useState('all');
+
+    const handleChangeFilter = (value) => setFilter(value);
 
     const getDetails = useCallback(async () => {
         if (!sub) {
@@ -87,14 +91,10 @@ export default function FoodieSubPage () {
 
             <main className="__main_company">
 
-                <BannerInfo banner={'top'} details={details} />
+                <BannerInfo banner={'top'} details={details} filter={filter} onChangeFilter={handleChangeFilter} />
 
                 <section className={`__section_company __section_company_lst`}>
-                    <ul className="__lst">
-                        {details?.dishes.map((pdt) => (
-                            <li key={pdt.id}>{pdt.name}</li>
-                        ))}
-                    </ul>
+                    <Dishes dishes={details?.dishes} filter={filter}/>
                 </section>
 
                 <section className={`__section_company __section_company_rvw`}>

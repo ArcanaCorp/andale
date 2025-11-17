@@ -17,7 +17,7 @@ createRoot(document.getElementById('root')).render(
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        const url = 'service-worker.js'
+        const url = '/service-worker.js'
         navigator.serviceWorker
             .register(url)
             .then((registration) => {

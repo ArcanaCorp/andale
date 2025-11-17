@@ -44,7 +44,7 @@
     <!-- ✅ Accesibilidad y Canonical -->
     <link rel="canonical" href="https://andaleya.pe" />
 
-    <!-- TikTok Pixel Code Start -->
+    <!-- TikTok Pixel Code Start
     <script>
         !function (w, d, t) {
         w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
@@ -55,21 +55,20 @@
         ttq.load('D40J4KJC77U53GC03E60');
         ttq.page();
         }(window, document, 'ttq');
-    </script>
-    <!-- TikTok Pixel Code End -->
+    </script> -->
 
     <script src="https://sandbox-checkout.izipay.pe/payments/v1/js/index.js" defer></script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const root = document.getElementById("root");
-        if (!root) return;
+        document.addEventListener("DOMContentLoaded", () => {
+            const root = document.getElementById("root");
+            if (!root) return;
 
-        if (location.pathname.startsWith("/legal")) {
-            root.classList.add("scroller");
-        }
-    });
-</script>
+            if (location.pathname.startsWith("/legal")) {
+                root.classList.add("scroller");
+            }
+        });
+    </script>
 
 
 </head>

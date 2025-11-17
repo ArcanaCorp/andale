@@ -79,3 +79,23 @@
     height: 100%;
     object-fit: cover;
 }
+
+.__main_place .__section_place .__lst_recommend {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-left: 1rem;
+}
+
+.__main_place .__section_place .__lst_recommend::-webkit-scrollbar {
+    display: none;
+}
+
+.__main_place .__section_place .__lst_recommend:last-child {
+    padding-right: 1rem;
+}
+
+.__main_place .__section_place .__lst_recommend .__card_li {
+    min-width: calc(100dvw - 2rem);
+}
