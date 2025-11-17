@@ -9,7 +9,7 @@ export default function Main () {
 
     return (
 
-        <main className={`__main_app ${location.pathname === '/profile' ? '__main_app_me' : ''}`}>
+        <main className={`__main_app ${location.pathname === '/account' ? '__main_app_me' : ''}`}>
             {locationPermission === 'denied' ? (
                 <div className="__box_denied">
                     <div className="__content_denied">

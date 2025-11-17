@@ -15,8 +15,8 @@ export default function Header () {
     return (
 
         <div className='__header_content'>
-            <header className={`__header_mobile ${location.pathname === '/profile' ? '__header_mobile_me' : ''}`}>
-                {location.pathname !== '/profile' ? (
+            <header className={`__header_mobile ${location.pathname === '/account' ? '__header_mobile_me' : ''}`}>
+                {location.pathname !== '/account' ? (
                     <>
                         <div className='__row __row_A'>
                             <button className='__btn __btn_location' onClick={requestLocationPermission}>
@@ -46,7 +46,7 @@ export default function Header () {
                 ) : (
                     <div className='__row __row_C'>
                         {user !== null ? (
-                            <h3>¡Hola, Franco Pérez Caro!</h3>
+                            <h3>¡Hola, {user?.name}!</h3>
                         ) : (
                             <h3>Inicia sesión</h3>
                         )}

@@ -2,6 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 
 import AppLayout from "@/featured/home/layout";
 import HomeView from "@/featured/home/views/HomeView";
+import FavoritesView from "@/featured/home/views/FavoritesView";
+import PromotionsView from "@/featured/home/views/PromotionsView";
+import OrdersView from "@/featured/home/views/OrdersView";
+import ProfileView from "@/featured/home/views/ProfileView";
 
 import PlacesList from "@/featured/places/page";
 import PlaceLayout from "@/featured/places/layout";
@@ -35,6 +39,9 @@ import NotificationsPage from "@/featured/notifications/page";
 import CartLayout from "@/featured/cart/layout";
 import CartPage from "@/featured/cart/page";
 
+import AuthLayout from "@/featured/auth/layout";
+import LoginPage from "@/featured/auth/page";
+
 import LegalLayout from "@/featured/legal/layout";
 import TermsPage from "@/featured/legal/page";
 import PrivacyPage from "@/featured/legal/privacy";
@@ -51,16 +58,20 @@ const router = createBrowserRouter([
                 element: <HomeView/>
             },
             {
-                path: '/favorites'
+                path: '/favorites',
+                element: <FavoritesView/>
             },
             {
-                path: '/promotions'
+                path: '/promotions',
+                element: <PromotionsView/>
             },
             {
-                path: '/orders'
+                path: '/orders',
+                element: <OrdersView/>
             },
             {
-                path: '/profile'
+                path: '/account',
+                element: <ProfileView/>
             }
         ],
         errorElement: <ErrorScreen/>
@@ -180,6 +191,17 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <CartPage/>
+            }
+        ],
+        errorElement: <ErrorScreen/>
+    },
+    {
+        path: '/login',
+        element: <AuthLayout/>,
+        children: [
+            {
+                index: true,
+                element: <LoginPage/>
             }
         ],
         errorElement: <ErrorScreen/>

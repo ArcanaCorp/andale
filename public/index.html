@@ -60,6 +60,18 @@
 
     <script src="https://sandbox-checkout.izipay.pe/payments/v1/js/index.js" defer></script>
 
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const root = document.getElementById("root");
+        if (!root) return;
+
+        if (location.pathname.startsWith("/legal")) {
+            root.classList.add("scroller");
+        }
+    });
+</script>
+
+
 </head>
 <body id="root"></body>
 </html>

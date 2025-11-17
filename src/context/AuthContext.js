@@ -1,14 +1,57 @@
-import { createContext, useContext, useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
+import { createContext, useContext, useEffect, useState } from "react";
+import { getUserAccount } from "@/services/user.service";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
-    const [ user, setUser ] = useState(null);
+    const [user, setUser] = useState(() => {
+        try {
+            const token = sessionStorage.getItem("tt_user");
+            if (!token) return null;
+            return jwtDecode(token);
+        } catch {
+            return null; // Token corrupto → sesión inválida
+        }
+    });
+
+    const userInfo = async (sub) => {
+        try {
+            const data = await getUserAccount(sub);
+            if (!data.ok) {
+                setUser(null)
+                sessionStorage.removeItem('tt_user')
+                return;
+            }
+            sessionStorage.setItem('tt_user', data.token)
+            const decoded = jwtDecode(data.token);
+            setUser(decoded);
+        } catch (error) {
+            setUser(null)
+            console.error(error);
+            sessionStorage.removeItem("tt_user");
+        }
+    }
+
+    useEffect(() => {
+        const verifyAccount = async () => {
+            try {
+                if (user === null) {
+                    const token = Cookies.get('adly_user')
+                    await userInfo(token)
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        verifyAccount();
+    }, [])
 
     const contextValue = {
         user,
-        setUser
+        userInfo
     }
 
     return (

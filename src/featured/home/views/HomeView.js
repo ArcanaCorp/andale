@@ -1,8 +1,9 @@
 import PromotionBanner from "@/components/PromotionBanner";
 import Categories from "../components/Categories";
-import Recomendations from "../components/Recomendations";
-import { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import SkeletonRecommend from "../components/SkeletonRecommend";
+
+const Recomendations = lazy(() => import('../components/Recomendations'));
 
 export default function HomeView () {
 
@@ -12,6 +13,7 @@ export default function HomeView () {
         
             <Categories/>
             <PromotionBanner/>
+
             <Suspense fallback={<SkeletonRecommend/>}>
                 <Recomendations/>
             </Suspense>

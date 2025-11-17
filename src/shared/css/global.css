@@ -12,25 +12,23 @@ html {
     scroll-behavior: smooth;
 }
 
-body {
-    width: 100dvw;
-    height: 100dvh;
-    color: var(--color-dark);
-    font-size: var(--font-size-sm);
-    background-color: var(--color-background);
-}
-
 #root {
     position: relative;
     width: 100dvw;
     height: 100dvh;
     overflow-y: hidden;
     overflow-x: hidden;
+    color: var(--color-dark);
+    font-size: var(--font-size-sm);
     background-color: var(--color-background);
 }
 
 #root::-webkit-scrollbar {
     display: none;
+}
+
+#root.scroller {
+    overflow-y: auto;
 }
 
 input, select, textarea {

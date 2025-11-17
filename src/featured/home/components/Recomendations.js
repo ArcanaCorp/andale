@@ -1,18 +1,16 @@
-import { useEffect } from 'react';
-import './styles/recomendations.css';
 import { toast } from 'sonner';
 import { getRecommendations } from '../services/recomend';
 import CardRecommend from './CardRecommend';
 import { usePermissions } from '@/context/PermissionsContext';
 import { useQuery } from '@tanstack/react-query';
-import SkeletonRecommend from './SkeletonRecommend';
+import './styles/recomendations.css';
 
 export default function Recomendations() {
 
     const { locationRegion } = usePermissions();
 
     // Ejecutamos la query solo cuando hay datos válidos
-    const { data: recomendations = [], isError, error, isFetching } = useQuery({
+    const { data: recomendations = [] } = useQuery({
         queryKey: ['recommendations', locationRegion?.province, locationRegion?.region],
         queryFn: async () => {
             if (!locationRegion?.province || !locationRegion?.region) return [];
@@ -24,17 +22,19 @@ export default function Recomendations() {
             return data.data;
         },
         enabled: !!locationRegion?.province && !!locationRegion?.region, // evita requests innecesarios
-        staleTime: 1000 * 60 * 5 // cachea por 5 minutos
+        staleTime: Infinity,            // Nunca se considera "viejo"
+        cacheTime: Infinity,            // Mantiene el cache indefinidamente mientras viva la app
+        refetchOnWindowFocus: false,    // No vuelve a pedir al cambiar de pestaña o foco
+        refetchOnMount: false,          // 👈 Evita que recargue al volver al componente
+        suspence: true
     });
 
-    useEffect(() => {
-        if (isError) toast.error(error.message);
-    }, [isError, error]);
+    if (recomendations.length === 0) {
+        return <p className="text-center text-gray-500">No hay recomendaciones disponibles</p>;
+    }
 
     return (
         <>
-            {isFetching && <SkeletonRecommend/>}
-
             {recomendations.map((r, idx) => (
                 <section key={idx} className="__section_recommendation">
                     <div className="__title">
@@ -47,10 +47,6 @@ export default function Recomendations() {
                     </ul>
                 </section>
             ))}
-
-            {!isFetching && recomendations.length === 0 && (
-                <p className="text-center text-gray-500">No hay recomendaciones disponibles</p>
-            )}
         </>
     );
 }

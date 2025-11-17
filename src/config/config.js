@@ -42,6 +42,7 @@ export const TERRITORY_LIST = {
         "Yauyos"
     ]
 }
+
 export const TABS_LIST = [
     {
         url: '/',
@@ -64,7 +65,7 @@ export const TABS_LIST = [
         ico: <IconListDetails/>
     },
     {
-        url: '/profile',
+        url: '/account',
         txt: 'Mi perfil',
         ico: <IconUserCircle/>
     }

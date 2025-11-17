@@ -1,11 +1,21 @@
 import { Helmet } from 'react-helmet'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useSearchParams } from 'react-router-dom'
 
 import logo from '@/shared/img/LOGO-PRIMARY.svg'
 
 import './styles/layout.css'
 
 export default function LegalLayout () {
+
+    const [searchParams] = useSearchParams();
+    const origin = searchParams.get("origin");
+
+    const linkMap = {
+        'login': 'Iniciar Sesión'
+    }
+
+    const txt = linkMap[origin] || 'Ir a Ándale Ya!'
+    
 
     return (
 
@@ -41,7 +51,7 @@ export default function LegalLayout () {
                     <a href='/' className='__a __a_link __a_link_block __a_link_img'>
                         <img src={logo} className='__img __img_logo' alt='Logo de Ándale Ya - Lugares, Delivery, hotel y compras en Jauja' loading='lazy' fetchPriority='high' />
                     </a>
-                    <a href='/' className='__a __a_link __a_link_btn'>Ir a Ándale Ya</a>
+                    <a href={`${origin !== null ? `/${origin}` : '/'}`} className='__a __a_link __a_link_btn'>{txt}</a>
                 </div>
             </header>
 
