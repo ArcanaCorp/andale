@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
             }
         }
         verifyAccount();
-    }, [])
+    }, [user])
 
     const contextValue = {
         user,
