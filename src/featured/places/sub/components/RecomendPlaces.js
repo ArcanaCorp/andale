@@ -22,7 +22,7 @@ export default function RecomendPlaces ({ info }) {
             }
         }
         recomendations();
-    }, []);
+    }, [info?.sub, places.length]);
 
     return (
 
