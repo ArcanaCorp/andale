@@ -9,12 +9,12 @@ import './styles/layout.css'
 export default function MainPlaces () {
 
     const { locationRegion } = usePermissions();
-    const { filter } = useFilter();
+    const { filter, filterLocation } = useFilter();
 
     const { data: places, isLoading, isError, error, refetch } = useQuery({
-        queryKey: ["places", filter, locationRegion?.province, locationRegion?.region],
+        queryKey: ["places", filter, filterLocation, locationRegion?.province, locationRegion?.region],
         queryFn: async () => {
-        const response = await getPlacesAll(filter, locationRegion?.province, locationRegion?.region);
+        const response = await getPlacesAll(filter, filterLocation, locationRegion?.province, locationRegion?.region);
         if (!response.ok) throw new Error(response.message || "Error al obtener lugares");
             return response.data;
         },
@@ -39,7 +39,7 @@ export default function MainPlaces () {
         <main className="__main_places">
             {places?.length > 0 ? (
                 <ul className="__list_places">
-                    {places.map((p) => (
+                    {places.map(p => (
                         <PlaceCard key={p.id} info={p} />
                     ))}
                 </ul>

@@ -4,12 +4,16 @@ const FilterContext = createContext();
 export const FilterProvider = ({ children }) => {
 
     const [ filter, setFilter ] = useState('all');
+    const [ filterLocation, setFilterLocation ] = useState('')
 
     const handleChangeFilter = (value) => setFilter(value);
+    const handleChangeFilterLocation = (value) => setFilterLocation(value);
 
     const contextValue = {
         filter,
-        handleChangeFilter
+        filterLocation,
+        handleChangeFilter,
+        handleChangeFilterLocation
     }
 
     return (

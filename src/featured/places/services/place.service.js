@@ -1,9 +1,9 @@
 import { REACT_APP_API_URL } from "@/config/config"
 
-export const getPlacesAll = async (category = 'all', province, region) => {
+export const getPlacesAll = async (category = 'all', location = 'all', province, region) => {
     try {
         
-        const response = await fetch(`${REACT_APP_API_URL}/places/category/${category}?province=${province}&region=${region}`)
+        const response = await fetch(`${REACT_APP_API_URL}/places/category/${category}?district=${location}&province=${province}&region=${region}`)
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || response.statusText);
             return data;
