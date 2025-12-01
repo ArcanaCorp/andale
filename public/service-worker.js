@@ -137,3 +137,31 @@ self.addEventListener('fetch', event => {
     );
     
 });
+
+self.addEventListener("message", (event) => {
+    if (event.data && event.data.type === "SKIP_WAITING") {
+        self.skipWaiting();
+    }
+});
+
+async function notifyClientsAboutUpdate() {
+    const clientsList = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+    for (const client of clientsList) {
+        client.postMessage({ type: "NEW_VERSION_AVAILABLE" });
+    }
+}
+
+self.addEventListener("install", (event) => {
+    event.waitUntil(
+        (async () => {
+            // Lo que ya tienes (caching startup)
+            await caches.open(CORE_CACHE)
+                .then(cache => cache.addAll(CORE_ASSETS.map(u => new Request(u, { cache: 'reload' }))));
+
+            // Notificar al frontend
+            await notifyClientsAboutUpdate();
+
+            self.skipWaiting();
+        })()
+    );
+});

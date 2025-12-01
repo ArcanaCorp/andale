@@ -1,21 +1,21 @@
-import Images from './Images'
-import banner1 from '@/shared/img/banner_1.png'
+import { usePWAStatus } from "@/hooks/usePWAStatus";
+import PWAStatus from './PWAStatus'
 
 import './styles/promotionbanner.css'
 export default  function PromotionBanner () {
 
+    const { isInstalled, hasUpdate  } = usePWAStatus();
+
+    const shouldShowBanner = !isInstalled || hasUpdate;
+
     return (
 
         <ul className='__promotions_banner'>
-            <li className='__promotion_banner'>
-                <Images img={banner1} alt={`Promoción número uno - Ándale Ya!`} />
-            </li>
-            <li className='__promotion_banner'>
-                <Images img={banner1} alt={`Promoción número uno - Ándale Ya!`} />
-            </li>
-            <li className='__promotion_banner'>
-                <Images img={banner1} alt={`Promoción número uno - Ándale Ya!`} />
-            </li>
+            {shouldShowBanner && (
+                <li className='__promotion_banner'>
+                    <PWAStatus/>
+                </li>
+            )}
         </ul>
 
     )

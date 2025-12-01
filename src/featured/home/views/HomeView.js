@@ -13,7 +13,6 @@ export default function HomeView () {
         
             <Categories/>
             <PromotionBanner/>
-
             <Suspense fallback={<SkeletonRecommend/>}>
                 <Recomendations/>
             </Suspense>
