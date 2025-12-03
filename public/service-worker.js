@@ -22,9 +22,16 @@ const MAX_IMAGES = 80; // tope de imágenes en cache (ajusta según uso y tamañ
 // ---------- INSTALL ----------
 self.addEventListener('install', event => {
     event.waitUntil(
-        caches.open(CORE_CACHE)
-            .then(cache => cache.addAll(CORE_ASSETS.map(u => new Request(u, { cache: 'reload' }))))
-            .then(() => self.skipWaiting())
+        (async () => {
+            const cache = await caches.open(CORE_CACHE);
+            await cache.addAll(CORE_ASSETS.map(u => new Request(u, { cache: "reload" })));
+
+            // Notificar al frontend que hay una nueva versión
+            await notifyClientsAboutUpdate();
+
+            // Activar inmediatamente
+            await self.skipWaiting();
+        })()
     );
 });
 
@@ -150,18 +157,3 @@ async function notifyClientsAboutUpdate() {
         client.postMessage({ type: "NEW_VERSION_AVAILABLE" });
     }
 }
-
-self.addEventListener("install", (event) => {
-    event.waitUntil(
-        (async () => {
-            // Lo que ya tienes (caching startup)
-            await caches.open(CORE_CACHE)
-                .then(cache => cache.addAll(CORE_ASSETS.map(u => new Request(u, { cache: 'reload' }))));
-
-            // Notificar al frontend
-            await notifyClientsAboutUpdate();
-
-            self.skipWaiting();
-        })()
-    );
-});

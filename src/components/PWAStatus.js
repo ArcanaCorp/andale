@@ -3,6 +3,7 @@ import avatar from '@/shared/img/avatar-bg.png'
 import './styles/pwastatus.css'
 
 export default function PWAStatus() {
+    
     const { isInstalled, installPromptEvent, hasUpdate } = usePWAStatus();
 
     const handleUpdate = () => {

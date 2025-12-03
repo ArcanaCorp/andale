@@ -1,3 +1,4 @@
+import { Toaster } from "sonner";
 import Header from "./layout/header";
 import Tabs from "./layout/tabs";
 import Main from "./layout/main";
@@ -11,6 +12,7 @@ export default function AppLayout () {
             <Header/>
             <Main/>
             <Tabs/>
+            <Toaster position="top-center" duration={3000} richColors />
         </>
 
     )

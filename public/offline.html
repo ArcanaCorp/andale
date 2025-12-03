@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- ✅ SEO Básico -->
+    <title>Sin conexión | Ándale Ya! | Lugares, Delivery, hotel y compras en Jauja</title>
+    <meta name="description" content="Ándale Ya! es la app jaujina que te conecta con mototaxis, delivery de comida, compras, gas y más. ¡Descárgala y mejora tu día!" />
+    <meta name="keywords" content="Ándale, app jaujina, delivery Jauja, transporte Jauja, gas Jauja, compras Jauja, Ándale Ya, mototaxi, delivery app Perú" />
+    <meta name="author" content="Ándale - Empresa Jaujina" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#F90050" />
+
+    <!-- ✅ Favicon & App Icons -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- ✅ Preconexión de fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- ✅ Open Graph (para compartir en Facebook, WhatsApp, etc) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Ándale Ya! | App 100% jaujina" />
+    <meta property="og:description" content="Pide mototaxi, gas, comida o compras desde tu celular con Ándale Ya. Hecho en Jauja, para Jauja." />
+    <meta property="og:image" content="https://andaleya.pe/og_image.png" />
+    <meta property="og:url" content="https://andaleya.pe" />
+    <meta property="og:site_name" content="Ándale Ya" />
+
+    <!-- ✅ Twitter Cards (para compartir en X/Twitter) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Ándale Ya! | App 100% Jaujina" />
+    <meta name="twitter:description" content="Pide mototaxi, delivery, gas o compras desde la app. Fácil, rápido y jaujino." />
+    <meta name="twitter:image" content="https://andaleya.pe/og_image.png" />
+
+    <!-- Google Search Console -->
+    <meta name="google-site-verification" content="HPWL382JY4SVZLezMXuhrO30R9Ced2nWSnBUkaEZHQI" />
+
+    <!-- ✅ Accesibilidad y Canonical -->
+    <link rel="canonical" href="https://andaleya.pe" />
+
+    <!-- TikTok Pixel Code Start
+    <script>
+        !function (w, d, t) {
+        w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+        var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+        ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+
+
+        ttq.load('D40J4KJC77U53GC03E60');
+        ttq.page();
+        }(window, document, 'ttq');
+    </script> -->
+
+    <script src="https://sandbox-checkout.izipay.pe/payments/v1/js/index.js" defer></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const root = document.getElementById("root");
+            if (!root) return;
+
+            if (location.pathname.startsWith("/legal")) {
+                root.classList.add("scroller");
+            }
+        });
+    </script>
+
+    <style>
+        :root {
+            /* Colores */
+            --color-primary: #F90050;
+            --color-primary-dark: #c3003f;
+
+            --color-white: #FFFFFF;
+            --color-dark: #181818;
+            --color-gray: #888888;
+            --color-secondary: #EEEEEE;
+            --color-background: #FFFFFF;
+            --color-border: #DDDDDD;
+            --color-success: #28a745;
+            --color-error: #dc3545;
+            --color-warning: #ffc107;
+            --color-info: #2758E5;
+
+            /* Tipografía */
+            --font-family: "Poppins", sans-serif;
+            --font-size-xxs: 0.65rem;
+            --font-size-xs: 0.75rem;   /* 12px */
+            --font-size-sm: 0.875rem;  /* 14px */
+            --font-size-md: 1rem;      /* 16px */
+            --font-size-lg: 1.25rem;   /* 20px */
+            --font-size-xl: 1.5rem;    /* 24px */
+            --font-size-xxl: 1.75rem;    /* 24px */
+            --font-size-xxxl: 2rem;    /* 24px */
+
+            --font-weight-light: 300;
+            --font-weight-regular: 400;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+
+            /* Espaciados */
+            --spacing-2xs: 4px;
+            --spacing-xs: 8px;
+            --spacing-sm: 12px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+
+            /* Bordes */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            --radius-pill: 50px;
+            --radius-rounded: 999px;
+
+            --border-default: 1px solid var(--color-border);
+
+            /* Sombra */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+            /* Alturas */
+            --height-button: 50px;
+            --height-input: 50px;
+
+            /* Transiciones */
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.4s ease;
+        }
+    </style>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+            user-select: none;
+            box-sizing: border-box;
+            font-family: var(--font-family);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #root {
+            position: relative;
+            width: 100dvw;
+            height: 100dvh;
+            overflow-y: hidden;
+            overflow-x: hidden;
+            color: var(--color-dark);
+            font-size: var(--font-size-sm);
+            background-color: var(--color-background);
+        }
+
+        #root::-webkit-scrollbar {
+            display: none;
+        }
+
+        #root.scroller {
+            overflow-y: auto;
+        }
+
+        input, select, textarea {
+            background: none;
+            font-family: var(--font-family);
+        }
+
+        ul, li, ol {
+            list-style: none;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
+        }
+
+        a {
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--color-primary);
+        }
+
+        .tabler-icon {
+            stroke-width: 1.2;
+        }
+    </style>
+
+</head>
+<body style="background-color: var(--color-primary);display: grid;place-items: center;" id="root">
+    <div style="width: 90%; margin: auto; text-align: center; color: var(--color-white);">
+        <h1>No hay internet</h1>
+        <p style="margin-bottom: 2rem;">En este momento no estás conectado a internet</p>
+        <button id="btn-reload" style="color: var(--color-white); background-color: var(--color-primary-dark); padding: .5rem 1rem; border-radius: var(--radius-md);">Volver a intentar</button>
+    </div>
+    <script>
+        const btnReload = document.getElementById('btn-reload')
+        btnReload.addEventListener('click', () => {
+            location.href = '/'
+        })
+    </script>
+</body>
+</html>

@@ -5,6 +5,7 @@ import router from "./app/routers";
 
 import '@/shared/css/variables.css'
 import '@/shared/css/global.css'
+import '@/shared/css/system.css'
 
 createRoot(document.getElementById('root')).render(
     <>

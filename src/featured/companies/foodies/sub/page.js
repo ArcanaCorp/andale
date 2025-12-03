@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 
 import SEO from "@/components/SEO";
 import SplashScreen from "@/components/SplashScreen";
@@ -12,6 +12,8 @@ import { getBussinesBySub } from "@/services/bussines.service";
 
 import '@/featured/companies/styles/page.css'
 import Dishes from "./components/Dishes";
+import ErrorPage from "../../../error/page";
+import BannerCart from "@/components/BannerCart";
 
 export default function FoodieSubPage () {
 
@@ -53,7 +55,7 @@ export default function FoodieSubPage () {
 
     if (loading) return <SplashScreen/>;
 
-    if (!details) return <div>No se encontraron detalles para este lugar.</div>;
+    if (!details) return <ErrorPage/>
 
     const schemaData = {
         "@context": "https://schema.org",
@@ -94,7 +96,7 @@ export default function FoodieSubPage () {
                 <BannerInfo banner={'top'} details={details} filter={filter} onChangeFilter={handleChangeFilter} />
 
                 <section className={`__section_company __section_company_lst`}>
-                    <Dishes dishes={details?.dishes} filter={filter}/>
+                    <Dishes dishes={details?.dishes} filter={filter} company={details} />
                 </section>
 
                 <section className={`__section_company __section_company_rvw`}>
@@ -104,7 +106,11 @@ export default function FoodieSubPage () {
 
                 <BannerInfo banner={'bottom'} details={details} />
 
+                <BannerCart/>
+
             </main>
+
+            <Toaster position="top-center" duration={3000} richColors />
 
         </>
 

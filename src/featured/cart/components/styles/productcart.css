@@ -1,0 +1,31 @@
+.--product-cart-list {
+    width: 90%;
+    margin: auto;
+    margin-bottom: 2rem;
+}
+
+.--product-cart {
+    width: 100%;
+}
+
+.--product-cart .--product-cart-left .--product-image {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-secondary);
+}
+
+.--product-cart .--product-cart-right .--product-cart-update .--btn-update {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    place-items: center;
+    border-radius: var(--radius-pill);
+}
+
+.--product-cart .--product-cart-right .--product-cart-update .--btn-update .tabler-icon {
+    width: 20px;
+    height: 20px;
+}

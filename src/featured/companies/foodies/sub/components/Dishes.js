@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import FoodieCard from "./card";
 
-export default function Dishes({ filter, dishes }) {
+export default function Dishes({ filter, dishes, company }) {
 
     const [list, setList] = useState([]);
-
+    
     // Fisher–Yates shuffle (mezcla real)
     const shuffle = (array) => {
         const arr = [...array];
@@ -40,7 +40,7 @@ export default function Dishes({ filter, dishes }) {
     return (
         <ul className="__lst">
             {list.map((pdt) => (
-                <FoodieCard key={pdt.id} foodie={pdt} />
+                <FoodieCard key={pdt.id} foodie={pdt} company={company} />
             ))}
         </ul>
     );

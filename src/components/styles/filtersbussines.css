@@ -1,6 +1,7 @@
 .__nav_bssn {
     position: sticky;
     top: 0;
+    z-index: 1;
     width: 100%;
     margin-bottom: 1rem;
     border-bottom: 1px solid var(--color-secondary);

@@ -16,10 +16,29 @@
 }
 
 .__card_food .__card_image {
+    position: relative;
     width: 100px;
     height: 100px;
     min-width: 100px;
     overflow: hidden;
     border-radius: var(--radius-md);
     background-color: var(--color-secondary);
+}
+
+.__card_food .__card_image .__btn_add {
+    position: absolute;
+    display: grid;
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    color: var(--color-white);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-dark);
+}
+
+.__card_food .__card_image .__btn_add .tabler-icon {
+    width: 20px;
+    height: 20px;
 }

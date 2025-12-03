@@ -35,3 +35,11 @@
     gap: .5rem;
     align-items: center;
 }
+
+.__section_info {
+    width: 90%;
+    margin: auto;
+    margin-bottom: 1rem;
+    color: var(--color-gray);
+    font-size: var(--font-size-xs);
+}

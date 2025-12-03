@@ -1,13 +1,15 @@
 import { IconBubble, IconChevronRight, IconFlag, IconInfoCircle, IconLogout2, IconPhone, IconSpeakerphone, IconUserCircle } from "@tabler/icons-react";
 import { useAuth } from "@/context/AuthContext";
-import './styles/profile.css'
 import { handleOpenLink } from "@/libs/helpers";
 import { useNavigate } from "react-router-dom";
+import { appVersion } from "@/config";
+import './styles/profile.css'
 
 export default function ProfileView () {
 
     const navigate = useNavigate();
     const { user } = useAuth();
+    
 
     return (
 
@@ -77,6 +79,11 @@ export default function ProfileView () {
                     </ul>
                 </section>
             )}
+
+            <div className="__section_info">
+                <p>Versión: {appVersion}</p>
+                <p>Hecho con ♥️ en Jauja</p>
+            </div>
 
         </>
 
