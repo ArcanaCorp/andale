@@ -39,7 +39,7 @@ export default function LoginPage () {
                 const data = await validar(phone, code)
                 if (!data.ok) return toast.warning('Alerta', { description: data.message })
                     toast.success('Éxito', { description: data.message })
-                    Cookies.set('adly_user', data.sub, { expires: 365 })
+                    Cookies.set('c_user', data.sub, { expires: 365 })
                     if (!data.completed) {
                         setFormStep(3)
                         return;
@@ -57,7 +57,7 @@ export default function LoginPage () {
         if (!name) return toast.warning('Alerta', { description: 'Completa el campo requerido' })
         try {
             setLoading(true);
-            const sub = Cookies.get('adly_user');
+            const sub = Cookies.get('c_user');
             const data = await updateUserAccount(sub, 'name_user', name)
             if (!data.ok) return toast.warning('Alerta', { description: data.message })
                 toast.success('Éxito', { description: data.message })

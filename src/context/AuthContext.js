@@ -39,7 +39,9 @@ export const AuthProvider = ({ children }) => {
         const verifyAccount = async () => {
             try {
                 if (user === null) {
-                    const token = Cookies.get('adly_user')
+                    const token = Cookies.get('c_user')
+                    console.log(token);
+                    
                     await userInfo(token)
                 }
             } catch (error) {

@@ -1,4 +1,3 @@
-import { toast } from 'sonner';
 import { getRecommendations } from '../services/recomend';
 import CardRecommend from './CardRecommend';
 import { usePermissions } from '@/context/PermissionsContext';
@@ -10,14 +9,15 @@ export default function Recomendations() {
     const { locationRegion } = usePermissions();
 
     // Ejecutamos la query solo cuando hay datos válidos
-    const { data: recomendations = [] } = useQuery({
+    const { data: recomendations = [], error, isFetched, refetch } = useQuery({
         queryKey: ['recommendations', locationRegion?.province, locationRegion?.region],
         queryFn: async () => {
             if (!locationRegion?.province || !locationRegion?.region) return [];
             const data = await getRecommendations(locationRegion.province, locationRegion.region);
             if (!data.ok) {
-                toast.warning(data.message);
-                return [];
+                const err = new Error(data.message)
+                err.status = data.status || 500;
+                throw err;
             }
             return data.data;
         },
@@ -29,8 +29,8 @@ export default function Recomendations() {
         suspence: true
     });
 
-    if (recomendations.length === 0) {
-        return <p className="text-center text-gray-500">No hay recomendaciones disponibles</p>;
+    if (error || recomendations.length === 0) {
+        return <NoRecommendations error={error} loading={isFetched} onRetry={() => refetch()} />
     }
 
     return (
@@ -48,5 +48,37 @@ export default function Recomendations() {
                 </section>
             ))}
         </>
+    );
+}
+
+function NoRecommendations({ error, onRetry, loading }) {
+
+    const status = error?.status;
+
+    return (
+        <div style={{width: '90%', margin: 'auto'}} className="flex flex-col items-center justify-center text-center">
+
+            {status ? (
+                <>
+                    <h3 className="text-lg font-semibold text-red-600 mb-2">
+                        Error {status}
+                    </h3>
+                    <p className="mb-4">
+                        Hubo un problema al obtener las recomendaciones.
+                    </p>
+                </>
+            ) : (
+                <>
+                    <h3 className="text-lg font-semibold mb-md">
+                        No hay recomendaciones disponibles
+                    </h3>
+                </>
+            )}
+
+            <button className="px-lg py-md text-white rounded-md bg-primary" disabled={loading} onClick={onRetry} >
+                {loading ? "Cargando..." : "Reintentar"}
+            </button>
+
+        </div>
     );
 }
