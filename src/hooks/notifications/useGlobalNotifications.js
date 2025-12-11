@@ -57,6 +57,6 @@ export const useGlobalNotifications = () => {
 
         return () => socket.off("connect", subscribe);
 
-    }, [socketRef]);
+    }, [socketRef, addNotification]);
 
 };
