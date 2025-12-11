@@ -9,15 +9,13 @@ export const useGlobalNotifications = () => {
     const { addNotification } = useApp();
 
     useEffect(() => {
-        const socket = socketRef?.current;
+        if (!socketRef) return;
 
-        // Si aún no existe el socket, esperar al próximo render
-        if (!socket) {
-            console.log("⏳ Esperando socket...");
-            return;
-        }
+        let socket = socketRef.current;
 
-        const subscribe = () => {
+        const attachListeners = () => {
+            if (!socket) return;
+
             console.log("🔗 Suscrito a notificaciones globales");
 
             const handleNotification = (data) => {
@@ -49,22 +47,24 @@ export const useGlobalNotifications = () => {
             socket.on("global:notification", handleNotification);
 
             return () => {
-                console.log("❌ Listener removido");
                 socket.off("global:notification", handleNotification);
             };
         };
 
-        // Si el socket YA está conectado → suscribir de inmediato
-        if (socket.connected) {
-            return subscribe();
+        // Si el socket YA existe y ya conectó → enganchar de inmediato
+        if (socket && socket.connected) {
+            return attachListeners();
         }
 
-        // Si NO está conectado, esperar el evento "connect"
-        socket.on("connect", subscribe);
+        // Si existe pero no conectó → esperar el evento "connect"
+        if (socket) {
+            console.log("⏳ Esperando conexión del socket...");
+            socket.on("connect", attachListeners);
 
-        return () => {
-            socket.off("connect", subscribe);
-        };
+            return () => {
+                socket.off("connect", attachListeners);
+            };
+        }
 
     }, [socketRef, addNotification]);
 

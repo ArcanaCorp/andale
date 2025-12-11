@@ -40,7 +40,6 @@ export const AuthProvider = ({ children }) => {
             try {
                 const token = Cookies.get('c_user')
                 if (token) {
-                    console.log(token);
                     await userInfo(token)
                 }
             } catch (error) {
