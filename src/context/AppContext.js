@@ -1,13 +1,27 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
 
-    const [ online, setOnline ] = useState();
+    const [ notifications, setNotifications ] = useState(() => {
+        try {
+            const saved = localStorage.getItem("notifications");
+            return saved ? JSON.parse(saved) : [];
+        } catch {
+            return [];
+        }
+    });
+
+    useEffect(() => {
+        localStorage.setItem("notifications", JSON.stringify(notifications));
+    }, [notifications]);
+
+    const addNotification = (notif) => setNotifications(prev => [notif, ...prev]);
 
     const contextValue = {
-        online
+        notifications,
+        addNotification
     }
 
     return (

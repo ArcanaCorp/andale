@@ -1,0 +1,34 @@
+.--notify {
+    width: 100%;
+    padding: var(--spacing-sm);
+    background-color: #f9f9f9;
+    border-radius: var(--radius-lg);
+}
+
+.--notify .--notify-link {
+    width: 100%;
+    display: flex;
+    gap: .5rem;
+}
+
+.--notify .--notify-link .--avatar {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    border-radius: var(--radius-rounded);
+    background-color: var(--color-secondary);
+}
+
+.--notify .--notify-link .--info {
+    width: 100%;
+    color: var(--color-dark);
+}
+
+.--notify .--notify-link .--info .--txt-txt {
+    font-size: var(--font-size-sm);
+}
+
+.--notify .--notify-link .--info .--txt-time {
+    color: var(--color-gray);
+    font-size: var(--font-size-xs);
+}

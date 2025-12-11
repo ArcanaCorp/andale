@@ -38,10 +38,9 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const verifyAccount = async () => {
             try {
-                if (user === null) {
-                    const token = Cookies.get('c_user')
+                const token = Cookies.get('c_user')
+                if (token) {
                     console.log(token);
-                    
                     await userInfo(token)
                 }
             } catch (error) {
@@ -49,7 +48,7 @@ export const AuthProvider = ({ children }) => {
             }
         }
         verifyAccount();
-    }, [user])
+    }, [])
 
     const contextValue = {
         user,

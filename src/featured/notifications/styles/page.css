@@ -34,3 +34,11 @@
     padding: 0 1rem;
     place-items: center;
 }
+
+.__main_notifications .--notifications {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    padding: 0 1rem;
+    flex-direction: column;
+}

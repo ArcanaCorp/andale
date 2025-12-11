@@ -157,3 +157,38 @@ async function notifyClientsAboutUpdate() {
         client.postMessage({ type: "NEW_VERSION_AVAILABLE" });
     }
 }
+
+self.addEventListener("message", (event) => {
+    if (event.data?.type === "SHOW_NOTIFICATION") {
+        const data = event.data.payload;
+
+        self.registration.showNotification(data.titulo, {
+            body: data.descripcion,
+            icon: "/logo192.png",
+            badge: "/logo192.png",
+            data: {
+                link: data.link || null,
+                ...data
+            }
+        });
+    }
+});
+
+self.addEventListener("notificationclick", (event) => {
+    event.notification.close();
+
+    const urlToOpen = event.notification.data?.link;
+
+    if (urlToOpen) {
+        event.waitUntil(
+            clients.matchAll({ type: "window", includeUncontrolled: true })
+                .then((clientsArray) => {
+                    const client = clientsArray.find(
+                        (c) => c.url === urlToOpen && "focus" in c
+                    );
+                    if (client) return client.focus();
+                    return clients.openWindow(urlToOpen);
+                })
+        );
+    }
+});
