@@ -174,6 +174,20 @@ self.addEventListener("message", (event) => {
     }
 });
 
+self.addEventListener("push", (event) => {
+    const data = event.data?.json() || {};
+    self.registration.showNotification(data.title || "Nueva notificación", {
+        body: data.body || "Tienes una actualización",
+        icon: "/icon.png",
+        badge: "/badge.png",
+        data: { url: data.url || "/" },
+        actions: [
+            { action: 'view', title: 'Ver ahora' },
+            { action: 'dismiss', title: 'Ignorar' }
+        ]
+    });
+});
+
 self.addEventListener("notificationclick", (event) => {
     event.notification.close();
 
