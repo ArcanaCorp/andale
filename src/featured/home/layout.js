@@ -25,7 +25,7 @@ export default function AppLayout () {
             }
         }
         permissionsNotifications();
-    }, [])
+    }, [requestNotificationPermission])
 
     return (
 
