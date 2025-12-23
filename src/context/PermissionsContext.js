@@ -16,7 +16,7 @@ export const PermissionsProvider = ({ children }) => {
     // -------------------------------------------------------------
     const contextValue = {
         ...location,
-        ...notifications,
+        notifications,
         ...camera
     };
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export const useNotificationPermissions = () => {
     
@@ -13,12 +13,8 @@ export const useNotificationPermissions = () => {
         setNotificationPermission(result);
     };
 
-    useEffect(() => {
-        requestNotificationPermission();
-    }, []);
-
     return {
-        notificationPermission,
+        ...notificationPermission,
         requestNotificationPermission
     };
 };

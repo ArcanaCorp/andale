@@ -1,6 +1,7 @@
 import { IconDiscount, IconHeart, IconHome, IconListDetails, IconUserCircle } from "@tabler/icons-react"
+import { REACT_APP_API } from "../config";
 
-export const REACT_APP_API_URL = 'https://andale.ttutis.com/api/v1'
+export const REACT_APP_API_URL = REACT_APP_API || 'https://andale.ttutis.com/api/v1'
 export const SOCKET_URL = "https://andale.ttutis.com";
 export const API_KEY_MAPS = 'AIzaSyAUfHQAHDTtaJsMG0POlX0MO4gxdqU_b9c'
 export const TERRITORY_LIST = {
