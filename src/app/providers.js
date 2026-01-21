@@ -2,7 +2,6 @@ import { PermissionsProvider } from "@/context/PermissionsContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FilterProvider } from "@/context/FilterContext";
 import { AuthProvider } from "@/context/AuthContext";
-import { AnalyticsProvider } from "@/context/AnalyticsContext";
 import { CartProvider } from "@/context/CartContext";
 import { AppProvider } from "../context/AppContext";
 
@@ -14,17 +13,15 @@ export default function Providers ({ children }) {
         <>
             <QueryClientProvider client={queryClient}>
                 <AppProvider>
-                    <AnalyticsProvider>
-                        <AuthProvider>
-                            <PermissionsProvider>
-                                <CartProvider>
-                                    <FilterProvider>
-                                        {children}
-                                    </FilterProvider>
-                                </CartProvider>
-                            </PermissionsProvider>
-                        </AuthProvider>
-                    </AnalyticsProvider>
+                    <AuthProvider>
+                        <PermissionsProvider>
+                            <CartProvider>
+                                <FilterProvider>
+                                    {children}
+                                </FilterProvider>
+                            </CartProvider>
+                        </PermissionsProvider>
+                    </AuthProvider>
                 </AppProvider>
             </QueryClientProvider>
 

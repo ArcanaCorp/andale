@@ -38,8 +38,6 @@ export default function AppLayout () {
             try {
                 await requestNotificationPermission();
                 await servicePushSubscribe();
-                console.log(`Solicitando...`);
-                
             } catch (error) {
                 console.error(error);
             }
