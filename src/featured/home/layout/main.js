@@ -5,11 +5,13 @@ import './styles/main.css'
 export default function Main () {
 
     const location = useLocation();
+    const anon = localStorage.getItem('anon_user_id');
     const { locationPermission, checkLocationPermission } = usePermissions();
 
     return (
 
         <main className={`__main_app ${location.pathname === '/account' ? '__main_app_me' : ''}`}>
+            <p>Usuario: {anon}</p>
             {locationPermission === 'denied' ? (
                 <div className="__box_denied">
                     <div className="__content_denied">
