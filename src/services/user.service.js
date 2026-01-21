@@ -1,9 +1,16 @@
-import { REACT_APP_API_URL } from "@/config/config"
+import { REACT_APP_API_URL, TOKEN_KEY_ACCOUNT } from "@/config/config"
+import Cookies from "js-cookie";
 
-export const getUserAccount = async (sub) => {
+export const getUserAccount = async () => {
+    const sub = Cookies.get(TOKEN_KEY_ACCOUNT)
+    
     if (!sub || sub === undefined) return;
     try {
-        const response = await fetch(`${REACT_APP_API_URL}/user/${sub}/profile`)
+        const response = await fetch(`${REACT_APP_API_URL}/user/profile`, {
+            headers: {
+                'Authorization': `Bearer ${sub}`
+            }
+        })
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || response.statusText);
             return data;

@@ -7,6 +7,7 @@ import SplashScreen from "@/components/SplashScreen";
 import HeaderCompany from "@/featured/companies/components/header";
 import BannerInfo from "@/components/BannerInfo";
 import Reviews from "@/components/Reviews";
+import ListProducts from "./components/ListProducts";
 
 import { getBussinesBySub } from "@/services/bussines.service";
 
@@ -17,6 +18,9 @@ export default function StoreSubPage () {
     const { sub } = useParams();
     const [ details, setDetails ] = useState(null);
     const [ loading, setLoading ] = useState(true);
+    const [ filter, setFilter ] = useState('all')
+
+    const handleChangeFilter = (value) => setFilter(value);
 
     const getDetails = useCallback(async () => {
         if (!sub) {
@@ -75,9 +79,9 @@ export default function StoreSubPage () {
         <>
             
             <SEO
-                title={`Restaurante ${details?.name}`}
+                title={`Tienda ${details?.name}`}
                 description={`Disfruta de las delicias de ${details?.name} en Jauja. Fotos, ubicación, reseñas y más con Ándale Ya!`}
-                keywords={`Restaurantes | Cafeterias | ${details?.name}, Jauja, turismo, delivery, hoteles, restaurantes`}
+                keywords={`Tienda | Comercios | ${details?.name}, Jauja, turismo, delivery, hoteles, Tienda`}
                 image={details?.photo}
                 url={`https://andaleya.pe/store/${details?.sub}`}
                 schema={schemaData}
@@ -87,14 +91,10 @@ export default function StoreSubPage () {
 
             <main className="__main_company">
 
-                <BannerInfo banner={'top'} details={details} />
+                <BannerInfo banner={'top'} details={details} filter={filter} onChangeFilter={handleChangeFilter} />
 
                 <section className={`__section_company __section_company_lst`}>
-                    <ul className="__lst">
-                        {details?.products.map((pdt) => (
-                            <li key={pdt.id}>{pdt.name}</li>
-                        ))}
-                    </ul>
+                    <ListProducts products={details?.products} filter={filter} companies={details} />
                 </section>
 
                 <section className={`__section_company __section_company_rvw`}>

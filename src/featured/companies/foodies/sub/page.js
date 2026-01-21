@@ -13,7 +13,6 @@ import { getBussinesBySub } from "@/services/bussines.service";
 import '@/featured/companies/styles/page.css'
 import Dishes from "./components/Dishes";
 import ErrorPage from "../../../error/page";
-import BannerCart from "@/components/BannerCart";
 
 export default function FoodieSubPage () {
 
@@ -105,8 +104,6 @@ export default function FoodieSubPage () {
                 </section>
 
                 <BannerInfo banner={'bottom'} details={details} />
-
-                <BannerCart/>
 
             </main>
 

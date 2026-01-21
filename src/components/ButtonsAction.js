@@ -1,6 +1,6 @@
 import { IconHeart, IconShare3 } from "@tabler/icons-react";
 
-export default function ButtonsAction (liked=true, shared=true) {
+export default function ButtonsAction ({liked=true, shared=true}) {
 
     return (
 

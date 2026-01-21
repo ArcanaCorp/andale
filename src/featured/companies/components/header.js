@@ -12,7 +12,7 @@ export default function HeaderCompany ({ details }) {
             <div className="__row">
                 <a href="/" className="__btn_back"><IconChevronLeft/></a>
                 <ul className='__actions'>
-                    <ButtonsAction/>
+                    <ButtonsAction liked={false} />
                 </ul>
             </div>
             <Images img={details?.photo} alt={`${details.name}`} />

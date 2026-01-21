@@ -1,0 +1,54 @@
+.--tittle {
+    width: 100%;
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+}
+
+.--tittle p {
+    color: var(--color-gray);
+    font-size: var(--font-size-xs);
+}
+
+.--list {
+    width: 100%;
+    padding: 0 1rem;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.--list .--item {
+    width: 100%;
+    display: flex;
+}
+
+.--list .--item .--col-A {
+    display: flex;
+    gap: .5rem;
+}
+
+.--list .--item .--col-A .--picture {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-secondary);
+}
+
+.--list .--item .--col-A .--info p {
+    color: var(--color-gray);
+    font-size: var(--font-size-xs);
+}
+
+.--list .--item .--liked {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    display: grid;
+    place-items: center;
+    background: none;
+}
+
+.--list .--item .--liked .tabler-icon {
+    fill: var(--color-primary);
+}

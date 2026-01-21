@@ -1,63 +1,93 @@
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { getUserAccount } from "@/services/user.service";
+import { setupSockets } from "@/socket";
+import { TOKEN_KEY_SESSION, TOKEN_KEY_ACCOUNT } from "@/config/config";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
-    const [user, setUser] = useState(() => {
+    const [user, setUser] = useState();
+    const [loading, setLoading] = useState(true);
+    const socketRef = useRef(null);
+
+    const loadUserFromSession = () => {
         try {
-            const token = sessionStorage.getItem("tt_user");
+            const token = sessionStorage.getItem(TOKEN_KEY_SESSION);
             if (!token) return null;
             return jwtDecode(token);
         } catch {
-            return null; // Token corrupto → sesión inválida
+            sessionStorage.removeItem(TOKEN_KEY_SESSION);
+            return null;
         }
-    });
+    };
 
-    const userInfo = async (sub) => {
+    const fetchAccount = async () => {
         try {
-            const data = await getUserAccount(sub);
-            if (!data.ok) {
-                setUser(null)
-                sessionStorage.removeItem('tt_user')
-                return;
-            }
-            sessionStorage.setItem('tt_user', data.token)
-            const decoded = jwtDecode(data.token);
-            setUser(decoded);
-        } catch (error) {
-            setUser(null)
-            console.error(error);
-            sessionStorage.removeItem("tt_user");
+            const data = await getUserAccount(); // 👈 sin sub
+            if (!data.ok) throw new Error();
+            sessionStorage.setItem(TOKEN_KEY_SESSION, data.token);
+            setUser(jwtDecode(data.token));
+        } catch {
+            setUser(null);
+            sessionStorage.removeItem(TOKEN_KEY_SESSION);
         }
-    }
+    };
 
     useEffect(() => {
-        const verifyAccount = async () => {
-            try {
-                const token = Cookies.get('c_user')
-                if (token) {
-                    await userInfo(token)
-                }
-            } catch (error) {
-                console.error(error);
+        const initAuth = async () => {
+            const sessionUser = loadUserFromSession();
+            if (sessionUser) {
+                setUser(sessionUser);
+                setLoading(false);
+                return;
             }
+
+            const authToken = Cookies.get(TOKEN_KEY_ACCOUNT);
+            
+            if (authToken) {
+                await fetchAccount();
+            }
+
+            setLoading(false);
+        };
+
+        initAuth();
+    }, []);
+
+    // ==========================
+    // 🔌 SOCKET LIFECYCLE
+    // ==========================
+    useEffect(() => {
+        if (user && !socketRef.current) {
+            socketRef.current = setupSockets(user);
         }
-        verifyAccount();
-    }, [])
+
+        if (!user && socketRef.current) {
+            socketRef.current.disconnect();
+            socketRef.current = null;
+        }
+
+        return () => {
+            if (socketRef.current) {
+                socketRef.current.disconnect();
+                socketRef.current = null;
+            }
+        };
+    }, [user]);
 
     const contextValue = {
         user,
-        userInfo
+        loading,
+        fetchAccount,
+        socket: socketRef.current,
     }
 
     return (
         <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-    )
-
-}
+    );
+};
 
 export const useAuth = () => useContext(AuthContext);

@@ -6,11 +6,12 @@ import { login, validar } from "./services/auth.service";
 import './styles/page.css'
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
-import { updateUserAccount } from "../../services/user.service";
+import { updateUserAccount } from "@/services/user.service";
+import { TOKEN_KEY_ACCOUNT } from "../../config/config";
 export default function LoginPage () {
 
     const navigate = useNavigate();
-    const { userInfo } = useAuth();
+    const { fetchAccount } = useAuth();
     const [ formStep, setFormStep ] = useState(1)
     const [ phone, setPhone ] = useState();
     const [ code, setCode ] = useState();
@@ -39,12 +40,12 @@ export default function LoginPage () {
                 const data = await validar(phone, code)
                 if (!data.ok) return toast.warning('Alerta', { description: data.message })
                     toast.success('Éxito', { description: data.message })
-                    Cookies.set('c_user', data.sub, { expires: 365 })
+                    Cookies.set(TOKEN_KEY_ACCOUNT, data.sub, { expires: 365 })
                     if (!data.completed) {
                         setFormStep(3)
                         return;
                     }
-                    await userInfo(data.sub)
+                    await fetchAccount()
                     navigate('/')
             } catch (error) {
                 toast.error('Error', { description: error.message })
@@ -57,11 +58,11 @@ export default function LoginPage () {
         if (!name) return toast.warning('Alerta', { description: 'Completa el campo requerido' })
         try {
             setLoading(true);
-            const sub = Cookies.get('c_user');
+            const sub = Cookies.get(TOKEN_KEY_ACCOUNT);
             const data = await updateUserAccount(sub, 'name_user', name)
             if (!data.ok) return toast.warning('Alerta', { description: data.message })
                 toast.success('Éxito', { description: data.message })
-                await userInfo(sub)
+                await fetchAccount()
                 navigate('/')
         } catch (error) {
             toast.error('Error', { description: error.message })

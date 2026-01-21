@@ -6,17 +6,22 @@ export default  function PromotionBanner () {
 
     const { isInstalled, hasUpdate  } = usePWAStatus();
 
+    const promotions = [];
     const shouldShowBanner = !isInstalled || hasUpdate;
 
     return (
 
-        <ul className='__promotions_banner'>
-            {shouldShowBanner && (
-                <li className='__promotion_banner'>
-                    <PWAStatus/>
-                </li>
-            )}
-        </ul>
+        promotions.length > 0 || shouldShowBanner ? (
+            <ul className='__promotions_banner'>
+                {shouldShowBanner && (
+                    <li className='__promotion_banner'>
+                        <PWAStatus/>
+                    </li>
+                )}
+            </ul>
+        ) : (
+            <></>
+        )
 
     )
 

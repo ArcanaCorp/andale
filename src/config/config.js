@@ -4,6 +4,10 @@ import { REACT_APP_API } from "../config";
 export const REACT_APP_API_URL = REACT_APP_API || 'https://andale.ttutis.com/api/v1'
 export const SOCKET_URL = "https://andale.ttutis.com";
 export const API_KEY_MAPS = 'AIzaSyAUfHQAHDTtaJsMG0POlX0MO4gxdqU_b9c'
+
+export const TOKEN_KEY_SESSION = 'c_token';
+export const TOKEN_KEY_ACCOUNT = 'c_user'
+
 export const TERRITORY_LIST = {
     provincia: "Jauja",
     departamento: "Junín",

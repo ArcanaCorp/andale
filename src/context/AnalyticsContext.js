@@ -1,14 +1,34 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { getServiceAnalitycs } from "../services/analitycs.service";
 
 const AnalyticsContext = createContext();
 
 export const AnalyticsProvider = ({ children }) => {
 
-    const [ views, setViews ] = useState(0)
+    const [ favorites, setFavorites ] = useState([]);
+
+    const getAnalitycsAll = async () => {
+        try {
+            const data = await getServiceAnalitycs();
+            if (!data.ok) return;
+                setFavorites(data.favorites)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        const initAnalytics = async () => {
+            if (favorites.length === 0) {
+                getAnalitycsAll();
+            }
+        }
+        initAnalytics();
+    }, [])
 
     const contextValue = {
-        views,
-        setViews
+        favorites,
+        getAnalitycsAll
     }
 
     return (
@@ -16,3 +36,5 @@ export const AnalyticsProvider = ({ children }) => {
     )
 
 }
+
+export const useAnalytics = () => useContext(AnalyticsContext);

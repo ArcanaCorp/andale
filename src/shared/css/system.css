@@ -147,3 +147,5 @@
 /* ========== TRANSITIONS ========== */
 .transition-fast { transition: var(--transition-fast); }
 .transition { transition: var(--transition-normal); }
+
+.overflow-hidden { overflow: hidden; }

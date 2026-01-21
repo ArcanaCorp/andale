@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { usePermissions } from '@/context/PermissionsContext'
-import { IconBell, IconChevronDown, IconShoppingBag } from '@tabler/icons-react'
+import { IconBell, IconChevronDown } from '@tabler/icons-react'
 
 import SearchBarLink from '@/components/SearchBarLink';
 
@@ -36,7 +36,6 @@ export default function Header () {
                             </button>
                             <div className='__flx'>
                                 <a href='/notifications' className='__a __a_btn __a_btn_ico'><IconBell/></a>
-                                <a href='/cart' className='__a __a_btn __a_btn_ico'><IconShoppingBag/></a>
                             </div>
                         </div>
                         <div className='__row __row_B'>

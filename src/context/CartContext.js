@@ -11,7 +11,7 @@ export const CartProvider = ({ children }) => {
         subtotal: 0,
         delivery: false
     });
-
+    
     // ====== Cargar carrito desde localStorage ======
     useEffect(() => {
         const saved = localStorage.getItem("cart");
@@ -30,8 +30,16 @@ export const CartProvider = ({ children }) => {
         return productos.reduce((acc, p) => acc + p.subtotal, 0);
     };
 
+    const getProductPrice = (product) => {
+        if (product.box) {
+            return Number(product.priced) || 0;
+        }
+        return Number(product.price) || 0;
+    };
+
     // ===== Agregar producto =====
     const addToCart = (producto, negocioData) => {
+        const price = getProductPrice(producto);
         setCart((prev) => {
             // Si el carrito ya tenía otro negocio → limpiarlo
             if (prev.negocio && prev.negocio.id !== negocioData.id) {
@@ -48,7 +56,7 @@ export const CartProvider = ({ children }) => {
                         ? {
                               ...p,
                               amount: p.amount + 1,
-                              subtotal: (p.amount + 1) * p.price,
+                              subtotal: (p.amount + 1) * price,
                           }
                         : p
                 );
@@ -59,7 +67,7 @@ export const CartProvider = ({ children }) => {
                     {
                         ...producto,
                         amount: 1,
-                        subtotal: producto.price,
+                        subtotal: price,
                     },
                 ];
             }
@@ -92,7 +100,7 @@ export const CartProvider = ({ children }) => {
 
         setCart((prev) => {
             const newProductos = prev.productos.map((p) =>
-                p.id === id ? { ...p, amount, subtotal: amount * p.price } : p
+                p.id === id ? { ...p, amount, subtotal: amount * (p.box ? p.priced : p.price) } : p
             );
 
             return {

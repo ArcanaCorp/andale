@@ -3,10 +3,18 @@ import { useCart } from '@/context/CartContext'
 import ProductCart from './components/ProductCart';
 
 import './styles/page.css'
+import Images from '../../components/Images';
 
 export default function CartPage () {
 
     const { cart, toogleDelivery } = useCart();
+
+    const listLink = {
+        'ecommerce': 'store',
+        'hotel': 'hotels',
+        'restaurant': 'foodies',
+        'agency': 'agency'
+    }
 
     return (
 
@@ -29,14 +37,16 @@ export default function CartPage () {
 
                         <div className='--box-bussines flex align-center justify-between'>
                             <div className='--col-A flex gap-xs'>
-                                <div className='--avatar'></div>
+                                <div className='--avatar overflow-hidden'>
+                                    <Images img={cart.negocio.photo} alt={`Foto de perfil de ${cart.negocio.name}`} />
+                                </div>
                                 <div className='--row'>
                                     <h3>{cart.negocio.name}</h3>
                                     <p className='text-xs text-gray'>{cart.negocio.address.direction}</p>
                                 </div>
                             </div>
                             <div className='--col-B flex'>
-                                <a href={`/foodies/${cart.negocio.sub}`} className='text-xs text-primary fw-semibold'>Ir al local</a>
+                                <a href={`/${listLink[cart.negocio.category]}/${cart.negocio.sub}`} className='text-xs text-primary fw-semibold'>Ir al local</a>
                             </div>
                         </div>
 
@@ -47,7 +57,7 @@ export default function CartPage () {
                     
                         <ul className='--product-cart-list flex flex-col gap-lg'>
                             {cart.productos.map((p) => (
-                                <ProductCart key={p.id} product={p} />
+                                <ProductCart key={p.id} product={p} sub={cart.negocio.sub} />
                             ))}
                         </ul>
 
@@ -57,7 +67,7 @@ export default function CartPage () {
                                 {cart.productos.map((p) => (
                                     <li key={p.id} className='flex align-center justify-between'>
                                         <span className='text-xs'>{p.name}</span>
-                                        <span><sup>S/</sup>{(p.subtotal).toFixed(2)}</span>
+                                        <span><sup>S/</sup>{(p?.subtotal).toFixed(2)}</span>
                                     </li>
                                 ))}
                                 <div className='--line'></div>
