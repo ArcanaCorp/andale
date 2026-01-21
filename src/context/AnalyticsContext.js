@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { getServiceAnalitycs } from "../services/analitycs.service";
 
 const AnalyticsContext = createContext();
@@ -16,15 +16,6 @@ export const AnalyticsProvider = ({ children }) => {
             console.error(error);
         }
     }
-
-    useEffect(() => {
-        const initAnalytics = async () => {
-            if (favorites.length === 0) {
-                getAnalitycsAll();
-            }
-        }
-        initAnalytics();
-    }, [])
 
     const contextValue = {
         favorites,
