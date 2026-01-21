@@ -1,6 +1,9 @@
 import { REACT_VAPID_PUBLIC_KEY } from "../config";
 
 export const subscribeToPush = async () => {
+
+    if (Notification.permission !== "granted") return null;
+
     const registration = await navigator.serviceWorker.ready;
     let subscription = await registration.pushManager.getSubscription();
 

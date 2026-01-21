@@ -15,8 +15,9 @@
     width: 50px;
     height: 50px;
     min-width: 50px;
+    overflow: hidden;
     border-radius: var(--radius-rounded);
-    background-color: var(--color-secondary);
+    background-color: var(--color-primary);
 }
 
 .--notify .--notify-link .--info {
@@ -25,7 +26,7 @@
 }
 
 .--notify .--notify-link .--info .--txt-txt {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
 }
 
 .--notify .--notify-link .--info .--txt-time {

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { getServiceNotifications } from "../services/notifications.service";
 
 const AppContext = createContext();
 
@@ -13,15 +14,26 @@ export const AppProvider = ({ children }) => {
         }
     });
 
-    useEffect(() => {
-        localStorage.setItem("notifications", JSON.stringify(notifications));
-    }, [notifications]);
+    console.log(notifications);
 
-    const addNotification = (notif) => setNotifications(prev => [notif, ...prev]);
+    const getNotifications = async () => {
+        try {
+            const data = await getServiceNotifications();
+            if (!data.ok) return;
+            setNotifications(data.data)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        if (notifications.length === 0) {
+            getNotifications();
+        }
+    }, [notifications]);
 
     const contextValue = {
         notifications,
-        addNotification
     }
 
     return (
