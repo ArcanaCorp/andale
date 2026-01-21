@@ -14,8 +14,6 @@ export const AppProvider = ({ children }) => {
         }
     });
 
-    console.log(notifications);
-
     const getNotifications = async () => {
         try {
             const data = await getServiceNotifications();

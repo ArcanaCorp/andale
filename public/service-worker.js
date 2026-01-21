@@ -191,18 +191,19 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
     event.notification.close();
 
-    const urlToOpen = event.notification.data?.link;
+    const url = event.notification.data?.url || "/";
 
-    if (urlToOpen) {
-        event.waitUntil(
-            clients.matchAll({ type: "window", includeUncontrolled: true })
-                .then((clientsArray) => {
-                    const client = clientsArray.find(
-                        (c) => c.url === urlToOpen && "focus" in c
-                    );
-                    if (client) return client.focus();
-                    return clients.openWindow(urlToOpen);
-                })
-        );
-    }
+    event.waitUntil(
+        clients.matchAll({ type: "window", includeUncontrolled: true })
+            .then((clientList) => {
+                // Si ya hay una pestaña abierta → enfocarla
+                for (const client of clientList) {
+                    if (client.url.includes(self.location.origin)) {
+                        return client.focus();
+                    }
+                }
+                // Si no hay → abrir nueva
+                return clients.openWindow(url);
+            })
+    );
 });

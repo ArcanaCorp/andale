@@ -18,3 +18,18 @@ export const getServiceAnalitycs = async () => {
         return { ok: false, message: `Error: ${error.message}`, error: error, code: 500 }
     }
 }
+
+export const trackingVisit = async (payload) => {
+    try {
+        const response = await fetch(`${REACT_APP_API_URL}/analytics/track`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || response.statusText);
+            return data;
+    } catch (error) {
+        return { ok: false, message: `Error: ${error.message}`, error: error, code: 500 }
+    }
+}

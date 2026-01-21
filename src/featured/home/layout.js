@@ -5,33 +5,19 @@ import "@/config/maps.config";
 import { useEffect } from "react";
 import { usePermissions } from "@/context/PermissionsContext";
 import { servicePushSubscribe } from "@/services/push.service";
-import { useLocation } from "react-router-dom";
 import { getOrCreateUserId } from "../../utils/user";
+import { useAnalyticsVist } from "../../hooks/analytics/useAnalytics";
 
 export default function AppLayout () {
 
     const { notifications } = usePermissions();
     const { requestNotificationPermission } = notifications;
 
-    const location = useLocation();
+    useAnalyticsVist();
 
     useEffect(() => {
         getOrCreateUserId();
     }, [])
-
-    useEffect(() => {
-        const params = new URLSearchParams(location.search);
-
-        const utm = {
-            source: params.get("utm_source"),
-            medium: params.get("utm_medium"),
-            campaign: params.get("utm_campaign"),
-            content: params.get("utm_content"),
-            term: params.get("utm_term")
-        };
-
-        console.log("UTM detectado:", utm);
-    }, [location.search]);
 
     useEffect(() => {
         const permissionsNotifications = async () => {

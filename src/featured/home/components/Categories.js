@@ -1,4 +1,4 @@
-import { IconBackpack, IconCar, IconHotelService, IconMapPin, IconShoppingBagCheck, IconToolsKitchen } from '@tabler/icons-react'
+import { IconBackpack, IconHotelService, IconMapPin, IconShoppingBagCheck, IconToolsKitchen } from '@tabler/icons-react'
 
 import './styles/categories.css'
 export default function Categories () {
@@ -28,11 +28,6 @@ export default function Categories () {
             url: '/store',
             ico: <IconShoppingBagCheck/>,
             txt: 'Tiendas'
-        },
-        {
-            url: '/drive',
-            ico: <IconCar/>,
-            txt: 'Viaja'
         }
     ]
 
