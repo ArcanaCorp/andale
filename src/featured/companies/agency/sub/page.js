@@ -9,6 +9,7 @@ import BannerInfo from "@/components/BannerInfo";
 import Reviews from "@/components/Reviews";
 
 import '@/featured/companies/styles/page.css'
+import MapsGo from "../../../../components/Maps";
 
 export default function AgencySubPage () {
 
@@ -69,6 +70,8 @@ export default function AgencySubPage () {
         },
     };
 
+    console.log(details);
+
     return (
 
         <>
@@ -95,6 +98,8 @@ export default function AgencySubPage () {
                         ))}
                     </ul>
                 </section>
+
+                <MapsGo name={details?.name} arrival={details.address.location} />
 
                 <section className={`__section_company __section_company_rvw`}>
                     <h3>Reviews</h3>

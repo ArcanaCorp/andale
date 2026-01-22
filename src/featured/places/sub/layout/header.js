@@ -2,7 +2,6 @@ import { REACT_APP_API_URL } from '@/config/config'
 import { IconChevronLeft } from "@tabler/icons-react";
 import Images from '@/components/Images';
 import SharedButton from "../components/SharedButton";
-import LikedButton from "../components/LikedButton";
 import placeholder from '@/shared/img/placeholder.png'
 import './styles/header.css'
 export default function HeaderPlace ({ details }) {
@@ -15,7 +14,6 @@ export default function HeaderPlace ({ details }) {
                 <a href="/" className="__btn __btn_back"><IconChevronLeft/></a>
                 <div className="__flex">
                     <SharedButton data={details} />
-                    <LikedButton info={details} />
                 </div>
             </div>
             <Images img={image} alt={`Foto de ${details?.name}, ubicado en ${details?.locationName} solo por Ándale Ya!`} className='__image_place_bg' />
