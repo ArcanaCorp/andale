@@ -5,10 +5,10 @@ export default function MapsGo ({ name, arrival }) {
 
     const { location } = usePermissions();
     const mapRef = useRef(null);
-    const newArrival = { lat: arrival.x, lng: arrival.y }
     
     useEffect(() => {
         if (!location?.lat || !arrival?.x) return;
+        const newArrival = { lat: arrival.x, lng: arrival.y }
 
         const initMap = async () => {
             try {
