@@ -24,6 +24,8 @@ export async function servicePushSubscribe() {
         auth: toBase64(auth)
     };
 
+    console.log(payload);
+
     const { error } = await supabase
         .from("push_subscriptions")
         .upsert(payload, {
