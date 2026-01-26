@@ -183,8 +183,6 @@ export async function getEntityBySlug(slug) {
         })) || [],
         items // 🔥 aquí viven dishes | packs | products | bedrooms
     };
-
-    throw new Error("Entidad no encontrada");
 }
 
 export async function followEntity(entity) {

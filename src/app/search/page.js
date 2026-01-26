@@ -42,8 +42,6 @@ export default function SearchPage () {
         debouncedSearch(value);
     };
 
-    console.log(results);
-
     return (
         <>
         
@@ -58,26 +56,29 @@ export default function SearchPage () {
             </header>
 
             <main className="w-full h py-md overflow-y scroll-hidden" style={{"--h": "calc(100dvh - 60px)"}}>
-                {results.length < 0 ? (
-                    <p>No hay resultados para {query}</p>
+                {loading ? (
+                    <p>Cargando...</p>
                 ) : (
-                    <ul className="w m-auto flex flex-col gap-md" style={{"--w": "90%"}}>
-                        {results.map((rpta) => (
-                            <Link to={`/${rpta.sub}`} key={rpta.id} onClick={() => trackSearchClick(rpta, query)}>
-                                <li className="w-full flex gap-xs">
-                                    <div className="w h bg-secondary rounded-md" style={{"--w": "50px", "--mnw": "50px", "--h": "50px"}}>
-                                        <Images img={rpta.image} alt={`${rpta.name}`} />
-                                    </div>
-                                    <div>
-                                        <h4 className="text-dark text-sm">{rpta.name}</h4>
-                                        <p className="text-xs text-gray">{rpta.category}</p>
-                                    </div>
-                                </li>
-                            </Link>
-                        ))}
-                    </ul>
+                    results.length < 0 ? (
+                        <p>No hay resultados para {query}</p>
+                    ) : (
+                        <ul className="w m-auto flex flex-col gap-md" style={{"--w": "90%"}}>
+                            {results.map((rpta) => (
+                                <Link to={`/${rpta.sub}`} key={rpta.id} onClick={() => trackSearchClick(rpta, query)}>
+                                    <li className="w-full flex gap-xs">
+                                        <div className="w h bg-secondary rounded-md" style={{"--w": "50px", "--mnw": "50px", "--h": "50px"}}>
+                                            <Images img={rpta.image} alt={`${rpta.name}`} />
+                                        </div>
+                                        <div>
+                                            <h4 className="text-dark text-sm">{rpta.name}</h4>
+                                            <p className="text-xs text-gray">{rpta.category}</p>
+                                        </div>
+                                    </li>
+                                </Link>
+                            ))}
+                        </ul>
+                    )
                 )}
-                
             </main>
 
         </>

@@ -4,7 +4,7 @@ import { getEntityBySlug } from "@/services/entity.service";
 import ErrorScreen from "../../components/ErrorScreen";
 import SplashScreen from "../../components/SplashScreen";
 
-export default function EntityLayout () {{
+export default function EntityLayout () {
 
     const { slug } = useParams();
 
@@ -36,4 +36,4 @@ export default function EntityLayout () {{
 
     return <Outlet context={{entity}} />
 
-}}
+}

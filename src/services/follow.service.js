@@ -14,7 +14,7 @@ export async function unfollowEntity(entity) {
     
     const anonUserId = getOrCreateUserId();
 
-    const { data, error } = await supabase
+    const { data } = await supabase
         .from("entity_follows")
         .select("id_follow")
         .eq("entity_type", entity.type)
