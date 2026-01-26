@@ -12,3 +12,9 @@ export const REACT_APP_API = MODE === "DEV"
 export const SOCKET_URL = MODE === "DEV"
   ? process.env.REACT_APP_SOCKET_URL_DEV
   : process.env.REACT_APP_SOCKET_URL_PROD;
+
+export const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL
+export const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY
+
+export const BUSSINES_IMAGE_BASE = "https://bbuohaidrgnmicuzaajd.supabase.co/storage/v1/object/public/bussines";
+export const PLACES_IMAGE_BASE = "https://bbuohaidrgnmicuzaajd.supabase.co/storage/v1/object/public/places/images"

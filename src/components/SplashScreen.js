@@ -1,12 +1,12 @@
 import logo from '@/shared/img/LOGO-WHITE.svg'
-import './styles/splash.css'
+import Images from './Images/Image'
 export default function SplashScreen () {
 
     return (
 
-        <div className='__splash_app'>
-            <div className='__image_app'>
-                <img src={logo} alt='Logo de Ándale Ya' />
+        <div className='w-screen h-screen grid center bg-primary'>
+            <div className='w m-auto text-center' style={{"--w": "90%"}}>
+                <Images img={logo} alt='Logo de Ándale Ya!' className='w m-auto' style={{"--w": "60%"}} />
             </div>
         </div>
 

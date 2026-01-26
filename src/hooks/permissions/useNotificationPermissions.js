@@ -14,7 +14,7 @@ export const useNotificationPermissions = () => {
     };
 
     return {
-        ...notificationPermission,
+        notificationPermission,
         requestNotificationPermission
     };
 };

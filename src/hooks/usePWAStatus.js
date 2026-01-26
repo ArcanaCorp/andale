@@ -6,15 +6,13 @@ export function usePWAStatus() {
     const [hasUpdate, setHasUpdate] = useState(false);
 
     useEffect(() => {
-        // ----- Detectar si está instalada -----
+        // --- Detectar instalación ---
         const isIOSStandalone = window.navigator.standalone === true;
         const isStandaloneDisplay = window.matchMedia("(display-mode: standalone)").matches;
 
-        if (isIOSStandalone || isStandaloneDisplay) {
-            setIsInstalled(true);
-        }
+        setIsInstalled(isIOSStandalone || isStandaloneDisplay);
 
-        // ----- Detectar si puede instalarse -----
+        // --- Detectar instalación disponible ---
         const installHandler = (e) => {
             e.preventDefault();
             setInstallPromptEvent(e);
@@ -22,7 +20,7 @@ export function usePWAStatus() {
 
         window.addEventListener("beforeinstallprompt", installHandler);
 
-        // ----- Detectar nueva versión del SW -----
+        // --- Detectar update ---
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.addEventListener("message", (event) => {
                 if (event.data?.type === "NEW_VERSION_AVAILABLE") {
@@ -36,5 +34,12 @@ export function usePWAStatus() {
         };
     }, []);
 
-    return { isInstalled, installPromptEvent, hasUpdate };
+    const canInstall = !!installPromptEvent && !isInstalled;
+
+    return {
+        isInstalled,
+        canInstall,
+        hasUpdate,
+        installPromptEvent
+    };
 }

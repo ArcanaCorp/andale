@@ -1,16 +1,15 @@
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import Providers from "./app/providers";
-import router from "./app/routers";
+import Providers from "./providers/index.provider";
+import { routers } from "./routers/index.router";
 
-import '@/shared/css/variables.css'
 import '@/shared/css/global.css'
 import '@/shared/css/system.css'
 
 createRoot(document.getElementById('root')).render(
     <>
         <Providers>
-            <RouterProvider router={router} />
+            <RouterProvider router={routers} />
         </Providers>
 
     </>

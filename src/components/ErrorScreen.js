@@ -1,5 +1,4 @@
-import { useLocation } from 'react-router-dom'
-import './styles/error.css'
+import { Link, useLocation } from 'react-router-dom'
 
 export default function ErrorScreen () {
 
@@ -7,12 +6,12 @@ export default function ErrorScreen () {
 
     return (
 
-        <div className='__error_app'>
-            <div className='__box_error_app'>
+        <div className='w-screen h-screen grid center'>
+            <div className='w m-auto text-center' style={{"--w": "90%"}}>
                 <div></div>
-                <h2>Página no encontrada</h2>
-                <p>No se encontró la página <b>{location.pathname}</b></p>
-                <a href='/'>Volver al inicio</a>
+                <h2 className='text-lg'>Página no encontrada</h2>
+                <p className='text-sm text-gray mb-md'>No se encontró la página <b>{location.pathname}</b></p>
+                <Link to={'/'}>Volver</Link>
             </div>
         </div>
 
