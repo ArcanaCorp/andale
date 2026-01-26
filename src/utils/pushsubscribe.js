@@ -6,7 +6,7 @@ export const subscribeToPush = async () => {
 
     const registration = await navigator.serviceWorker.ready;
     let subscription = await registration.pushManager.getSubscription();
-
+    console.log(subscription);
     // 2. Si existe, la reutilizamos
     if (subscription) {
         return subscription;

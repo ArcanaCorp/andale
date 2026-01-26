@@ -9,15 +9,19 @@ export async function servicePushSubscribe() {
     const subscription = await subscribeToPush();
     if (!subscription) return;
 
-    console.log(subscription);
+    const { endpoint } = subscription;
 
-    const { endpoint, keys } = subscription;
+    const p256dh = subscription.getKey("p256dh");
+    const auth = subscription.getKey("auth");
+
+    // convertir ArrayBuffer → base64
+    const toBase64 = (buffer) => btoa(String.fromCharCode(...new Uint8Array(buffer)));
 
     const payload = {
         anon_user_id: anonId,
         endpoint,
-        p256dh: keys.p256dh,
-        auth: keys.auth
+        p256dh: toBase64(p256dh),
+        auth: toBase64(auth)
     };
 
     const { error } = await supabase
