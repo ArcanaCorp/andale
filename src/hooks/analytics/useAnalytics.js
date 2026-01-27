@@ -1,16 +1,20 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom"
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { trackingVisit } from "../../services/analitycs.service";
 import { getOrCreateUserId } from "../../utils/user";
+import { usePermissions } from "../../context/PermissionsContext";
 
 export const useAnalyticsVist = () => {
-
     const location = useLocation();
+    const { locationRegion } = usePermissions();
+    const hasTracked = useRef(false); // <-- evita doble insert
 
     useEffect(() => {
+        if (hasTracked.current) return; // ya se ejecutó
+        if (sessionStorage.getItem('visit_tracked')) return;
 
-        const tracked = sessionStorage.getItem('visit_tracked')
-        if (tracked) return;
+        // Si locationRegion aún no tiene datos, esperamos
+        if (!locationRegion || Object.keys(locationRegion).length === 0) return;
 
         const params = new URLSearchParams(location.search);
 
@@ -23,14 +27,20 @@ export const useAnalyticsVist = () => {
             partner_id: params.get("partner_id"),
             landing_page: location.pathname,
             device_info: navigator.userAgent,
+            country: locationRegion.country,
+            region: locationRegion.region,
+            city: locationRegion.province,
             metadata: {
                 referrer: document.referrer
             }
         };
 
-        trackingVisit(payload);
-        sessionStorage.setItem('visit_tracked', '1')
-
-    }, [location.pathname, location.search])
-
+        trackingVisit(payload)
+            .then(() => {
+                sessionStorage.setItem('visit_tracked', '1');
+                hasTracked.current = true; // <-- bloquea siguiente ejecución
+            })
+            .catch(err => console.error("Error tracking visit:", err));
+        
+    }, [location.pathname, location.search, locationRegion]);
 };

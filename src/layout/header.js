@@ -5,7 +5,9 @@ import SearchBar from "../components/Search/SearchBar";
 
 export default function Header () {
 
-    const { locationAddress, locationPermission, requestLocationPermission, loadingLocation } = usePermissions();
+    const { locationAddress, locationPermission, requestLocationPermission, loadingLocation, locationRegion } = usePermissions();
+
+    console.log(locationRegion);
 
     return (
 

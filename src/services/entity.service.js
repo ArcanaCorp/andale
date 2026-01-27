@@ -2,6 +2,7 @@ import { supabase } from "@/libs/supabase";
 import { getOrCreateUserId } from "../utils/user";
 import { BUSSINES_IMAGE_BASE, PLACES_IMAGE_BASE } from "@/config";
 import { normalizeItem } from "../helpers/normalizer";
+import { EVENTS_IMAGE_BASE } from "../config";
 
 const CATEGORY_RESOLVER = {
     restaurant: {
@@ -83,7 +84,6 @@ const CATEGORY_RESOLVER = {
 };
 
 export async function getEntityBySlug(slug) {
-
     // 1️⃣ Buscar en PLACES
     const { data: place } = await supabase
         .from("places")
@@ -96,9 +96,7 @@ export async function getEntityBySlug(slug) {
             district_location_place,
             province_location_place,
             region_location_place,
-            images_places (
-                image_iplaces
-            )
+            images_places (image_iplaces)
         `)
         .eq("sub_place", slug)
         .maybeSingle();
@@ -122,7 +120,8 @@ export async function getEntityBySlug(slug) {
         };
     }
 
-    const { data: bussines, error } = await supabase
+    // 2️⃣ Buscar en BUSSINES
+    const { data: bussines } = await supabase
         .from("bussines")
         .select(`
             id_bussines,
@@ -134,55 +133,115 @@ export async function getEntityBySlug(slug) {
             direction_bussines,
             category_bussines,
             photo_bussines,
-            bussines_category (
-                id_bcategory,
-                name_bcategory
-            )
+            bussines_category (id_bcategory, name_bcategory)
         `)
         .or(`sub_bussines.eq.${slug},short_bussines.eq.${slug}`)
         .maybeSingle();
 
-    if (error || !bussines) return null;
+    if (bussines) {
+        const resolver = CATEGORY_RESOLVER[bussines.category_bussines];
+        let items = [];
 
-    // 2️⃣ Resolver dinámico según categoría
-    const resolver = CATEGORY_RESOLVER[bussines.category_bussines];
+        if (resolver) {
+            const { data } = await supabase
+                .from(resolver.table)
+                .select(resolver.select)
+                .eq("sub_bussines", bussines.sub_bussines);
 
-    let items = [];
-
-    if (resolver) {
-        const { data } = await supabase
-            .from(resolver.table)
-            .select(resolver.select)
-            .eq("sub_bussines", bussines.sub_bussines);
-
-        items = (data || [])
-            .map(item =>
-                normalizeItem(
-                    bussines.category_bussines,
-                    item,
-                    bussines.sub_bussines
+            items = (data || [])
+                .map(item =>
+                    normalizeItem(
+                        bussines.category_bussines,
+                        item,
+                        bussines.sub_bussines
+                    )
                 )
-            )
-            .filter(Boolean);
+                .filter(Boolean);
+        }
+
+        return {
+            type: "bussines",
+            id: bussines.id_bussines,
+            sub: bussines.short_bussines || bussines.sub_bussines,
+            name: bussines.name_bussines,
+            text: bussines.text_bussines,
+            phone: bussines.phone_bussines,
+            category: bussines.category_bussines,
+            direction: bussines.direction_bussines,
+            photo: `${BUSSINES_IMAGE_BASE}/${bussines.sub_bussines}/${bussines.photo_bussines}`,
+            portada: `${BUSSINES_IMAGE_BASE}/${bussines.sub_bussines}/${bussines.photo_bussines}`,
+            categories: bussines.bussines_category?.map(cat => ({
+                id: cat.id_bcategory,
+                name: cat.name_bcategory
+            })) || [],
+            items
+        };
     }
 
+    // 3️⃣ Buscar en EVENTS
+    const { data: event } = await supabase
+        .from("events")
+        .select(`
+            *,
+            events_activities (
+                *
+            )
+        `)
+        .eq("slug", slug)
+        .maybeSingle();
+
+    if (!event) return null;
+
+    // normalizar actividades crudas
+    const rawActivities = (event.events_activities || []).map(act => ({
+        id: act.id,
+        title: act.title,
+        description: act.description,
+        startDate: act.start_date || event.start_date, // si quieres, puedes agregar start_date por actividad
+        startTime: act.start_time,
+        endTime: act.end_time,
+        venue: act.venue,
+        address: act.address,
+        city: act.city || event.city,
+        region: act.region || event.region,
+        country: act.country || event.country,
+        lat: act.lat || event.lat,
+        lng: act.lng || event.lng,
+        organizerName: act.organizer_name || event.organizer_name,
+        organizerContact: act.organizer_contact || event.organizer_contact,
+        organizerWebsite: act.organizer_website || event.organizer_website,
+        capacity: act.capacity,
+        tags: act.tags
+    }));
+
     return {
-        type: "bussines",
-        id: bussines.id_bussines,
-        sub: bussines.short_bussines || bussines.sub_bussines,
-        name: bussines.name_bussines,
-        text: bussines.text_bussines,
-        phone: bussines.phone_bussines,
-        category: bussines.category_bussines,
-        direction: bussines.direction_bussines,
-        photo: `${BUSSINES_IMAGE_BASE}/${bussines.sub_bussines}/${bussines.photo_bussines}`,
-        portada: `${BUSSINES_IMAGE_BASE}/${bussines.sub_bussines}/${bussines.photo_bussines}`,
-        categories: bussines.bussines_category?.map(cat => ({
-            id: cat.id_bcategory,
-            name: cat.name_bcategory
-        })) || [],
-        items // 🔥 aquí viven dishes | packs | products | bedrooms
+        type: "event",
+        id: event.id,
+        slug: event.slug,
+        title: event.title,
+        category: event.category,
+        description: event.description,
+        cover: `${EVENTS_IMAGE_BASE}/${event.slug}/${event.cover}`,
+        hero: `${EVENTS_IMAGE_BASE}/${event.slug}/${event.hero}`,
+        startDate: event.start_date,
+        endDate: event.end_date,
+        allDay: event.all_day,
+        city: event.city,
+        region: event.region,
+        country: event.country,
+        lat: event.lat,
+        lng: event.lng,
+        organizerName: event.organizer_name,
+        organizerContact: event.organizer_contact,
+        organizerWebsite: event.organizer_website,
+        views: event.views,
+        featured: event.featured,
+        status: event.status,
+        createdAt: event.created_at,
+        updatedAt: event.updated_at,
+        activities: rawActivities
     };
+
 }
 
 export async function followEntity(entity) {
@@ -202,4 +261,16 @@ export async function unfollowEntity(entity) {
         .eq("entity_id", entity.id)
         .eq("anon_user", getOrCreateUserId()
     );
+}
+
+export async function getEvents() {
+    
+    const { data } = await supabase
+        .from('events')
+        .select('*')
+
+    if (!data) return null;
+
+    return data;
+
 }

@@ -4,6 +4,7 @@ import HomeSkeleton from "../../components/Skeleton/home.skeleton";
 import { Link } from "react-router-dom";
 import Component from "../../components/Card/Component";
 import PublishBanner from "../../components/Banners/PublishBanner";
+import Events from "../../components/Summary/Events";
 
 export default function HomePage() {
 
@@ -34,6 +35,8 @@ export default function HomePage() {
         <>
 
             <PublishBanner/>
+
+            <Events/>
         
             {summary.map((sm, i) => (
                 <div key={i} className="w-full mb-md">

@@ -35,8 +35,6 @@ export default function BussinesView ({ entity }) {
         window.open(link)
     }
 
-    console.log(entity);
-
     return (
 
         <>

@@ -17,4 +17,5 @@ export const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL
 export const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY
 
 export const BUSSINES_IMAGE_BASE = "https://bbuohaidrgnmicuzaajd.supabase.co/storage/v1/object/public/bussines";
+export const EVENTS_IMAGE_BASE = "https://bbuohaidrgnmicuzaajd.supabase.co/storage/v1/object/public/events";
 export const PLACES_IMAGE_BASE = "https://bbuohaidrgnmicuzaajd.supabase.co/storage/v1/object/public/places/images"
