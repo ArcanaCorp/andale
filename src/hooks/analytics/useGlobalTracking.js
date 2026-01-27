@@ -1,35 +1,30 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import { getOrCreateUserId } from "@/utils/user";
 import { trackEvents } from "@/services/analitycs.service";
 
-export const useGlobalTracking = (batchSize = 10, intervalMs = 5000, scrollThrottleMs = 200) => {
-    const eventsBuffer = useRef([]);
-    const sessionIdKey = 'session_id';
+export const useGlobalTracking = ( batchSize = 10, intervalMs = 5000, scrollThrottleMs = 200) => {
+    
     const location = useLocation();
+
+    const eventsBuffer = useRef([]);
     const lastScrollTime = useRef(0);
 
-    // Session ID único por pestaña
-    let sessionId = sessionStorage.getItem(sessionIdKey);
+    const batchSizeRef = useRef(batchSize);
+    const intervalMsRef = useRef(intervalMs);
+    const scrollThrottleMsRef = useRef(scrollThrottleMs);
+
+    const SESSION_KEY = "session_id";
+
+    // 🧠 Session ID único por pestaña
+    let sessionId = sessionStorage.getItem(SESSION_KEY);
     if (!sessionId) {
         sessionId = crypto.randomUUID();
-        sessionStorage.setItem(sessionIdKey, sessionId);
+        sessionStorage.setItem(SESSION_KEY, sessionId);
     }
 
-    const pushEvent = (event) => {
-        const timestamp = new Date().toISOString();
-        eventsBuffer.current.push({
-            ...event,
-            session_id: sessionId,
-            sub_user: getOrCreateUserId(),
-            pathname: event.pathname || location.pathname,
-            created_at: timestamp,
-        });
-
-        if (eventsBuffer.current.length >= batchSize) flushEvents();
-    };
-
-    const flushEvents = () => {
+    // 📌 Flush de eventos
+    const flushEvents = useCallback(() => {
         if (eventsBuffer.current.length === 0) return;
 
         const toSend = [...eventsBuffer.current];
@@ -37,14 +32,34 @@ export const useGlobalTracking = (batchSize = 10, intervalMs = 5000, scrollThrot
 
         trackEvents(toSend).catch(err => {
             console.error("Error sending events:", err);
-            eventsBuffer.current.unshift(...toSend); // reintentar
+            eventsBuffer.current.unshift(...toSend);
         });
-    };
+    }, []);
+
+    // 📌 Push de eventos (buffer)
+    const pushEvent = useCallback(
+        (event) => {
+            const timestamp = new Date().toISOString();
+
+            eventsBuffer.current.push({
+                ...event,
+                session_id: sessionId,
+                sub_user: getOrCreateUserId(),
+                pathname: event.pathname || location.pathname,
+                created_at: timestamp
+            });
+
+            if (eventsBuffer.current.length >= batchSizeRef.current) {
+                flushEvents();
+            }
+        },
+        [flushEvents, location.pathname, sessionId]
+    );
 
     useEffect(() => {
         // 1️⃣ Pageview
         pushEvent({
-            event_type: 'pageview',
+            event_type: "pageview",
             metadata: {
                 url: window.location.href,
                 title: document.title,
@@ -53,54 +68,70 @@ export const useGlobalTracking = (batchSize = 10, intervalMs = 5000, scrollThrot
             pathname: location.pathname
         });
 
-        // 2️⃣ Clicks
+        // 2️⃣ Click tracking
         const handleClick = (e) => {
-            // Delay mínimo para capturar la ruta si hay redirect SPA
             setTimeout(() => {
+                const target = e.target;
+
                 pushEvent({
-                    event_type: 'click',
+                    event_type: "click",
                     metadata: {
-                        id: e.target.id || null,
-                        classList: Array.from(e.target.classList),
-                        text: e.target.innerText?.slice(0, 50) || null,
-                        dataset: e.target.dataset || null
+                        id: target?.id || null,
+                        classList: target?.classList
+                            ? Array.from(target.classList)
+                            : [],
+                        text: target?.innerText?.slice(0, 50) || null,
+                        dataset: target?.dataset || null
                     },
                     pathname: window.location.pathname
                 });
             }, 50);
         };
-        window.addEventListener('click', handleClick);
 
-        // 3️⃣ Scroll con throttle
+        window.addEventListener("click", handleClick);
+
+        // 3️⃣ Scroll tracking (throttled)
         const handleScroll = () => {
             const now = Date.now();
-            if (now - lastScrollTime.current < scrollThrottleMs) return;
+            if (now - lastScrollTime.current < scrollThrottleMsRef.current) return;
             lastScrollTime.current = now;
 
+            const scrollHeight =
+                document.body.scrollHeight - window.innerHeight;
+
             pushEvent({
-                event_type: 'scroll',
+                event_type: "scroll",
                 metadata: {
                     scrollY: window.scrollY,
                     scrollX: window.scrollX,
                     viewportHeight: window.innerHeight,
-                    scrollPercent: Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100)
+                    scrollPercent: scrollHeight > 0
+                        ? Math.round((window.scrollY / scrollHeight) * 100)
+                        : 0
                 },
                 pathname: window.location.pathname
             });
         };
-        window.addEventListener('scroll', handleScroll);
+
+        window.addEventListener("scroll", handleScroll);
 
         // 4️⃣ Intervalo de flush
-        const interval = setInterval(() => flushEvents(), intervalMs);
+        const interval = setInterval(
+            flushEvents,
+            intervalMsRef.current
+        );
 
         // Cleanup
         return () => {
-            window.removeEventListener('click', handleClick);
-            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener("click", handleClick);
+            window.removeEventListener("scroll", handleScroll);
             clearInterval(interval);
             flushEvents();
         };
-    }, [location.pathname]);
+    }, [location.pathname, pushEvent, flushEvents]);
 
-    return { pushEvent, flushEvents };
+    return {
+        pushEvent,
+        flushEvents
+    };
 };
