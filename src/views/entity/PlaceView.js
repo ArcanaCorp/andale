@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getRecommendedPlaces } from "../../services/places.service";
 import CardSkeleton from "../../components/Card/Skeleton";
 import Component from "../../components/Card/Component";
+import SEO from "../../components/SEO";
 
 export default function PlaceView({ entity }) {
     
@@ -31,6 +32,14 @@ export default function PlaceView({ entity }) {
     return (
 
         <>
+
+            <SEO
+                title={entity.name}
+                description={entity.text}
+                keywords={entity.text}
+                image={entity.image}
+                url={`https://andaleya.pe/${entity.sub}`}
+            />
 
             <div className="w-full h bg-secondary" style={{"--h": "120px"}}>
                 <Images img={entity.image} />

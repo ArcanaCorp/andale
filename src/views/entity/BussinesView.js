@@ -5,6 +5,7 @@ import { Icon } from "@/helpers/icons";
 import { trackEntityEvent } from "../../services/events.service";
 import FollowButton from "../../components/Buttons/follow.button";
 import CardEntity from "../../components/Card/CardEntity";
+import SEO from "../../components/SEO";
 
 export default function BussinesView ({ entity }) {
 
@@ -39,6 +40,14 @@ export default function BussinesView ({ entity }) {
 
         <>
 
+            <SEO
+                title={`${entity.name} - ${entity.text}`}
+                description={entity.text}
+                keywords={entity.text}
+                image={entity.portada}
+                url={`https://andaleya.pe/${entity.sub}`}
+            />
+
             <div className="w-full h bg-secondary" style={{"--h": "120px"}}>
                 <Images img={entity.portada} />
             </div>
@@ -64,7 +73,7 @@ export default function BussinesView ({ entity }) {
                 <ul className="w-full mb-md flex gap-xs align-center overflow-x scroll-hidden">
                     <li className={`px-sm py-xs text-xs rounded-pill pointer text-nowrap ${category === 'popular' ? 'text-primary fw-semibold bg-primary-transparent' : ''}`} onClick={() => setCategory('popular')}>Populares</li>
                     <li className={`px-sm py-xs text-xs rounded-pill pointer text-nowrap ${category === 'discount' ? 'text-primary fw-semibold bg-primary-transparent' : ''}`} onClick={() => setCategory('discount')}>Descuentos</li>
-                    {entity?.categories.map((c, i) => (
+                    {entity?.categories.map((c) => (
                         <li key={c.id} className={`px-sm py-xs text-xs rounded-pill pointer text-nowrap ${category === c.name ? 'text-primary fw-semibold bg-primary-transparent' : ''}`} onClick={() => setCategory(c.name)}>{c.name}</li>
                     ))}
                 </ul>

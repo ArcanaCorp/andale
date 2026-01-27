@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import confetti from "@hiseb/confetti";
 import Images from "@/components/Images/Image";
 import { formatDateToDayMonth, formattedDate } from "../../helpers/date-formatter";
+import SEO from "../../components/SEO";
 
 export default function EventView ({ entity }) {
 
     useEffect(() => {
         confetti({
-            particleCount: 150,
+            particleCount: 350,
             spread: 70,
             origin: { y: 0.6 },
         });
@@ -27,6 +28,14 @@ export default function EventView ({ entity }) {
     return (
 
         <>
+
+            <SEO
+                title={entity.title}
+                description={entity.description}
+                keywords={entity.description}
+                image={entity.hero}
+                url={`https://andaleya.pe/${entity.slug}`}
+            />
         
             <div className="w-full h bg-secondary" style={{"--h": "250px"}}>
                 <Images img={entity.hero} />
@@ -34,7 +43,7 @@ export default function EventView ({ entity }) {
 
             <div className="relative w-full bg-white mt rounded-top-lg p-sm" style={{"--mt": "-10px"}}>
 
-                <div className="mb-md px-md">
+                <div className="mb-md">
                     <p className="text-xs text-gray">Evento {entity.category}</p>
                     <h1 aria-label={entity.title}>{entity.title}</h1>
                     <p className="text-xs text-gray">{formattedDate(entity.startDate, 'LL')} • {formattedDate(entity.endDate, 'LL')}</p>
@@ -45,12 +54,12 @@ export default function EventView ({ entity }) {
                     <button className="w-full h bg-secondary rounded-md text-xs flex align-center justify-center gap-xs" style={{"--h": "35px"}}>Asistiré</button>
                 </div>
 
-                <div className="mb-md px-md">
+                <div className="mb-md">
                     <h2 className="mb-xs">Acerca de</h2>
                     <p className="text-xs text-gray line-xl">{entity.description}</p>
                 </div>
 
-                <div className="mb-md px-md">
+                <div className="mb-md">
                     <h2 className="mb-xs">Actividades</h2>
                     <ul className="flex flex-col gap-xs">
                         {activitiesByDate.map((act, idx) => {

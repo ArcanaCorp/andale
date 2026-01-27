@@ -17,65 +17,72 @@ import TermsPage from "@/app/legal/page";
 import PrivacyPage from "@/app/legal/privacy";
 
 import ErrorScreen from "@/components/ErrorScreen";
+import GlobalLayout from "../app/GlobalLayout";
 
 
 export const routers = createBrowserRouter([
     {
-        element: <RootLayout/>,
+        element: <GlobalLayout/>,
         children: [
             {
-                index: true,
-                element: <HomePage/>
-            }
-        ],
-        errorElement: <ErrorScreen/>
-    },
-    {
-        path: ':slug',
-        element: <EntityLayout/>,
-        children: [
-            {
-                index: true,
-                element: <EntityPage/>,
-            }
-        ],
-        errorElement: <ErrorScreen/>
-    },
-    {
-        path: '/search',
-        element: <SearchLayout/>,
-        children: [
-            {
-                index: true,
-                element: <SearchPage/>
-            }
-        ],
-        errorElement: <ErrorScreen/>
-    },
-    {
-        path: '/notifications',
-        element: <NotificationsLayout/>,
-        children: [
-            {
-                index: true,
-                element: <NotificationsPage/>
-            }
-        ],
-        errorElement: <ErrorScreen/>
-    },
-    {
-        path: '/legal',
-        element: <LegalLayout/>,
-        children: [
-            {
-                index: true,
-                element: <TermsPage/>
+                path: '/',
+                element: <RootLayout/>,
+                children: [
+                    {
+                        index: true,
+                        element: <HomePage/>
+                    }
+                ],
+                errorElement: <ErrorScreen/>
             },
             {
-                path: '/legal/privacy-policy',
-                element: <PrivacyPage/>
+                path: ':slug',
+                element: <EntityLayout/>,
+                children: [
+                    {
+                        index: true,
+                        element: <EntityPage/>,
+                    }
+                ],
+                errorElement: <ErrorScreen/>
+            },
+            {
+                path: '/search',
+                element: <SearchLayout/>,
+                children: [
+                    {
+                        index: true,
+                        element: <SearchPage/>
+                    }
+                ],
+                errorElement: <ErrorScreen/>
+            },
+            {
+                path: '/notifications',
+                element: <NotificationsLayout/>,
+                children: [
+                    {
+                        index: true,
+                        element: <NotificationsPage/>
+                    }
+                ],
+                errorElement: <ErrorScreen/>
+            },
+            {
+                path: '/legal',
+                element: <LegalLayout/>,
+                children: [
+                    {
+                        index: true,
+                        element: <TermsPage/>
+                    },
+                    {
+                        path: '/legal/privacy-policy',
+                        element: <PrivacyPage/>
+                    }
+                ],
+                errorElement: <ErrorScreen/>
             }
-        ],
-        errorElement: <ErrorScreen/>
+        ]
     }
 ])

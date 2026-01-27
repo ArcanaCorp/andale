@@ -1,37 +1,17 @@
 import { Outlet } from "react-router-dom";
 import Header from "../layout/header";
-import { useAnalyticsVist } from "../hooks/analytics/useAnalytics";
-import { useEffect } from "react";
-import { getOrCreateUserId } from "../utils/user";
-import { usePermissions } from "@/context/PermissionsContext";
-import { servicePushSubscribe } from "@/services/push.service";
+import SEO from "../components/SEO";
 
 export default function RootLayout () {
-
-    const { notifications  } = usePermissions();
-    const { requestNotificationPermission } = notifications;
-
-    useAnalyticsVist();
-
-    useEffect(() => {
-        getOrCreateUserId();
-    }, [])
-
-    useEffect(() => {
-        const initPermissions = async () => {
-            try {
-                await requestNotificationPermission();
-                await servicePushSubscribe();
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        initPermissions();
-    }, [requestNotificationPermission])
 
     return (
 
         <>
+
+            <SEO
+                title={`Ándale Ya! | Lugares, Delivery, hotel y compras en Jauja`}
+                description={`Ándale Ya! es la app jaujina que te conecta con mototaxis, delivery de comida, compras, gas y más. ¡Descárgala y mejora tu día!`}
+            />
         
             <Header/>
 
