@@ -3,36 +3,35 @@ import { getOrCreateUserId } from '../utils/user';
 import { supabase } from '../libs/supabase';
 
 export async function servicePushSubscribe() {
-    const anonId = getOrCreateUserId();
-    if (!anonId) return;
+    try {
+        const anonId = getOrCreateUserId();
+        if (!anonId) return;
 
-    const subscription = await subscribeToPush();
-    if (!subscription) return;
+        const subscription = await subscribeToPush();
+        if (!subscription) return;
 
-    const { endpoint } = subscription;
+        const toBase64 = (buffer) =>
+            btoa(String.fromCharCode(...new Uint8Array(buffer)));
 
-    const p256dh = subscription.getKey("p256dh");
-    const auth = subscription.getKey("auth");
+        const payload = {
+            anon_user_id: anonId,
+            endpoint: subscription.endpoint,
+            p256dh: toBase64(subscription.getKey("p256dh")),
+            auth: toBase64(subscription.getKey("auth")),
+            updated_at: new Date().toISOString()
+        };
 
-    // convertir ArrayBuffer → base64
-    const toBase64 = (buffer) => btoa(String.fromCharCode(...new Uint8Array(buffer)));
+        const { error } = await supabase
+            .from("push_subscriptions")
+            .upsert(payload, {
+                onConflict: "endpoint" // 👈 LA LÍNEA CLAVE
+            });
 
-    const payload = {
-        anon_user_id: anonId,
-        endpoint,
-        p256dh: toBase64(p256dh),
-        auth: toBase64(auth)
-    };
+        if (error) {
+            console.error("Push subscription error:", error);
+        }
 
-    console.log(payload);
-
-    const { error } = await supabase
-        .from("push_subscriptions")
-        .upsert(payload, {
-            onConflict: "anon_user_id"
-        });
-
-    if (error) {
-        console.error("Push subscription error:", error);
+    } catch (err) {
+        console.error("servicePushSubscribe fatal error:", err);
     }
 }
