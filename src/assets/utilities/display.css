@@ -1,0 +1,179 @@
+/* ========================================
+   DISPLAY
+======================================== */
+
+.block { display: block; }
+.inline { display: inline; }
+.inline-block { display: inline-block; }
+
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+
+.grid { display: grid; }
+.inline-grid { display: inline-grid; }
+
+.none { display: none; }
+.hidden { overflow: hidden; }
+
+.center { display: grid; place-items: center; }
+
+/* ========================================
+   FLEX DIRECTION
+======================================== */
+
+.flex-row { flex-direction: row; }
+.flex-row-reverse { flex-direction: row-reverse; }
+
+.flex-col { flex-direction: column; }
+.flex-col-reverse { flex-direction: column-reverse; }
+
+
+/* ========================================
+   FLEX WRAP
+======================================== */
+
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+.flex-wrap-reverse { flex-wrap: wrap-reverse; }
+
+
+/* ========================================
+   FLEX GROW / SHRINK
+======================================== */
+
+.flex-1 { flex: 1; }
+.flex-auto { flex: auto; }
+.flex-none { flex: none; }
+
+.flex-grow { flex-grow: 1; }
+.flex-grow-0 { flex-grow: 0; }
+
+.flex-shrink { flex-shrink: 1; }
+.flex-shrink-0 { flex-shrink: 0; }
+
+
+/* ========================================
+   ALIGN ITEMS
+======================================== */
+
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+.items-stretch { align-items: stretch; }
+.items-baseline { align-items: baseline; }
+
+
+/* ========================================
+   ALIGN CONTENT
+======================================== */
+
+.content-start { align-content: flex-start; }
+.content-center { align-content: center; }
+.content-end { align-content: flex-end; }
+.content-between { align-content: space-between; }
+.content-around { align-content: space-around; }
+
+
+/* ========================================
+   JUSTIFY CONTENT
+======================================== */
+
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+.justify-evenly { justify-content: space-evenly; }
+
+
+/* ========================================
+   ALIGN SELF
+======================================== */
+
+.self-auto { align-self: auto; }
+.self-start { align-self: flex-start; }
+.self-center { align-self: center; }
+.self-end { align-self: flex-end; }
+.self-stretch { align-self: stretch; }
+
+
+/* ========================================
+   GRID TEMPLATE COLUMNS
+======================================== */
+
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-cols-5 { grid-template-columns: repeat(5, 1fr); }
+.grid-cols-6 { grid-template-columns: repeat(6, 1fr); }
+
+.grid-cols-8 { grid-template-columns: repeat(8, 1fr); }
+.grid-cols-10 { grid-template-columns: repeat(10, 1fr); }
+.grid-cols-12 { grid-template-columns: repeat(12, 1fr); }
+
+
+/* ========================================
+   GRID COLUMN SPAN
+======================================== */
+
+.col-span-1 { grid-column: span 1; }
+.col-span-2 { grid-column: span 2; }
+.col-span-3 { grid-column: span 3; }
+.col-span-4 { grid-column: span 4; }
+.col-span-5 { grid-column: span 5; }
+.col-span-6 { grid-column: span 6; }
+
+.col-span-12 { grid-column: span 12; }
+
+
+/* ========================================
+   GRID ROW SPAN
+======================================== */
+
+.row-span-1 { grid-row: span 1; }
+.row-span-2 { grid-row: span 2; }
+.row-span-3 { grid-row: span 3; }
+.row-span-4 { grid-row: span 4; }
+
+
+/* ========================================
+   GAP
+======================================== */
+
+.gap-xs { gap: var(--space-xs); }
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
+.gap-xl { gap: var(--space-xl); }
+
+
+/* ========================================
+   ROW GAP
+======================================== */
+
+.gap-y-xs { row-gap: var(--space-xs); }
+.gap-y-sm { row-gap: var(--space-sm); }
+.gap-y-md { row-gap: var(--space-md); }
+.gap-y-lg { row-gap: var(--space-lg); }
+
+
+/* ========================================
+   COLUMN GAP
+======================================== */
+
+.gap-x-xs { column-gap: var(--space-xs); }
+.gap-x-sm { column-gap: var(--space-sm); }
+.gap-x-md { column-gap: var(--space-md); }
+.gap-x-lg { column-gap: var(--space-lg); }
+
+
+/* ========================================
+   SCROLLING
+======================================== */
+.scroll-x { overflow-x: scroll; }
+.scroll-y { overflow-y: scroll; }
+
+.scroll-x::-webkit-scrollbar { display: none; }
+.scroll-y::-webkit-scrollbar { display: none; }

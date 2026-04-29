@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    user-select: none;
+    box-sizing: border-box;
+    font-family: var(--font-poppins-sans);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    width: 100dvw;
+    height: 100dvh;
+    max-width: 100dvw;
+    overflow: hidden;
+    background-color: var(--color-background);
+}
+
+input, select, textarea {
+    outline: none;
+    height: var(--height-input);
+    font-family: var(--font-poppins-sans);
+}
+
+ul, li, ol {
+    list-style: none;
+}
+
+button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    height: var(--height-button);
+}
+
+a {
+    text-decoration: none;
+}

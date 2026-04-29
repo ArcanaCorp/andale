@@ -1,0 +1,8 @@
+.w { width: var(--w); min-width: var(--mnw); max-width: var(--mxw); }
+.h { height: var(--h); min-height: var(--mnh); max-height: var(--mxh); }
+
+.w-screen { width: 100dvw; }
+.h-screen { height: 100dvh; }
+
+.w-full { width: 100%; }
+.h-full { height: 100%; }

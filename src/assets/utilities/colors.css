@@ -1,0 +1,64 @@
+/* ========================================
+   BACKGROUND COLORS
+======================================== */
+
+.bg-primary { background-color: var(--color-primary); }
+.bg-primary-hover { background-color: var(--color-primary-hover); }
+
+.bg-surface { background-color: var(--color-surface); }
+.bg-background { background-color: var(--color-background); }
+
+.bg-success { background-color: var(--color-success); }
+.bg-error { background-color: var(--color-error); }
+.bg-warning { background-color: var(--color-warning); }
+.bg-info { background-color: var(--color-info); }
+
+.bg-white { background-color: var(--color-neutral-0); }
+.bg-gray-100 { background-color: var(--color-neutral-100); }
+.bg-gray-200 { background-color: var(--color-neutral-200); }
+.bg-gray-300 { background-color: var(--color-neutral-300); }
+
+
+/* ========================================
+   TEXT COLORS
+======================================== */
+
+.text-primary { color: var(--color-primary); }
+
+.text-main { color: var(--color-text-primary); }
+.text-muted { color: var(--color-text-secondary); }
+
+.text-success { color: var(--color-success); }
+.text-error { color: var(--color-error); }
+.text-warning { color: var(--color-warning); }
+.text-info { color: var(--color-info); }
+
+.text-white { color: var(--color-neutral-0); }
+.text-neutral { color: var(--color-neutral-200); }
+
+
+/* ========================================
+   BORDER COLORS
+======================================== */
+
+.border { border: var(--border-default); }
+
+.border-primary { border-color: var(--color-primary); }
+.border-default { border-color: var(--color-border); }
+
+.border-success { border-color: var(--color-success); }
+.border-error { border-color: var(--color-error); }
+.border-warning { border-color: var(--color-warning); }
+
+
+/* ========================================
+   HOVER STATES
+======================================== */
+
+.hover-bg-primary:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.hover-text-primary:hover {
+    color: var(--color-primary);
+}
