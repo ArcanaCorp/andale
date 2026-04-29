@@ -1,6 +1,6 @@
 import { Poppins } from "next/font/google";
 import '@/assets/global.css'
-import { AuthProvider } from "@/context/auth.context";
+import { AuthProvider } from "@/context/AuthContext";
 import Tabs from "@/layout/Tabs";
 import { DBProvider } from "@/context/DBContext";
 import { PermissionProvider } from "@/context/PermissionContext";

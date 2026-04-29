@@ -1,0 +1,15 @@
+.chip {
+    padding: var(--space-xs) var(--space-sm);
+    text-wrap: nowrap;
+    height: auto;
+    background-color: var(--color-white);
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-xs);
+    border: var(--border-default);
+}
+
+.chip-active {
+    border: none;
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}

@@ -113,6 +113,21 @@
 .grid-cols-10 { grid-template-columns: repeat(10, 1fr); }
 .grid-cols-12 { grid-template-columns: repeat(12, 1fr); }
 
+/* ========================================
+   GRID TEMPLATE ROWS
+======================================== */
+
+.grid-rows-1 { grid-template-rows: repeat(1, 1fr); }
+.grid-rows-2 { grid-template-rows: repeat(2, 1fr); }
+.grid-rows-3 { grid-template-rows: repeat(3, 1fr); }
+.grid-rows-4 { grid-template-rows: repeat(4, 1fr); }
+.grid-rows-5 { grid-template-rows: repeat(5, 1fr); }
+.grid-rows-6 { grid-template-rows: repeat(6, 1fr); }
+
+.grid-rows-8 { grid-template-rows: repeat(8, 1fr); }
+.grid-rows-10 { grid-template-rows: repeat(10, 1fr); }
+.grid-rows-12 { grid-template-rows: repeat(12, 1fr); }
+
 
 /* ========================================
    GRID COLUMN SPAN
