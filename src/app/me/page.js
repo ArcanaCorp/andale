@@ -5,7 +5,7 @@ import { AppIcon } from "@/helpers/icons";
 
 export default function Page () {
 
-    const { user, loginWithGoogle } = useAuth();
+    const { user, loginWithGoogle, logout } = useAuth();
 
     const avatarUrl = user?.user_metadata?.avatar_url;
 
@@ -127,7 +127,7 @@ export default function Page () {
             </div>
             {user && (
                 <div className="w-full px-md mb-md">
-                    <button className="w-full bg-white fw-semibold border rounded-pill flex items-center gap-xs justify-center"><AppIcon name={'logout'} /> Cerrar Sesión</button>
+                    <button className="w-full bg-white fw-semibold border rounded-pill flex items-center gap-xs justify-center" onClick={logout}><AppIcon name={'logout'} /> Cerrar Sesión</button>
                 </div>
             )}
             <div className="w-full px-md">

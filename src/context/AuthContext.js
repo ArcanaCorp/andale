@@ -33,7 +33,10 @@ export const AuthProvider = ({ children }) => {
     // 3. Acciones centralizadas (escala mejor)
     const loginWithGoogle = async () => {
         await db.auth.signInWithOAuth({
-            provider: 'google'
+            provider: 'google',
+            options: {
+                redirectTo: 'https://andaleya.pe'
+            }
         })
     }
 
