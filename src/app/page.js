@@ -2,11 +2,28 @@
 
 import Header from "@/components/layout/Header";
 import List from "@/components/ui/List";
+import { useAuth } from "@/context/AuthContext";
 import { useDB } from "@/context/DBContext";
+import Login from "./auth/login";
 
 export default function Page () {
 
     const { bussines, loadBussines, placesFeed } = useDB();
+    const { user, loadAuth } = useAuth();
+
+    if (loadAuth) {
+        return (
+            <main className="w-full h-screen grid-center">
+                Cargando...
+            </main>
+        );
+    }
+
+    if (!user) {
+        return <Login/>;
+    }
+
+    console.log(user);
 
     return (
         <>

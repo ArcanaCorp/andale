@@ -1,7 +1,12 @@
-import { IconBell, IconSearch } from "@tabler/icons-react";
+'use client'
+import { IconBell, IconSearch, IconUser } from "@tabler/icons-react";
 import ButtonIcon from "../ui/Buttons/ButtonIcon";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Header () {
+
+    const { user } = useAuth();
+
     return (
         <header className="static inset w-full h bg-primary flex flex-col gap-md py-sm h" style={{"--h": "130px"}}>
             <div className="w m-auto flex items-center justify-between" style={{"--w": "90%"}}>
@@ -9,7 +14,12 @@ export default function Header () {
                     <p className="text-xs text-white">Enviar a</p>
                     <h4 className="text-white text-sm text-semibold">Jr. Ayacucho N° 860</h4>
                 </div>
-                <ButtonIcon><IconBell color={'#FFFFFF'} /></ButtonIcon>
+                <div className="flex gap-sm">
+                    <ButtonIcon><IconBell color={'#FFFFFF'} /></ButtonIcon>
+                    {user && (
+                        <ButtonIcon><IconUser color={'#FFFFFF'} /></ButtonIcon>
+                    )}
+                </div>
             </div>
             <div className="w m-auto" style={{"--w": "90%"}}>
                 <div className="relative w-full bg-white rounded-full flex items-center h px-md" style={{"--h": "50px"}}>

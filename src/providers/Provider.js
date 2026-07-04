@@ -1,11 +1,14 @@
+import { AuthProvider } from "@/context/AuthContext"
 import { DBProvider } from "@/context/DBContext"
 
 export const Provider = ({ children }) => {
     return (
         <>
-            <DBProvider>
-                {children}
-            </DBProvider>
+            <AuthProvider>
+                <DBProvider>
+                    {children}
+                </DBProvider>
+            </AuthProvider>
         </>
     )
 }
