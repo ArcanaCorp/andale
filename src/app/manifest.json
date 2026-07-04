@@ -1,0 +1,22 @@
+{
+    "name": "Ándale Ya!",
+    "short_name": "Ándale",
+    "description": "Restaurantes, cartas digitales y pedidos rápidos.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#f90050",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/apple-icon.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        }
+    ]
+}

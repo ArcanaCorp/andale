@@ -1,0 +1,22 @@
+import { IconBell, IconSearch } from "@tabler/icons-react";
+import ButtonIcon from "../ui/Buttons/ButtonIcon";
+
+export default function Header () {
+    return (
+        <header className="static inset w-full h bg-primary flex flex-col gap-md py-sm h" style={{"--h": "130px"}}>
+            <div className="w m-auto flex items-center justify-between" style={{"--w": "90%"}}>
+                <div>
+                    <p className="text-xs text-white">Enviar a</p>
+                    <h4 className="text-white text-sm text-semibold">Jr. Ayacucho N° 860</h4>
+                </div>
+                <ButtonIcon><IconBell color={'#FFFFFF'} /></ButtonIcon>
+            </div>
+            <div className="w m-auto" style={{"--w": "90%"}}>
+                <div className="relative w-full bg-white rounded-full flex items-center h px-md" style={{"--h": "50px"}}>
+                    <p className="text-xs text-muted">Buscar platillos, restaurantes y lugares...</p>
+                    <div className="absolute grid-center w h bg-primary text-white rounded-full" style={{"--w": "45px", "--h": "45px", top: '2.5px', right: '2.5px'}}><IconSearch/></div>
+                </div>
+            </div>
+        </header>
+    )
+}
