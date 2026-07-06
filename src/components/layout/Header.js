@@ -2,10 +2,12 @@
 import { IconBell, IconSearch, IconUser } from "@tabler/icons-react";
 import ButtonIcon from "../ui/Buttons/ButtonIcon";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function Header () {
 
     const { user } = useAuth();
+    const router = useRouter();
 
     return (
         <header className="static inset w-full h bg-primary flex flex-col gap-md py-sm h" style={{"--h": "130px"}}>
@@ -17,7 +19,7 @@ export default function Header () {
                 <div className="flex gap-sm">
                     <ButtonIcon><IconBell color={'#FFFFFF'} /></ButtonIcon>
                     {user && (
-                        <ButtonIcon><IconUser color={'#FFFFFF'} /></ButtonIcon>
+                        <ButtonIcon onClick={() => router.push('/me')}><IconUser color={'#FFFFFF'} /></ButtonIcon>
                     )}
                 </div>
             </div>

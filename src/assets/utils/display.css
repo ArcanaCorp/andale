@@ -36,6 +36,7 @@
 .zIndex-2 { z-index: 2; }
 .zIndex-modal { z-index: 999; }
 
+.pointer { cursor: pointer; }
 
 /* =========================
    Flex direction

@@ -3,6 +3,7 @@
 import ButtonIcon from "@/components/ui/Buttons/ButtonIcon";
 import ListCategory from "@/components/ui/List/ListCategory";
 import ListDishes from "@/components/ui/List/ListDishes";
+import { getOpeningStatus } from "@/functions/opening-hours.function";
 import { handleShare } from "@/functions/share.function";
 import { getFoodieCategories } from "@/services/categories.service";
 import { getFoodieDishes } from "@/services/dishes.service";
@@ -17,6 +18,8 @@ export default function FoodieDetail ({ info }) {
     const LIMIT = 10;
 
     const router = useRouter();
+
+    const [openingStatus, setOpeningStatus] = useState(null);
 
     const [categories, setCategories] = useState([]);
     const [activeCategory, setActiveCategory] = useState(null);
@@ -114,7 +117,34 @@ export default function FoodieDetail ({ info }) {
         });
     }, [info?.id]);
 
+    useEffect(() => {
+
+        if (!info?.opening_hours) return;
+
+        const updateOpeningStatus = () => {
+            const status = getOpeningStatus(
+                info.opening_hours
+            );
+
+            setOpeningStatus(status);
+        };
+
+        // Primera verificación inmediata
+        updateOpeningStatus();
+
+        // Actualizar cada minuto
+        const interval = setInterval(
+            updateOpeningStatus,
+            60 * 1000
+        );
+
+        return () => clearInterval(interval);
+
+    }, [info?.opening_hours]);
+
     if (!info) return <div>No hay datos</div>;
+
+    console.log(info);
 
     return (
 
@@ -131,9 +161,23 @@ export default function FoodieDetail ({ info }) {
                 <Image src={info.cover_image_url} alt={`Foto de portada de ${info.name}`} fill placeholder="blur" blurDataURL="https://placehold.net/600x600.png" />
             </header>
             <main className="absolute w-full py-md scroll-y h flex flex-col gap-md zIndex-2 bg-white rounded-top-lg" style={{"--h": "calc(100dvh - 80px)", "marginTop": "-80px"}}>
-                <div className="w-full flex flex-col px-md">
+                <div className="w-full flex flex-col gap-sm px-md">
                     <h1>{info.name}</h1>
-                    <p className="text-sm text-muted">{info.description}</p>
+                    <div className="text-xs text-muted" dangerouslySetInnerHTML={{__html: info.description}}></div>
+                    <ul className="w-full rounded-sm p-sm border-thin border-surface flex items-center justify-between">
+                        <li className="w-full text-xs text-center">
+                            <p className="text-xs text-muted">Ahora</p>
+                            {openingStatus && (<p className={`text-sm ${openingStatus.isOpen ? "text-success" : "text-danger"}`}><b>{openingStatus.label}</b></p>)}
+                        </li>            
+                        <li className="w-full text-xs text-center">
+                            <p className="text-xs text-muted">Envio</p>
+                            <p className="text-sm"><b>{info.delivery_fee === 0 ? 'Gratis' : info.delivery_fee}</b></p>
+                        </li>
+                        <li className="w-full text-xs text-center">
+                            <p className="text-xs text-muted">Recibes en</p>
+                            <p className="text-sm"><b>{info.delivery_time_min} - {info.delivery_time_max} min</b></p>
+                        </li>
+                    </ul>
                 </div>
                 <div className="w-full flex flex-col gap-md">
                     <ListCategory list={categories} load={loadingCategories} active={activeCategory} onSelected={handleCategory} />
