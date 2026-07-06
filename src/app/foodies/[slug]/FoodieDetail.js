@@ -1,150 +1,52 @@
 'use client'
 
+import Avatar from "@/components/ui/Avatars/Avatar";
 import ButtonIcon from "@/components/ui/Buttons/ButtonIcon";
 import ListCategory from "@/components/ui/List/ListCategory";
 import ListDishes from "@/components/ui/List/ListDishes";
-import { getOpeningStatus } from "@/functions/opening-hours.function";
 import { handleShare } from "@/functions/share.function";
-import { getFoodieCategories } from "@/services/categories.service";
-import { getFoodieDishes } from "@/services/dishes.service";
-import { IconArrowLeft, IconChevronRight, IconDotsVertical, IconHeart, IconInfoCircle, IconShare3, IconStar, IconX } from "@tabler/icons-react";
+import { useFoodieMenu } from "@/hooks/useFoodie";
+import { useOpeningStatus } from "@/hooks/useOpeningStatus";
+import { IconArrowLeft, IconChevronRight, IconDotsVertical, IconHeart, IconInfoCircle, IconMinus, IconPlus, IconShare3, IconStar, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 export default function FoodieDetail ({ info }) {
 
-    const LIMIT = 10;
-
     const router = useRouter();
-
-    const [openingStatus, setOpeningStatus] = useState(null);
-
-    const [categories, setCategories] = useState([]);
-    const [activeCategory, setActiveCategory] = useState(null);
-
-    const [dishes, setDishes] = useState([]);
-    const [page, setPage] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
-
-    const [loadingCategories, setLoadingCategories] = useState(false);
-    const [loadingDishes, setLoadingDishes] = useState(false);
 
     const [ view, setView ] = useState(false);
 
+    const { categories, dishes, activeCategory, selectCategory, loadingCategories, loadingDishes, dish, selectedDish } = useFoodieMenu(info?.id, 10);
+
+    const openingStatus = useOpeningStatus(info?.opening_hours);
+
     const handleBack = () => router.back();
 
-    const loadCategories = async () => {
-        if (!info?.id) return;
-
-        try {
-            setLoadingCategories(true);
-
-            const data = await getFoodieCategories(info.id);
-            setCategories(data);
-        } catch (error) {
-            console.error("Error loading categories:", error);
-        } finally {
-            setLoadingCategories(false);
-        }
-    };
-
-    const loadDishes = async ({categoryId = activeCategory, nextPage = 0, append = false} = {}) => {
-        if (!info?.id || loadingDishes) return;
-
-        try {
-            setLoadingDishes(true);
-
-            const data = await getFoodieDishes({
-                foodieId: info.id,
-                categoryId,
-                page: nextPage,
-                limit: LIMIT
-            });
-
-            setDishes((prev) => append ? [...prev, ...data] : data);
-            setPage(nextPage);
-            setHasMore(data.length === LIMIT);
-        } catch (error) {
-            console.error("Error loading dishes:", error);
-        } finally {
-            setLoadingDishes(false);
-        }
-    };
-
-    const handleCategory = async (categoryId) => {
-        setActiveCategory(categoryId);
-        setDishes([]);
-        setPage(0);
-        setHasMore(true);
-
-        await loadDishes({
-            categoryId,
-            nextPage: 0,
-            append: false
-        });
-    };
-
-    const handleLoadMore = async () => {
-        if (!hasMore || loadingDishes) return;
-
-        await loadDishes({
-            categoryId: activeCategory,
-            nextPage: page + 1,
-            append: true
-        });
-    };
-
     const onShare = async () => {
+
         try {
-            const result = await handleShare(info.name, info.description, `https://andaleya.pe/foodies/${info.slug}/?utm_source=shared`);
-            if (!result.ok) toast.warning('Alerta', { description: result.message || 'No se pudo compartir' })
-                toast.success('Éxito', { description: 'Se compartió exitosamente.' })
-        } catch (error) {
-            toast.error('Error', { description: `Error: ${error.message}` })
-        }
-    }
 
-    useEffect(() => {
-        if (!info?.id) return;
-
-        loadCategories();
-        loadDishes({
-            categoryId: null,
-            nextPage: 0,
-            append: false
-        });
-    }, [info?.id]);
-
-    useEffect(() => {
-
-        if (!info?.opening_hours) return;
-
-        const updateOpeningStatus = () => {
-            const status = getOpeningStatus(
-                info.opening_hours
+            const result = await handleShare(
+                info.name,
+                info.description,
+                `https://andaleya.pe/foodies/${info.slug}?utm_source=shared`
             );
 
-            setOpeningStatus(status);
-        };
+            if (!result.ok) return toast.warning("Alerta", {description: result.message || "No se pudo compartir"});
 
-        // Primera verificación inmediata
-        updateOpeningStatus();
+                toast.success("Éxito", {description:"Se compartió exitosamente."});
 
-        // Actualizar cada minuto
-        const interval = setInterval(
-            updateOpeningStatus,
-            60 * 1000
-        );
-
-        return () => clearInterval(interval);
-
-    }, [info?.opening_hours]);
+        } catch (error) {
+            toast.error("Error", {description: error.message});
+        }
+    };
 
     if (!info) return <div>No hay datos</div>;
 
-    console.log(info);
+    const deliveryFee = Number(info.delivery_fee) === 0 ? "Gratis" : `S/ ${Number(info.delivery_fee).toFixed(2)}`;
 
     return (
 
@@ -160,6 +62,7 @@ export default function FoodieDetail ({ info }) {
                 </div>
                 <Image src={info.cover_image_url} alt={`Foto de portada de ${info.name}`} fill placeholder="blur" blurDataURL="https://placehold.net/600x600.png" />
             </header>
+
             <main className="absolute w-full py-md scroll-y h flex flex-col gap-md zIndex-2 bg-white rounded-top-lg" style={{"--h": "calc(100dvh - 80px)", "marginTop": "-80px"}}>
                 <div className="w-full flex flex-col gap-sm px-md">
                     <h1>{info.name}</h1>
@@ -167,11 +70,11 @@ export default function FoodieDetail ({ info }) {
                     <ul className="w-full rounded-sm p-sm border-thin border-surface flex items-center justify-between">
                         <li className="w-full text-xs text-center">
                             <p className="text-xs text-muted">Ahora</p>
-                            {openingStatus && (<p className={`text-sm ${openingStatus.isOpen ? "text-success" : "text-danger"}`}><b>{openingStatus.label}</b></p>)}
+                            <p className={`text-sm ${openingStatus?.isOpen ? "text-success" : "text-danger"}`}><b>{openingStatus?.label || 'Sin horario'}</b></p>
                         </li>            
                         <li className="w-full text-xs text-center">
                             <p className="text-xs text-muted">Envio</p>
-                            <p className="text-sm"><b>{info.delivery_fee === 0 ? 'Gratis' : info.delivery_fee}</b></p>
+                            <p className="text-sm"><b>{deliveryFee}</b></p>
                         </li>
                         <li className="w-full text-xs text-center">
                             <p className="text-xs text-muted">Recibes en</p>
@@ -180,10 +83,11 @@ export default function FoodieDetail ({ info }) {
                     </ul>
                 </div>
                 <div className="w-full flex flex-col gap-md">
-                    <ListCategory list={categories} load={loadingCategories} active={activeCategory} onSelected={handleCategory} />
-                    <ListDishes list={dishes} load={loadingDishes} />
+                    <ListCategory list={categories} load={loadingCategories} active={activeCategory} onSelected={selectCategory} />
+                    <ListDishes list={dishes} load={loadingDishes} onSelected={selectedDish} />
                 </div>
             </main>
+
             {view && (
                 <div className="absolute inset w-screen h-screen bg-overlay flex flex-col justify-end zIndex-modal">
                     <div className="w-full bg-white rounded-top-md p-md">
@@ -198,6 +102,30 @@ export default function FoodieDetail ({ info }) {
                     </div>
                 </div>
             )}
+
+            {dish && (
+                <div className="absolute inset w-screen h-screen bg-overlay flex flex-col justify-end zIndex-modal">
+                    <div className="w-full bg-white rounded-top-md p-md flex flex-col gap-lg">
+                        <div className="w-full flex gap-md">
+                            <Avatar name={dish.name} rounded={'rounded-md'} size={160} />
+                            <div className="w-full flex flex-col gap-md">
+                                <h4 className="text-lg">{dish.name}</h4>
+                                <p className="text-xs text-muted">{dish.description}</p>
+                                <div className="flex gap-sm">
+                                    <ButtonIcon bg={'bg-surface'} rounded={'rounded-full'} size={36}><IconMinus/></ButtonIcon>
+                                    <div className="grid-center w h rounded-full" style={{"--w": "36px", "--mnw": "36px", "--h": "36px"}}>1</div>
+                                    <ButtonIcon bg={'bg-surface'} rounded={'rounded-full'} size={36}><IconPlus/></ButtonIcon>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="w-full flex items-center gap-md justify-between">
+                            <button className="w-full h rounded-full bg-neutral-200 text-sm" style={{"--h": "48px"}} onClick={() => selectedDish('')}>Cancelar</button>
+                            <button className="w-full h rounded-full bg-primary text-white text-sm" style={{"--h": "48px"}}>Agregar al carrito</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </>
 
     )

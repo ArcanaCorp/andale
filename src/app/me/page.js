@@ -12,12 +12,12 @@ export default function Page () {
     
     return (
         <>
-            <header className="w-full h flex items-center justify-between px-md" style={{"--h": "50px"}}>
+            <header className="w-full h flex items-center justify-between px-md" style={{"--h": "60px"}}>
                 <ButtonIcon size={35} bg={'bg-surface'} rounded={'rounded-sm'} onClick={() => router.back()}><IconChevronLeft/></ButtonIcon>
                 <h2 className="text-semibold text-md">¡Hola, {user?.user_metadata.name}!</h2>
                 <Avatar image={user?.user_metadata.avatar_url} name={user?.user_metadata.name} rounded={'rounded-sm'} size={35} />
             </header>
-            <main className="w-full h p-md scroll-y flex flex-col gap-md" style={{"--h": "calc(100dvh - 50px)"}}>
+            <main className="w-full h p-md scroll-y flex flex-col gap-md" style={{"--h": "calc(100dvh - 60px)"}}>
                 <div className="w-full flex flex-col gap-sm">
                     <h3>Perfil</h3>
                     <ul className="w-full flex flex-col gap-md">
