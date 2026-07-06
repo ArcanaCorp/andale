@@ -1,5 +1,6 @@
 export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 export const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+export const MODE_ENV = process.env.NEXT_PUBLIC_ENV;
 
 export const SITE_URL = 'https://andaleya.pe';
 export const SITE_NAME = 'Ándale Ya!'

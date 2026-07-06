@@ -7,9 +7,13 @@ export default function ListDishes ({ list, load }) {
 
     return (
         <ul className="w-full flex flex-col gap-md px-md">
-            {list.map((item) => (
-                <CardDish key={item.id} dish={item} />
-            ))}
+            {list.length > 0 ? (
+                list.map((item) => (
+                    <CardDish key={item.id} dish={item} />
+                ))
+            ) : (
+                <p className="text-center text-muted">No hay platos disponibles</p>
+            )}
         </ul>
     )
 }

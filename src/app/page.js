@@ -19,7 +19,7 @@ export default function Page () {
         );
     }
 
-    if (!user) {
+    if (user) {
         return <Login/>;
     }
 

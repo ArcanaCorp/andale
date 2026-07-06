@@ -122,7 +122,7 @@ export default function RootLayout ({ children }) {
         <html lang="es" className={`${montserrat.variable}`} data-scroll-behavior="smooth">
             <body>
                 <Provider>{children}</Provider>
-                <Toaster position="bottom-center" duration={5000} />
+                <Toaster position="top-center" duration={5000} />
             </body>
         </html>
     )

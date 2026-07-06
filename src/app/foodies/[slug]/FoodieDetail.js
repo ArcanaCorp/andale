@@ -1,15 +1,16 @@
 'use client'
 
-import Avatar from "@/components/ui/Avatars/Avatar";
 import ButtonIcon from "@/components/ui/Buttons/ButtonIcon";
 import ListCategory from "@/components/ui/List/ListCategory";
 import ListDishes from "@/components/ui/List/ListDishes";
+import { handleShare } from "@/functions/share.function";
 import { getFoodieCategories } from "@/services/categories.service";
 import { getFoodieDishes } from "@/services/dishes.service";
-import { IconArrowLeft, IconDotsVertical, IconHeart } from "@tabler/icons-react";
+import { IconArrowLeft, IconChevronRight, IconDotsVertical, IconHeart, IconInfoCircle, IconShare3, IconStar, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function FoodieDetail ({ info }) {
 
@@ -26,6 +27,8 @@ export default function FoodieDetail ({ info }) {
 
     const [loadingCategories, setLoadingCategories] = useState(false);
     const [loadingDishes, setLoadingDishes] = useState(false);
+
+    const [ view, setView ] = useState(false);
 
     const handleBack = () => router.back();
 
@@ -90,6 +93,16 @@ export default function FoodieDetail ({ info }) {
         });
     };
 
+    const onShare = async () => {
+        try {
+            const result = await handleShare(info.name, info.description, `https://andaleya.pe/foodies/${info.slug}/?utm_source=shared`);
+            if (!result.ok) toast.warning('Alerta', { description: result.message || 'No se pudo compartir' })
+                toast.success('Éxito', { description: 'Se compartió exitosamente.' })
+        } catch (error) {
+            toast.error('Error', { description: `Error: ${error.message}` })
+        }
+    }
+
     useEffect(() => {
         if (!info?.id) return;
 
@@ -112,7 +125,7 @@ export default function FoodieDetail ({ info }) {
                     <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={handleBack}><IconArrowLeft/></ButtonIcon>
                     <div className="flex gap-md">
                         <ButtonIcon bg={'bg-white'} rounded={'rounded-full'}><IconHeart/></ButtonIcon>
-                        <ButtonIcon bg={'bg-white'} rounded={'rounded-full'}><IconDotsVertical/></ButtonIcon>
+                        <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={() => setView(true)}><IconDotsVertical/></ButtonIcon>
                     </div>
                 </div>
                 <Image src={info.cover_image_url} alt={`Foto de portada de ${info.name}`} fill placeholder="blur" blurDataURL="https://placehold.net/600x600.png" />
@@ -127,6 +140,20 @@ export default function FoodieDetail ({ info }) {
                     <ListDishes list={dishes} load={loadingDishes} />
                 </div>
             </main>
+            {view && (
+                <div className="absolute inset w-screen h-screen bg-overlay flex flex-col justify-end zIndex-modal">
+                    <div className="w-full bg-white rounded-top-md p-md">
+                        <div className="w-full flex items-center justify-end">
+                            <ButtonIcon bg={'bg-surface'} rounded={'rounded-full'} onClick={() => setView(false)}><IconX/></ButtonIcon>
+                        </div>
+                        <ul className="w-full flex flex-col gap-md">
+                            <button className="flex items-center justify-between py-md"><div className="flex gap-sm items-center text-sm"><IconInfoCircle/> Información sobre el local</div> <IconChevronRight/></button>
+                            <button className="flex items-center justify-between py-md"><div className="flex gap-sm items-center text-sm"><IconStar/> Leer opiniones</div> <IconChevronRight/></button>
+                            <button className="flex items-center justify-between py-md" onClick={() => onShare(info)}><div className="flex gap-sm items-center text-sm"><IconShare3/> Compartir</div> <IconChevronRight/></button>
+                        </ul>
+                    </div>
+                </div>
+            )}
         </>
 
     )

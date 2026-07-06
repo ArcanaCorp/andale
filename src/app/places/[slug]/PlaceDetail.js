@@ -1,14 +1,26 @@
 'use client'
 
 import ButtonIcon from "@/components/ui/Buttons/ButtonIcon";
-import { IconArrowLeft, IconHeart } from "@tabler/icons-react";
+import { handleShare } from "@/functions/share.function";
+import { IconArrowLeft, IconHeart, IconShare3 } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function PlaceDetail ({ info }) {
 
     const router = useRouter();
     const handleBack = () => router.back();
+
+    const onShare = async (data) => {
+        try {
+            const result = await handleShare(data.name, data.short_description, `https://andaleya.pe/places/${data.slug}/?utm_source=shared`);
+            if (!result.ok) toast.warning('Alerta', { description: result.message || 'No se pudo compartir' })
+                toast.success('Éxito', { description: 'Se compartió exitosamente.' })
+        } catch (error) {
+            toast.error('Error', { description: `Error: ${error.message}` })
+        }
+    }
 
     if (!info) return <div>No hay datos</div>;
 
@@ -17,7 +29,10 @@ export default function PlaceDetail ({ info }) {
             <header className="relative w-full h" style={{"--h": "240px"}}>
                 <div className="absolute w-full flex items-center justify-between zIndex-2 p-md">
                     <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={handleBack}><IconArrowLeft/></ButtonIcon>
-                    <ButtonIcon bg={'bg-white'} rounded={'rounded-full'}><IconHeart/></ButtonIcon>
+                    <div className="flex gap-sm">
+                        <ButtonIcon bg={'bg-white'} rounded={'rounded-full'}><IconHeart/></ButtonIcon>
+                        <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={() => onShare(info)}><IconShare3/></ButtonIcon>
+                    </div>
                 </div>
                 <Image src={info.cover_image_url} alt={`Foto de portada de ${info.name}`} fill placeholder="blur" blurDataURL="https://placehold.net/600x600.png" />
             </header>

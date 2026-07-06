@@ -54,6 +54,8 @@
 
 .bg-dark { background-color: var(--color-neutral-900); }
 
+.bg-overlay { background-color: rgba(0, 0, 0, .5); }
+
 
 .text-brand-500 { color: var(--color-brand-500); }
 
@@ -110,6 +112,8 @@
 .text-warning { color: var(--color-warning); }
 
 .text-info { color: var(--color-info); }
+
+.text-dark { color: var(--color-neutral-900); }
 
 
 .border-brand-500 { border-color: var(--color-brand-500); }
