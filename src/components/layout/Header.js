@@ -3,6 +3,7 @@ import { IconBell, IconSearch, IconUser } from "@tabler/icons-react";
 import ButtonIcon from "../ui/Buttons/ButtonIcon";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import LocationChip from "../ui/Chips/LocationChip";
 
 export default function Header () {
 
@@ -14,7 +15,7 @@ export default function Header () {
             <div className="w m-auto flex items-center justify-between" style={{"--w": "90%"}}>
                 <div>
                     <p className="text-xs text-white">Enviar a</p>
-                    <h4 className="text-white text-sm text-semibold">Jr. Ayacucho N° 860</h4>
+                    <LocationChip/>
                 </div>
                 <div className="flex gap-sm">
                     <ButtonIcon><IconBell color={'#FFFFFF'} /></ButtonIcon>
