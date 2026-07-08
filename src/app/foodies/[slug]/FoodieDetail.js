@@ -1,13 +1,14 @@
 'use client'
 
-import Avatar from "@/components/ui/Avatars/Avatar";
 import ButtonIcon from "@/components/ui/Buttons/ButtonIcon";
 import ListCategory from "@/components/ui/List/ListCategory";
 import ListDishes from "@/components/ui/List/ListDishes";
+import CartModal from "@/components/ui/Modals/CartModal";
+import { useCart } from "@/context/CartContext";
 import { handleShare } from "@/functions/share.function";
 import { useFoodieMenu } from "@/hooks/useFoodie";
 import { useOpeningStatus } from "@/hooks/useOpeningStatus";
-import { IconArrowLeft, IconChevronRight, IconDotsVertical, IconHeart, IconInfoCircle, IconMinus, IconPlus, IconShare3, IconStar, IconX } from "@tabler/icons-react";
+import { IconArrowLeft, IconChevronRight, IconDotsVertical, IconHeart, IconInfoCircle, IconShare3, IconShoppingBag, IconStar, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -16,6 +17,7 @@ import { toast } from "sonner";
 export default function FoodieDetail ({ info }) {
 
     const router = useRouter();
+    const { cart } = useCart();
 
     const [ view, setView ] = useState(false);
 
@@ -47,6 +49,8 @@ export default function FoodieDetail ({ info }) {
     if (!info) return <div>No hay datos</div>;
 
     const deliveryFee = Number(info.delivery_fee) === 0 ? "Gratis" : `S/ ${Number(info.delivery_fee).toFixed(2)}`;
+
+    const handleToCart = () => router.push('/cart');
 
     return (
 
@@ -103,28 +107,9 @@ export default function FoodieDetail ({ info }) {
                 </div>
             )}
 
-            {dish && (
-                <div className="absolute inset w-screen h-screen bg-overlay flex flex-col justify-end zIndex-modal">
-                    <div className="w-full bg-white rounded-top-md p-md flex flex-col gap-lg">
-                        <div className="w-full flex gap-md">
-                            <Avatar name={dish.name} rounded={'rounded-md'} size={160} />
-                            <div className="w-full flex flex-col gap-md">
-                                <h4 className="text-lg">{dish.name}</h4>
-                                <p className="text-xs text-muted">{dish.description}</p>
-                                <div className="flex gap-sm">
-                                    <ButtonIcon bg={'bg-surface'} rounded={'rounded-full'} size={36}><IconMinus/></ButtonIcon>
-                                    <div className="grid-center w h rounded-full" style={{"--w": "36px", "--mnw": "36px", "--h": "36px"}}>1</div>
-                                    <ButtonIcon bg={'bg-surface'} rounded={'rounded-full'} size={36}><IconPlus/></ButtonIcon>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="w-full flex items-center gap-md justify-between">
-                            <button className="w-full h rounded-full bg-neutral-200 text-sm" style={{"--h": "48px"}} onClick={() => selectedDish('')}>Cancelar</button>
-                            <button className="w-full h rounded-full bg-primary text-white text-sm" style={{"--h": "48px"}}>Agregar al carrito</button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {dish && (<CartModal dish={dish} selectedDish={selectedDish} /> )}
+
+            {cart.products.length > 0 && ( <button className="absolute flex gap-md items-center px-md h rounded-full bg-dark text-white zIndex-float text-sm text-medium" style={{"--h": "48px", "bottom": "10px", "left": "30%"}} onClick={handleToCart}><IconShoppingBag/> Carrito <span className="grid-center w h bg-white text-dark text-sm rounded-full" style={{"--w": "20px", "--mnw": "20px", "--h": "20px"}}>{cart.products.length}</span></button> )}
 
         </>
 

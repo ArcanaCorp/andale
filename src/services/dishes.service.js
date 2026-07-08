@@ -8,6 +8,7 @@ export const getFoodieDishes = async ({ foodieId, categoryId = null, page = 0, l
         .from("foodie_dishes")
         .select(`
             id,
+            foodie_id,
             name,
             description,
             price,
