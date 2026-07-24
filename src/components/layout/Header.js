@@ -16,9 +16,7 @@ export default function Header () {
                 <LocationChip/>
                 <div className="flex gap-sm">
                     <ButtonIcon onClick={() => router.push('/notify')} size={35}><IconBell color={'#FFFFFF'} /></ButtonIcon>
-                    {user && (
-                        <ButtonIcon size={35}><IconShoppingBag color={'#FFFFFF'} /></ButtonIcon>
-                    )}
+                    <ButtonIcon onClick={() => router.push('/cart')} size={35}><IconShoppingBag color={'#FFFFFF'} /></ButtonIcon>
                 </div>
             </div>
             <div className="w m-auto" style={{"--w": "90%"}}>

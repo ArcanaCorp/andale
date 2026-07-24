@@ -3,6 +3,8 @@ import '@/assets/global.css';
 import { Provider } from "@/providers/Provider";
 import { Toaster } from "sonner";
 import { SITE_URL } from "@/config";
+import Header from "@/components/layout/Header";
+import Tabs from "@/components/layout/Tabs";
 
 const montserrat = Montserrat({
     variable: "--font-base",
@@ -121,7 +123,10 @@ export default function RootLayout ({ children }) {
     return (
         <html lang="es" className={`${montserrat.variable}`} data-scroll-behavior="smooth">
             <body>
-                <Provider>{children}</Provider>
+                <Provider>
+                    {children}
+                    <Tabs/>
+                </Provider>
                 <Toaster position="top-center" duration={5000} />
             </body>
         </html>
