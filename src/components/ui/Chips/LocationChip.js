@@ -1,6 +1,7 @@
 'use client';
 
 import { useLocation } from "@/context/LocationContext";
+import { IconChevronDown } from "@tabler/icons-react";
 
 export default function LocationChip () {
 
@@ -13,6 +14,6 @@ export default function LocationChip () {
     if (!hasLocation) return <p className="text-white text-sm text-semibold">Obteniendo acceso...</p>
 
     return (
-        <p className="text-white text-sm text-semibold">{address?.road} {address?.houseNumber}</p>
+        <p className="flex items-center gap-2xs text-white text-xs text-semibold pointer">{address?.road} {address?.houseNumber} <IconChevronDown size={18}/></p>
     )
 }

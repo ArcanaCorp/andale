@@ -5,6 +5,7 @@ import List from "@/components/ui/List";
 import { useAuth } from "@/context/AuthContext";
 import { useDB } from "@/context/DBContext";
 import Login from "./auth/login";
+import Tabs from "@/components/layout/Tabs";
 
 export default function Page () {
 
@@ -26,12 +27,13 @@ export default function Page () {
     return (
         <>
             <Header/>
-            <main className="w-full h py-md scroll-y" style={{"--h": "calc(100dvh - 130px)"}}>
+            <main className="w-full h py-md scroll-y" style={{"--h": "calc(100dvh - 190px)"}}>
                 <div className="w-full px-md"><h3 className="text-lg text-semibold">Lugares por conocer</h3></div>
                 <List type={'places'} list={placesFeed.list} load={placesFeed.load} orientation={'horizontal'} />
                 <div className="w-full px-md"><h3 className="text-lg text-semibold">Los mejores sabores</h3></div>
                 <List type={'foodies'} list={bussines} load={loadBussines} orientation={'vertical'} />
             </main>
+            <Tabs/>
         </>
     )
 }
