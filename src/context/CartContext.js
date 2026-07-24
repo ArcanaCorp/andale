@@ -11,6 +11,9 @@ export const CartProvider = ({ children }) => {
         cart: cart.cart,
         addToCart: cart.addItemToCart,
         removeToCart: cart.removeItemFromCart,
+        incrementItem: cart.increaseItemAmount,
+        decreaseItem: cart.decreaseItemAmount,
+        clearCart: cart.clearCart
     }
 
     return (

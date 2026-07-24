@@ -22,7 +22,7 @@ export default function Header () {
             <div className="w m-auto" style={{"--w": "90%"}}>
                 <div className="relative w-full bg-white rounded-full flex items-center h px-md pointer" onClick={() => router.push('/search')} style={{"--h": "40px"}}>
                     <p className="text-xs text-muted">Buscar platillos, restaurantes y lugares...</p>
-                    <div className="absolute grid-center w h bg-primary text-white rounded-full" style={{"--w": "35px", "--h": "35px", top: '2.5px', right: '2.5px'}}><IconSearch/></div>
+                    <div className="absolute grid-center w h bg-primary text-white rounded-full" style={{"--w": "35px", "--h": "35px", top: '2.5px', right: '2.5px'}}><IconSearch size={20}/></div>
                 </div>
             </div>
         </header>

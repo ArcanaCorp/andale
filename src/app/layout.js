@@ -3,7 +3,6 @@ import '@/assets/global.css';
 import { Provider } from "@/providers/Provider";
 import { Toaster } from "sonner";
 import { SITE_URL } from "@/config";
-import Header from "@/components/layout/Header";
 import Tabs from "@/components/layout/Tabs";
 
 const montserrat = Montserrat({
@@ -116,7 +115,7 @@ export const viewport = {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 1,
-    themeColor: '#000000'
+    themeColor: '#f90050'
 };
 
 export default function RootLayout ({ children }) {

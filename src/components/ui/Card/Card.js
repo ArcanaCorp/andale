@@ -15,7 +15,7 @@ export default function Card ({ type, slug, title, subtitle, image, avatar }) {
                         <Avatar image={avatar} name={title} size={60} rounded={'rounded-md'} />
                     )}
                     <div className="w-full flex flex-col gap-xs">
-                        <h4 className="text-md text-medium">{title}</h4>
+                        <h4 className="text-sm text-medium">{title}</h4>
                         <p className="flex items-center gap-xs text-xs text-muted"><IconMapPin size={18}/> {subtitle}</p>
                     </div>
                 </div>

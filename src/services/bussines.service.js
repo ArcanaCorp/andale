@@ -4,16 +4,8 @@ export const getBussines = async () => {
     try {
         const { data, error } = await db
             .from('businesses')
-            .select(`
-                id,
-                slug,
-                name,
-                business_type,
-                category,
-                address,
-                profile_image_url,
-                cover_image_url
-            `)
+            .select(`*`)
+
         if (error) throw new Error(error || `Hubo un error al fetching...`);
 
             const formattedData = (data || []).map((foodie) => {
@@ -22,6 +14,7 @@ export const getBussines = async () => {
                     slug: foodie.slug,
                     title: foodie.name,
                     subtitle: foodie.address,
+                    delivery_fee: foodie.delivery_fee,
                     avatar: foodie.profile_image_url,
                     image: foodie.cover_image_url,
                 }

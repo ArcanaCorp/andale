@@ -70,14 +70,15 @@ export default function CartModal ({ dish, selectedDish }) {
                         <p className="text-xs text-muted">{dish.description}</p>
                         <p className="text-xs text-muted">Subtotal: <span className="text-md text-dark text-medium">s/. {(item.subtotal).toFixed(2)}</span></p>
                         <div className="w-full flex items-center justify-between">
-                            <div className="flex gap-sm">
-                                <ButtonIcon bg={'bg-surface'} rounded={'rounded-full'} size={36} onClick={() => handleChangeAmount('decrement')}><IconMinus/></ButtonIcon>
+                                <div className="flex gap-sm">
+                                {item?.id === dish.id ? (
+                                    <ButtonIcon rounded={'rounded-full'} size={36} bg={'bg-surface'} onClick={() => handleRemove(dish.id)}><IconTrash/></ButtonIcon>
+                                ) : (
+                                    <ButtonIcon bg={'bg-surface'} rounded={'rounded-full'} size={36} onClick={() => handleChangeAmount('decrement')}><IconMinus/></ButtonIcon>
+                                )}
                                 <div className="grid-center w h rounded-full" style={{"--w": "36px", "--mnw": "36px", "--h": "36px"}}>{item.amount}</div>
                                 <ButtonIcon bg={'bg-surface'} rounded={'rounded-full'} size={36} onClick={() => handleChangeAmount('increment')}><IconPlus/></ButtonIcon>
                             </div>
-                            {item?.id === dish.id && (
-                                <ButtonIcon rounded={'rounded-full'} size={36} bg={'bg-error-500'} color={'text-error'} onClick={() => handleRemove(dish.id)}><IconTrash/></ButtonIcon>
-                            )}
                         </div>
                     </div>
                 </div>

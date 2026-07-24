@@ -108,11 +108,56 @@ export const useCartHook = () => {
 
     const clearCart = () => setCart(INITIAL_CART);
 
+    const updateItemAmount = (id, change) => {
+        setCart(prev => {
+            const products = prev.products
+                .map(item => {
+                    if (item.id !== id) return item;
+
+                    const currentAmount = Number(item.amount || 0);
+                    const newAmount = currentAmount + change;
+
+                    if (newAmount <= 0) {
+                        return null;
+                    }
+
+                    const unitPrice = Number(
+                        item.product?.price ?? item.price ?? 0
+                    );
+
+                    return {
+                        ...item,
+                        amount: newAmount,
+                        subtotal: unitPrice * newAmount
+                    };
+                })
+                .filter(Boolean);
+
+            return {
+                company_id: products.length > 0
+                    ? prev.company_id
+                    : null,
+                products,
+                subtotal: calculateSubtotal(products)
+            };
+        });
+    };
+
+    const increaseItemAmount = (id) => {
+        updateItemAmount(id, 1);
+    };
+
+    const decreaseItemAmount = (id) => {
+        updateItemAmount(id, -1);
+    };
+
     return {
         cart,
         isLoaded,
         addItemToCart,
         removeItemFromCart,
+        increaseItemAmount,
+        decreaseItemAmount,
         clearCart
     };
 };
