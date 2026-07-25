@@ -48,7 +48,7 @@ export default function FoodieDetail ({ info }) {
 
     if (!info) return <div>No hay datos</div>;
 
-    const deliveryFee = Number(info.delivery_fee) === 0 ? "Gratis" : `S/ ${Number(info.delivery_fee).toFixed(2)}`;
+    const deliveryFee = Number(info.delivery.fee) === 0 ? "Gratis" : `S/ ${Number(info.delivery.fee).toFixed(2)}`;
 
     const handleToCart = () => router.push('/cart');
 
@@ -64,12 +64,12 @@ export default function FoodieDetail ({ info }) {
                         <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={() => setView(true)}><IconDotsVertical/></ButtonIcon>
                     </div>
                 </div>
-                <Image src={info.cover_image_url} alt={`Foto de portada de ${info.name}`} fill placeholder="blur" blurDataURL="https://placehold.net/600x600.png" />
+                <Image src={info.image} alt={`Foto de portada de ${info.title || info.name}`} fill placeholder="blur" blurDataURL="https://placehold.net/600x600.png" />
             </header>
 
             <main className="absolute w-full py-md scroll-y h flex flex-col gap-md zIndex-2 bg-white rounded-top-lg" style={{"--h": "calc(100dvh - 80px)", "marginTop": "-80px"}}>
                 <div className="w-full flex flex-col gap-sm px-md">
-                    <h1>{info.name}</h1>
+                    <h1>{info.title || info.name}</h1>
                     <div className="text-xs text-muted" dangerouslySetInnerHTML={{__html: info.description}}></div>
                     <ul className="w-full rounded-sm p-sm border-thin border-surface flex items-center justify-between">
                         <li className="w-full text-xs text-center">
@@ -82,7 +82,7 @@ export default function FoodieDetail ({ info }) {
                         </li>
                         <li className="w-full text-xs text-center">
                             <p className="text-xs text-muted">Recibes en</p>
-                            <p className="text-sm"><b>{info.delivery_time_min} - {info.delivery_time_max} min</b></p>
+                            <p className="text-sm"><b>{info.delivery.time.min} - {info.delivery.time.max} min</b></p>
                         </li>
                     </ul>
                 </div>

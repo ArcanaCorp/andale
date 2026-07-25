@@ -17,7 +17,9 @@ export default function Header () {
                 <div className="flex gap-sm">
                     <ButtonIcon onClick={() => router.push('/notify')} size={35}><IconBell color={'#FFFFFF'} /></ButtonIcon>
                     <div className="relative">
-                        <span className="absolute w h center rounded-full bg-white text-xs text-primary" style={{"--w": "18px", "--mnw": "18px", "--h": "18px", top: '-4px', right: '-4px'}}>{cart?.products.length}</span>
+                        {cart?.products.length > 0 && (
+                            <span className="absolute w h center rounded-full bg-white text-xs text-primary" style={{"--w": "18px", "--mnw": "18px", "--h": "18px", top: '-4px', right: '-4px'}}>{cart?.products.length}</span>
+                        )}
                         <ButtonIcon onClick={() => router.push('/cart')} size={35}><IconShoppingBag color={'#FFFFFF'} /></ButtonIcon>
                     </div>
                 </div>

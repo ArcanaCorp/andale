@@ -39,9 +39,9 @@ export async function generateMetadata({ params }) {
         };
     }
 
-    const title = foodie.meta_title || `${foodie.name} | ${SITE_NAME}`;
+    const title = foodie.meta_title || `${foodie.title || foodie.name} | ${SITE_NAME}`;
     const description = foodie.meta_description || buildFallbackDescription(foodie);
-    const image = foodie.og_image_url || foodie.cover_image_url || null;
+    const image = foodie.og_image_url || foodie.image || null;
     const canonicalUrl = `${SITE_URL}/foodies/${foodie.slug}`;
 
     return {

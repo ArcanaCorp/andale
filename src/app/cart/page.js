@@ -7,6 +7,7 @@ import CheckOut from "@/components/views/CheckOut";
 import { useCart } from "@/context/CartContext";
 import { useDB } from "@/context/DBContext";
 import { formatMoney } from "@/helpers/formatted.helper";
+import { useNewOrder } from "@/hooks/useNewOrder";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -14,6 +15,7 @@ export default function Page () {
     
     const { business } = useDB();
     const { cart } = useCart();
+    const { form, updateForm } = useNewOrder();
 
     const [ step, setStep ] = useState(1);
     
@@ -59,6 +61,10 @@ export default function Page () {
                                         <CardItemCart key={p?.id} id={p?.id} product={p?.product} amount={p?.amount} />
                                     ))}
                                     <Link href={`/foodies/${company?.slug}`} className="center w-full h bg-surface text-xs text-semibold rounded-full" style={{"--h": "40px"}}>Buscar más productos</Link>
+                                </div>
+                                <div className="w-full flex flex-col gap-md">
+                                    <h4 className="text-md text-semibold">Notas para el pedido</h4>
+                                    <textarea className="w-full bg-surface rounded-md p-md text-xs" placeholder="Me podría enviar más kétchup" value={form.customer_notes} onChange={(event) => updateForm("customer_notes", event.target.value)}/>
                                 </div>
                                 <div className="w-full flex flex-col gap-md bg-surface rounded-md p-md">
                                     <h4 className="text-md text-semibold">Resumen</h4>
