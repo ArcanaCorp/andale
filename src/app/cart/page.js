@@ -12,10 +12,10 @@ import { useRouter } from "next/navigation";
 export default function Page () {
     
     const router = useRouter();
-    const { bussines } = useDB();
+    const { business } = useDB();
     const { cart } = useCart();
-
-    const company = bussines.find((b) => b.id === cart.company_id);
+    
+    const company = business?.list.find((b) => b.id === cart.company_id);
     
     return (
         <>
