@@ -1,23 +1,96 @@
-'use client';
+"use client";
 
 import CardFoodieLoad from "./Card/CardSkeleton";
 import Card from "./Card/Card";
 
-export default function List ({ type, list=[], load=false, orientation }) {
+export default function List({
+    type,
+    list = [],
+    load = false,
+    error = "",
+    orientation = "vertical",
+    limit,
+    emptyMessage = "No hay elementos disponibles",
+}) {
+    const isVertical = orientation === "vertical";
 
-    if (load) return <ul className="w-full p-md flex flex-col gap-md">{Array.from({length: 5}).map((_, i) => ( <CardFoodieLoad key={i} /> ))}</ul>
+    const visibleItems =
+        typeof limit === "number"
+            ? list.slice(0, limit)
+            : list;
+
+    const listClasses = [
+        "w-full",
+        "flex",
+        "gap-md",
+        "p-md",
+        isVertical
+            ? "flex-col"
+            : "flex-row scroll-x",
+    ].join(" ");
+
+    if (load) {
+        const skeletonCount = isVertical ? 5 : 3;
+
+        return (
+            <ul className={listClasses}>
+                {Array.from({
+                    length: skeletonCount,
+                }).map((_, index) => (
+                    <li
+                        key={index}
+                        className={
+                            isVertical
+                                ? "w-full"
+                                : "shrink-0"
+                        }
+                    >
+                        <CardFoodieLoad />
+                    </li>
+                ))}
+            </ul>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="w-full px-md py-lg text-center">
+                <p className="text-sm text-red-500">
+                    {error}
+                </p>
+            </div>
+        );
+    }
 
     return (
-
-        <ul className={`w-full flex ${orientation === 'vertical' ? 'flex-col' : 'flex-row scroll-x'} gap-md p-md`}>
-            {list.length > 0 ? (
-                list.map((item) => (
-                    <Card key={item.id} type={type} slug={item.slug} title={item.title} subtitle={item.subtitle} image={item.image} avatar={item.avatar}  />
+        <ul className={listClasses}>
+            {visibleItems.length > 0 ? (
+                visibleItems.map((item) => (
+                    <li
+                        key={item.id}
+                        className={
+                            isVertical
+                                ? "w-full"
+                                : "shrink-0"
+                        }
+                    >
+                        <Card
+                            type={type}
+                            slug={item.slug}
+                            title={item.title}
+                            subtitle={item.subtitle}
+                            image={item.image}
+                            avatar={item.avatar}
+                        />
+                    </li>
                 ))
             ) : (
-                <p>No hay negocios abiertos</p>
+                <li className="w-full py-lg text-center">
+                    <p className="text-sm opacity-70">
+                        {emptyMessage}
+                    </p>
+                </li>
             )}
         </ul>
-
-    )
+    );
 }

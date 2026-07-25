@@ -12,3 +12,8 @@
 }
 
 .badge-without-bg { background: none; }
+
+.badge.is-active {
+    color: var(--color-white);
+    background-color: var(--color-neutral-900);
+}
