@@ -54,6 +54,10 @@
 
 .bg-dark { background-color: var(--color-neutral-900); }
 
+.bg-yape { background-color: var(--color-yape); }
+
+.bg-plin { background-color: var(--color-plin); }
+
 .bg-overlay { background-color: rgba(0, 0, 0, .5); }
 
 

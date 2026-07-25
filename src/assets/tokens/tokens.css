@@ -26,6 +26,8 @@
     --color-success: var(--color-success-500);
     --color-warning: var(--color-warning-500);
     --color-info: var(--color-info-500);
+    --color-plin: rgb(1, 224, 205);
+    --color-yape: rgb(116, 35, 132);
     --font-size-2xs: .625rem;
     --font-size-xs: .75rem;
     --font-size-sm: .875rem;

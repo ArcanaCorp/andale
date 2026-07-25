@@ -3,30 +3,18 @@
 import CardFoodieLoad from "./Card/CardSkeleton";
 import Card from "./Card/Card";
 
-export default function List({
-    type,
-    list = [],
-    load = false,
-    error = "",
-    orientation = "vertical",
-    limit,
-    emptyMessage = "No hay elementos disponibles",
-}) {
+export default function List({ type, list = [], load = false, error = "", orientation = "vertical", limit, emptyMessage = "No hay elementos disponibles" }) {
+    
     const isVertical = orientation === "vertical";
 
-    const visibleItems =
-        typeof limit === "number"
-            ? list.slice(0, limit)
-            : list;
+    const visibleItems = typeof limit === "number" ? list.slice(0, limit) : list;
 
     const listClasses = [
         "w-full",
         "flex",
         "gap-md",
         "p-md",
-        isVertical
-            ? "flex-col"
-            : "flex-row scroll-x",
+        isVertical ? "flex-col" : "flex-row scroll-x",
     ].join(" ");
 
     if (load) {
@@ -34,17 +22,8 @@ export default function List({
 
         return (
             <ul className={listClasses}>
-                {Array.from({
-                    length: skeletonCount,
-                }).map((_, index) => (
-                    <li
-                        key={index}
-                        className={
-                            isVertical
-                                ? "w-full"
-                                : "shrink-0"
-                        }
-                    >
+                {Array.from({length: skeletonCount}).map((_, index) => (
+                    <li key={index} className={isVertical ? "w-full" : "shrink-0"}>
                         <CardFoodieLoad />
                     </li>
                 ))}
@@ -55,9 +34,7 @@ export default function List({
     if (error) {
         return (
             <div className="w-full px-md py-lg text-center">
-                <p className="text-sm text-red-500">
-                    {error}
-                </p>
+                <p className="text-sm text-red-500">{error}</p>
             </div>
         );
     }
@@ -66,19 +43,12 @@ export default function List({
         <ul className={listClasses}>
             {visibleItems.length > 0 ? (
                 visibleItems.map((item) => (
-                    <li
-                        key={item.id}
-                        className={
-                            isVertical
-                                ? "w-full"
-                                : "shrink-0"
-                        }
-                    >
+                    <li key={item.id} className={isVertical ? "w-full" : "shrink-0"}>
                         <Card
                             type={type}
                             slug={item.slug}
                             title={item.title}
-                            subtitle={item.subtitle}
+                            subtitle={item.subtitle || item.address}
                             image={item.image}
                             avatar={item.avatar}
                         />
@@ -86,9 +56,7 @@ export default function List({
                 ))
             ) : (
                 <li className="w-full py-lg text-center">
-                    <p className="text-sm opacity-70">
-                        {emptyMessage}
-                    </p>
+                    <p className="text-sm opacity-70">{emptyMessage}</p>
                 </li>
             )}
         </ul>
