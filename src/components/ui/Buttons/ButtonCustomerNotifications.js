@@ -78,16 +78,10 @@ export default function ButtonCustomerNotifications({
     }
 
     return (
-        <button
-            type="button"
-            className="w-full h rounded-full bg-primary text-white text-xs text-semibold"
-            style={{ "--h": "40px" }}
-            onClick={handleEnablePush}
-            disabled={activatingPush}
-        >
-            {activatingPush
-                ? "Activando notificaciones..."
-                : "Activar avisos de mis pedidos"}
-        </button>
+        <div className="w-full p-md">
+            <button type="button" className="w-full h rounded-full bg-primary text-white text-xs text-semibold" style={{ "--h": "40px" }} onClick={handleEnablePush} disabled={activatingPush}>
+                {activatingPush ? "Activando notificaciones..." : "Activar avisos de mis pedidos"}
+            </button>
+        </div>
     );
 }
