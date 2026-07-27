@@ -20,7 +20,7 @@ export default function CardDish ({ dish, onSeleted }) {
                     {cartItem && (
                         <span className="absolute w h grid-center bg-dark text-white rounded-full text-sm" style={{"--w": "20px", "--mnw": "20px", "--h": "20px", top: "10px", right: "10px"}}>{cartItem.amount}</span>
                     )}
-                    <Avatar name={dish.name} rounded={'rounded-md'} size={120}/>
+                    <Avatar image={dish.image_url || ''} name={dish.name} rounded={'rounded-md'} size={120}/>
                 </div>
             </article>
         </>
