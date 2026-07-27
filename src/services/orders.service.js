@@ -37,6 +37,8 @@ export async function createFoodieOrder({ order, items, company_id, paymentAttac
         throw itemsError;
     }
 
+    let attachmentPayload = {};
+
     if (paymentAttachment) {
         const attachment = await uploadPaymentAttachment({
             file: paymentAttachment,
@@ -57,14 +59,37 @@ export async function createFoodieOrder({ order, items, company_id, paymentAttac
             throw updateError;
         }
 
-        return {
-            ...createdOrder,
+        attachmentPayload = {
             payment_attachment_url: attachment.url,
             payment_attachment_path: attachment.path
         };
     }
 
-    return createdOrder;
+    const { error: updateCompanyError } = await db.rpc(
+        "increment_business_orders",
+        {
+            p_business_id: company_id
+        }
+    );
+
+    if (updateCompanyError) {
+        throw updateCompanyError;
+    }
+
+    try {
+        await db.functions.invoke("send-business-order-push", {
+            body: {
+                order_id: createdOrder.id
+            }
+        });
+    } catch (error) {
+        console.warn("No se pudo enviar push:", error);
+    }
+
+    return {
+        ...createdOrder,
+        ...attachmentPayload
+    };
 }
 
 export const getMyFoodieOrders = async ({ page = 0, pageSize = 20 } = {}) => {
@@ -124,3 +149,117 @@ export const getMyFoodieOrders = async ({ page = 0, pageSize = 20 } = {}) => {
         };
     }
 };
+
+export async function getOrders({ user_id }) {
+    try {
+        if (!user_id) return [];
+
+        const { data, error } = await db
+            .from("foodie_orders")
+            .select(`
+                *,
+                foodie_order_items (
+                    id,
+                    product_id,
+                    product_name,
+                    product_description,
+                    product_image_url,
+                    quantity,
+                    unit_price,
+                    subtotal
+                )
+            `)
+            .eq("user_id", user_id)
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            throw new Error(error.message || "Hubo un error al obtener las órdenes");
+        }
+
+        return data || [];
+
+    } catch (error) {
+        console.error("Error en getOrders:", error);
+        return [];
+    }
+}
+
+export async function getOrderById({
+    orderId,
+    userId
+}) {
+    if (!orderId || !userId) return null;
+
+    const { data, error } = await db
+        .from("foodie_orders")
+        .select(`
+            *,
+            business:businesses (
+                id,
+                slug,
+                name,
+                commercial_name,
+                profile_image_url,
+                cover_image_url
+            ),
+            foodie_order_items (
+                id,
+                product_id,
+                product_name,
+                product_description,
+                product_image_url,
+                quantity,
+                unit_price,
+                subtotal
+            )
+        `)
+        .eq("id", orderId)
+        .eq("user_id", userId)
+        .maybeSingle();
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return data;
+}
+
+export async function getOrderByCode({
+    orderCode,
+    userId
+}) {
+    if (!orderCode || !userId) return null;
+
+    const { data, error } = await db
+        .from("foodie_orders")
+        .select(`
+            *,
+            business:businesses (
+                id,
+                slug,
+                name,
+                commercial_name,
+                profile_image_url,
+                cover_image_url
+            ),
+            foodie_order_items (
+                id,
+                product_id,
+                product_name,
+                product_description,
+                product_image_url,
+                quantity,
+                unit_price,
+                subtotal
+            )
+        `)
+        .eq("order_code", orderCode)
+        .eq("user_id", userId)
+        .maybeSingle();
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return data;
+}

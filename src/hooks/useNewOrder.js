@@ -186,10 +186,7 @@ export const useNewOrder = ({ user, address } = {}) => {
         try {
             const products = cart?.products ?? [];
 
-            const validation = validateOrder({
-                cart,
-                products
-            });
+            const validation = validateOrder({cart,products});
 
             if (!validation.ok) {
                 return {

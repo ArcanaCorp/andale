@@ -6,18 +6,13 @@ import { useAuth } from "@/context/AuthContext";
 import { useDB } from "@/context/DBContext";
 import Link from "next/link";
 import Login from "./auth/login";
+import Loading from "@/components/views/Loading";
 
 export default function Page() {
     const { places, business } = useDB();
     const { user, loadAuth } = useAuth();
 
-    if (loadAuth) {
-        return (
-            <main className="grid-center h-screen w-full">
-                Cargando...
-            </main>
-        );
-    }
+    if (loadAuth) return <Loading/>;
 
     if (!user) {
         return <Login />;

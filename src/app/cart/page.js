@@ -4,6 +4,7 @@ import ButtonBack from "@/components/ui/Buttons/ButtonBack";
 import CardItemCart from "@/components/ui/Card/CardItemCart";
 import EmptyPage from "@/components/ui/Empty/Empty";
 import CheckOut from "@/components/views/CheckOut";
+import Loading from "@/components/views/Loading";
 import { useCart } from "@/context/CartContext";
 import { useDB } from "@/context/DBContext";
 import { formatMoney } from "@/helpers/formatted.helper";
@@ -31,11 +32,7 @@ export default function Page () {
     const handleNext = () => setStep(step + 1);
 
 
-    if (business?.load && products.length > 0) {
-        return (
-            <main className="grid-center h-screen w-full">Cargando carrito...</main>
-        );
-    }
+    if (business?.load && products.length > 0) return <Loading/>;
 
     return (
         <>
