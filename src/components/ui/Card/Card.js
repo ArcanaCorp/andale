@@ -8,7 +8,7 @@ export default function Card ({ type, slug, title, subtitle, image, avatar }) {
         <article className="w-full">
             <Link className="flex w-full flex-col" href={`/${type}/${slug}`} aria-label={`Ver ${title}`}>
                 <div className="relative w-full h bg-surface rounded-md hidden w" style={{"--mnw": "350px", "--h": "180px"}}>
-                    <Image src={image} alt={`Portada de ${title}`} width={350} height={180} className="object-cover" loading="eager" />
+                    <Image src={image || ''} alt={`Portada de ${title}`} width={350} height={180} className="object-cover" loading="eager" />
                 </div>
                 <div className="w-full flex gap-md py-md">
                     {type !== 'places' && (
