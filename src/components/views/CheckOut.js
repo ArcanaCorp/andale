@@ -35,7 +35,9 @@ export default function CheckOut({ company, subtotal, total, deliveryFee }) {
 
     const paymentOwner = payment?.holder_name || payment?.owner_name || company?.name || "Titular del negocio";
 
-    const showPhoneInput = editPhone || !form.phone;
+    const phoneDigits = form.phone.replace(/\D/g, "")
+    const phoneIsValid = phoneDigits.length === 9
+    const showPhoneInput = editPhone || !phoneIsValid
     const showAddressInput = editAddress || !form.delivery_address;
 
     const handleCopyPaymentNumber = async () => {
@@ -48,6 +50,13 @@ export default function CheckOut({ company, subtotal, total, deliveryFee }) {
             toast.error("Error", { description: "No se pudo copiar el número."});
         }
     };
+
+    const onChangePhone = (event) => {
+        const phone = event.target.value
+            .replace(/\D/g, "")
+            .slice(0, 9)
+        updateForm("phone", phone)
+    }
 
     const handleNewOrder = async () => {
         try {
@@ -134,14 +143,14 @@ export default function CheckOut({ company, subtotal, total, deliveryFee }) {
                                             <p className="text-sm text-medium">Número de teléfono</p>
                                             <p className="text-xs text-muted">{form.phone || "Sin número"}</p>
                                         </div>
-                                        <button type="button" className="text-xs text-primary" onClick={() => setEditPhone((prev) => !prev)}>
-                                            {showPhoneInput ? "Ocultar" : "Editar"}
+                                        <button type="button" className={`text-xs ${showPhoneInput && !phoneIsValid ? "text-muted cursor-not-allowed" : "text-primary"}`} disabled={showPhoneInput && !phoneIsValid} onClick={() => setEditPhone((prev) => !prev)}>
+                                            {showPhoneInput ? phoneIsValid ? "Ocultar" : `Faltan ${9 - phoneDigits.length} dígitos` : "Editar"}
                                         </button>
                                     </div>
                                 </div>
 
                                 {showPhoneInput && (
-                                    <input type="tel" placeholder="987 654 321" className="w-full bg-surface p-sm text-xs rounded-md outline-none" value={form.phone} onChange={(event) => updateForm("phone", event.target.value)}/>
+                                    <input type="tel" placeholder="987 654 321" className="w-full bg-surface p-sm text-xs rounded-md outline-none" value={form.phone} onChange={(event) => onChangePhone(event)}/>
                                 )}
                             </li>
                         </ul>

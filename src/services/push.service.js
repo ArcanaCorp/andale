@@ -1,3 +1,5 @@
+import { VAPID_PUBLIC_KEY } from "@/config";
+
 export async function registerCustomerPush({
     userId
 }) {
