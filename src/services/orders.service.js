@@ -77,11 +77,17 @@ export async function createFoodieOrder({ order, items, company_id, paymentAttac
     }
 
     try {
-        await db.functions.invoke("send-business-order-push", {
+        const { data, error } = await db.functions.invoke("send-business-order-push", {
             body: {
                 order_id: createdOrder.id
             }
         });
+
+        if (error) {
+            console.warn("Error enviando push:", error);
+        } else {
+            console.log("Push enviado:", data);
+        }
     } catch (error) {
         console.warn("No se pudo enviar push:", error);
     }
