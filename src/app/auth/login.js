@@ -16,7 +16,7 @@ export default function LoginPage() {
             setLoadingProvider(provider);
             setErrorMessage('');
 
-            const redirectTo = MODE_ENV === 'develop' ? window.location.origin : 'https://socio.andaleya.pe';
+            const redirectTo = MODE_ENV === 'develop' ? window.location.origin : 'https://andaleya.pe';
 
             const { error } = await db.auth.signInWithOAuth({
                 provider,
