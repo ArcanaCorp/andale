@@ -24,6 +24,7 @@
     --color-badge: var(--color-neutral-200);
     --color-white: var(--color-neutral-0);
     --color-success: var(--color-success-500);
+    --color-success-transparent: rgb(40, 167, 69, .2);
     --color-warning: var(--color-warning-500);
     --color-info: var(--color-info-500);
     --color-plin: rgb(1, 224, 205);

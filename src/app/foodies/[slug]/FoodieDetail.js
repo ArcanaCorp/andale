@@ -4,8 +4,10 @@ import ButtonIcon from "@/components/ui/Buttons/ButtonIcon";
 import ListCategory from "@/components/ui/List/ListCategory";
 import ListDishes from "@/components/ui/List/ListDishes";
 import CartModal from "@/components/ui/Modals/CartModal";
+import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { handleShare } from "@/functions/share.function";
+import { useFavorite } from "@/hooks/useFavorite";
 import { useFoodieMenu } from "@/hooks/useFoodie";
 import { useOpeningStatus } from "@/hooks/useOpeningStatus";
 import { IconArrowLeft, IconChevronRight, IconDotsVertical, IconHeart, IconInfoCircle, IconShare3, IconShoppingBag, IconStar, IconX } from "@tabler/icons-react";
@@ -17,11 +19,14 @@ import { toast } from "sonner";
 export default function FoodieDetail ({ info }) {
 
     const router = useRouter();
+    const { user } = useAuth();
     const { cart } = useCart();
 
     const [ view, setView ] = useState(false);
 
     const { categories, dishes, activeCategory, selectCategory, loadingCategories, loadingDishes, dish, selectedDish } = useFoodieMenu(info?.id, 10);
+
+    const { isFavorite, loadingFavorite, handleToggleFavorite } = useFavorite({ user, favoriteType: "business", itemId: info?.id});
 
     const openingStatus = useOpeningStatus(info?.opening_hours);
 
@@ -46,11 +51,24 @@ export default function FoodieDetail ({ info }) {
         }
     };
 
-    if (!info) return <div>No hay datos</div>;
+    const handleGoInfo = () => {
+        sessionStorage.setItem(
+            `business_${info.slug}`,
+            JSON.stringify(info)
+        );
+
+        router.push(`/foodies/${info.slug}/info`);
+    };
+
+    const handleGoReviews = () => {
+        router.push(`/foodies/${info.slug}/reviews`);
+    };
 
     const deliveryFee = Number(info.delivery.fee) === 0 ? "Gratis" : `S/ ${Number(info.delivery.fee).toFixed(2)}`;
 
     const handleToCart = () => router.push('/cart');
+
+    if (!info) return <div>No hay datos</div>;
 
     return (
 
@@ -60,7 +78,7 @@ export default function FoodieDetail ({ info }) {
                 <div className="absolute w-full flex items-center justify-between zIndex-2 p-md">
                     <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={handleBack}><IconArrowLeft/></ButtonIcon>
                     <div className="flex gap-md">
-                        <ButtonIcon bg={'bg-white'} rounded={'rounded-full'}><IconHeart/></ButtonIcon>
+                        <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={handleToggleFavorite}disabled={loadingFavorite}><IconHeart color={isFavorite ? "var(--color-brand-500)" : "currentColor"} fill={isFavorite ? "var(--color-brand-500)" : "none"}/></ButtonIcon>
                         <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={() => setView(true)}><IconDotsVertical/></ButtonIcon>
                     </div>
                 </div>
@@ -99,8 +117,8 @@ export default function FoodieDetail ({ info }) {
                             <ButtonIcon bg={'bg-surface'} rounded={'rounded-full'} onClick={() => setView(false)}><IconX/></ButtonIcon>
                         </div>
                         <ul className="w-full flex flex-col gap-md">
-                            <button className="flex items-center justify-between py-md"><div className="flex gap-sm items-center text-sm"><IconInfoCircle/> Información sobre el local</div> <IconChevronRight/></button>
-                            <button className="flex items-center justify-between py-md"><div className="flex gap-sm items-center text-sm"><IconStar/> Leer opiniones</div> <IconChevronRight/></button>
+                            <button className="flex items-center justify-between py-md" onClick={handleGoInfo}><div className="flex gap-sm items-center text-sm"><IconInfoCircle/> Información sobre el local</div> <IconChevronRight/></button>
+                            <button className="flex items-center justify-between py-md" onClick={handleGoReviews}><div className="flex gap-sm items-center text-sm"><IconStar/> Leer opiniones</div> <IconChevronRight/></button>
                             <button className="flex items-center justify-between py-md" onClick={() => onShare(info)}><div className="flex gap-sm items-center text-sm"><IconShare3/> Compartir</div> <IconChevronRight/></button>
                         </ul>
                     </div>

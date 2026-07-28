@@ -8,8 +8,8 @@ export default function Tabs () {
     const pathname = usePathname();
 
     return (
-        pathname !== '/me' && (
-            <footer className="w-full h" style={{"--h": "60px"}}>
+        pathname !== '/account' && (
+            <footer className="w-full h" style={{"--h": "60px", boxShadow: "0 0 4px 4px rgb(209 209 209 / 20%)"}}>
                 <ul className="w-full h-full px-md flex items-center justify-between">
                     <li className="w-full">
                         <Link href={'/'} className={`flex flex-col items-center gap-2xs ${pathname === '/' ? 'text-dark text-medium' : 'text-muted'}`}><IconHome style={{"strokeWidth": pathname === '/' ? 1.6 : 1.2}}/> <span className={`text-2xs`}>Inicio</span></Link>
@@ -24,7 +24,7 @@ export default function Tabs () {
                         <Link href={'/orders'} className={`flex flex-col items-center gap-2xs ${pathname === '/orders' ? 'text-dark text-medium' : 'text-muted'}`}><IconReceipt style={{"strokeWidth": pathname === '/orders' ? 1.6 : 1.2}}/> <span className={`text-2xs`}>Pedidos</span></Link>
                     </li>
                     <li className="w-full">
-                        <Link href={'/me'} className={`flex flex-col items-center gap-2xs ${pathname === '/me' ? 'text-dark text-medium' : 'text-muted'}`}><IconUser style={{"strokeWidth": pathname === '/me' ? 1.6 : 1.2}}/> <span className={`text-2xs`}>Mi perfil</span></Link>
+                        <Link href={'/account'} className={`flex flex-col items-center gap-2xs ${pathname === '/account' ? 'text-dark text-medium' : 'text-muted'}`}><IconUser style={{"strokeWidth": pathname === '/account' ? 1.6 : 1.2}}/> <span className={`text-2xs`}>Mi perfil</span></Link>
                     </li>
                 </ul>
             </footer>

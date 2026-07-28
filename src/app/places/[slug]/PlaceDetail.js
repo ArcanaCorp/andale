@@ -1,7 +1,9 @@
 'use client'
 
 import ButtonIcon from "@/components/ui/Buttons/ButtonIcon";
+import { useAuth } from "@/context/AuthContext";
 import { handleShare } from "@/functions/share.function";
+import { useFavorite } from "@/hooks/useFavorite";
 import { IconArrowLeft, IconHeart, IconShare3 } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -10,6 +12,11 @@ import { toast } from "sonner";
 export default function PlaceDetail ({ info }) {
 
     const router = useRouter();
+
+    const { user } = useAuth();
+
+    const { isFavorite, loadingFavorite, handleToggleFavorite } = useFavorite({ user, favoriteType: "place", itemId: info?.id });
+
     const handleBack = () => router.back();
 
     const onShare = async (data) => {
@@ -30,7 +37,7 @@ export default function PlaceDetail ({ info }) {
                 <div className="absolute w-full flex items-center justify-between zIndex-2 p-md">
                     <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={handleBack}><IconArrowLeft/></ButtonIcon>
                     <div className="flex gap-sm">
-                        <ButtonIcon bg={'bg-white'} rounded={'rounded-full'}><IconHeart/></ButtonIcon>
+                        <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={handleToggleFavorite} disabled={loadingFavorite}><IconHeart color={isFavorite ? "var(--color-brand-500)" : "currentColor"} fill={isFavorite ? "var(--color-brand-500)" : "none"}/></ButtonIcon>
                         <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={() => onShare(info)}><IconShare3/></ButtonIcon>
                     </div>
                 </div>

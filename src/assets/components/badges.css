@@ -17,3 +17,81 @@
     color: var(--color-white);
     background-color: var(--color-neutral-900);
 }
+
+.badge-status {
+    cursor: default;
+    border: 1px solid transparent;
+}
+
+/* Pendiente */
+.badge-pending {
+    color: rgb(201, 151, 0);
+    background-color: rgba(255, 193, 7, .18);
+    border-color: rgba(255, 193, 7, .45);
+}
+
+/* Aceptado / confirmado */
+.badge-accepted {
+    color: var(--color-info);
+    background-color: rgba(39, 88, 229, .12);
+    border-color: rgba(39, 88, 229, .35);
+}
+
+/* Preparando */
+.badge-preparing {
+    color: var(--color-yape);
+    background-color: rgba(116, 35, 132, .12);
+    border-color: rgba(116, 35, 132, .35);
+}
+
+/* Listo */
+.badge-ready {
+    color: var(--color-success);
+    background-color: rgba(40, 167, 69, .14);
+    border-color: rgba(40, 167, 69, .35);
+}
+
+/* En camino */
+.badge-on-the-way,
+.badge-on-delivery {
+    color: var(--color-info);
+    background-color: rgba(39, 88, 229, .12);
+    border-color: rgba(39, 88, 229, .35);
+}
+
+/* Completado */
+.badge-completed {
+    color: var(--color-success);
+    background-color: var(--color-success-transparent);
+    border-color: var(--color-success);
+}
+
+/* Rechazado */
+.badge-rejected {
+    color: var(--color-error);
+    background-color: var(--color-error-500);
+    border-color: rgba(220, 53, 69, .35);
+}
+
+/* Cancelado */
+.badge-cancelled,
+.badge-cancelled-by-customer,
+.badge-cancelled-by-restaurant {
+    color: var(--color-neutral-700);
+    background-color: var(--color-neutral-200);
+    border-color: var(--color-neutral-300);
+}
+
+/* Expirado */
+.badge-expired {
+    color: var(--color-neutral-500);
+    background-color: var(--color-neutral-100);
+    border-color: var(--color-neutral-300);
+}
+
+/* Reportado */
+.badge-fake-reported {
+    color: var(--color-white);
+    background-color: var(--color-error);
+    border-color: var(--color-error);
+}

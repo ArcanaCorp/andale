@@ -33,6 +33,15 @@ export default function Page () {
             setLoading(false);
         }
     };
+
+    const handleNavigate = (url) => {
+
+        const LIST = {
+            'business': 'https://socio.andaleya.pe'
+        }
+
+        window.open(`${LIST[url]}/?utm_source=andaleya.pe`, '_blank')
+    }
     
     return (
         <>
@@ -45,19 +54,19 @@ export default function Page () {
                 <div className="w-full flex flex-col gap-sm">
                     <h3>Perfil</h3>
                     <ul className="w-full flex flex-col gap-md">
-                        <li className="w-full flex items-center justify-between py-sm pointer">
+                        <li className="w-full flex items-center justify-between py-sm pointer" onClick={() => router.push('/account/personal')}>
                             <div className="flex gap-sm items-center text-sm"><IconUser/> Información Personal</div>
                             <IconChevronRight/>
                         </li>
-                        <li className="w-full flex items-center justify-between py-sm pointer">
+                        <li className="w-full flex items-center justify-between py-sm pointer" onClick={() => router.push('/account/addresses')}>
                             <div className="flex gap-sm items-center text-sm"><IconMapPin/> Direcciones</div>
                             <IconChevronRight/>
                         </li>
-                        <li className="w-full flex items-center justify-between py-sm pointer">
+                        <li className="w-full flex items-center justify-between py-sm pointer" onClick={() => router.push('/orders')}>
                             <div className="flex gap-sm items-center text-sm"><IconShoppingBag/> Pedidos</div>
                             <IconChevronRight/>
                         </li>
-                        <li className="w-full flex items-center justify-between py-sm pointer">
+                        <li className="w-full flex items-center justify-between py-sm pointer" onClick={() => router.push('/favorites')}>
                             <div className="flex gap-sm items-center text-sm"><IconHeart/> Favoritos</div>
                             <IconChevronRight/>
                         </li>
@@ -66,7 +75,7 @@ export default function Page () {
                 <div className="w-full flex flex-col gap-sm">
                     <h3>Configuración</h3>
                     <ul className="w-full flex flex-col gap-md">
-                        <li className="w-full flex items-center justify-between py-sm pointer">
+                        <li className="w-full flex items-center justify-between py-sm pointer" onClick={() => router.push('/account/notifications')}>
                             <div className="flex gap-sm items-center text-sm"><IconBell/> Notificaciones</div>
                             <IconChevronRight/>
                         </li>
@@ -74,11 +83,11 @@ export default function Page () {
                             <div className="flex gap-sm items-center text-sm"><IconInfoCircle/> Información Legal</div>
                             <IconChevronRight/>
                         </li>
-                        <li className="w-full flex items-center justify-between py-sm pointer">
+                        <li className="w-full flex items-center justify-between py-sm pointer" onClick={() => router.push('/claims')}>
                             <div className="flex gap-sm items-center text-sm"><IconBook/> Libro de reclamaciones</div>
                             <IconChevronRight/>
                         </li>
-                        <li className="w-full flex items-center justify-between py-sm pointer">
+                        <li className="w-full flex items-center justify-between py-sm pointer" onClick={() => handleNavigate('business')}>
                             <div className="flex gap-sm items-center text-sm"><IconShoppingBagPlus/> Registrar mi negocio</div>
                             <IconChevronRight/>
                         </li>

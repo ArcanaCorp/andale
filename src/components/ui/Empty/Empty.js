@@ -21,6 +21,10 @@ export default function EmptyPage ({ page }) {
             title: 'No tienes productos',
             text: 'No agregaste o eliminaste los productos del carrito.'
         },
+        'search': {
+            title: 'No se pudo buscar',
+            text: 'No se pudo buscar en la app.'
+        },
     }
 
     return (
