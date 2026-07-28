@@ -43,8 +43,9 @@ export default function List({ type, list = [], load = false, error = "", orient
         <ul className={listClasses}>
             {visibleItems.length > 0 ? (
                 visibleItems.map((item) => (
-                    <li key={item.id} className={isVertical ? "w-full" : "shrink-0"}>
+                    <li key={item.id} className={isVertical ? "w-full" : "shrink-0 w"} style={{"--mxw": "350px"}}>
                         <Card
+                            id={item.id}
                             type={type}
                             slug={item.slug}
                             title={item.title}

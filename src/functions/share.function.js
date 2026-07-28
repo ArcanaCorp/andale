@@ -1,4 +1,5 @@
 export const handleShare = async ( title, text, url ) => {
+
     const shareData = {
         title: title || "Ándale Ya!",
         text: text || "Descubre todo desde la palma de tu mano.",
@@ -6,6 +7,7 @@ export const handleShare = async ( title, text, url ) => {
     };
 
     try {
+        
         if (navigator.share) {
             await navigator.share(shareData);
             return { ok: true, message: 'Se compartio correctamente.', error: null };

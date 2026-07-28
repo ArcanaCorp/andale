@@ -4,10 +4,14 @@ import ButtonIcon from "@/components/ui/Buttons/ButtonIcon";
 import { useAuth } from "@/context/AuthContext";
 import { handleShare } from "@/functions/share.function";
 import { useFavorite } from "@/hooks/useFavorite";
-import { IconArrowLeft, IconHeart, IconShare3 } from "@tabler/icons-react";
+import { trackEvent } from "@/services/events.service";
+import { createSharedLink } from "@/services/shared-links.service";
+import { IconArrowLeft, IconHeart, IconPhoto, IconRoute, IconShare3 } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useEffect, useRef, useState } from "react";
+import SharedModal from "@/components/ui/Modals/SharedModal";
 
 export default function PlaceDetail ({ info }) {
 
@@ -17,17 +21,56 @@ export default function PlaceDetail ({ info }) {
 
     const { isFavorite, loadingFavorite, handleToggleFavorite } = useFavorite({ user, favoriteType: "place", itemId: info?.id });
 
-    const handleBack = () => router.back();
+    const [view, setView] = useState(false);
 
-    const onShare = async (data) => {
+    const handleBack = async () => {
         try {
-            const result = await handleShare(data.name, data.short_description, `https://andaleya.pe/places/${data.slug}/?utm_source=shared`);
-            if (!result.ok) toast.warning('Alerta', { description: result.message || 'No se pudo compartir' })
-                toast.success('Éxito', { description: 'Se compartió exitosamente.' })
+            await trackEvent({
+                userId: user?.id || null,
+                eventName: "place_back_clicked",
+                entityType: "place",
+                entityId: info?.id || null,
+                metadata: {
+                    slug: info?.slug || null,
+                    title: info?.title || info?.name || null,
+                    source: "place_detail_header"
+                }
+            });
         } catch (error) {
-            toast.error('Error', { description: `Error: ${error.message}` })
+            console.warn("No se pudo registrar volver desde lugar:", error);
         }
-    }
+
+        router.back();
+    };
+
+    const trackedPlaceView = useRef(false);
+
+    useEffect(() => {
+        if (trackedPlaceView.current) return;
+        if (!info?.id) return;
+
+        trackedPlaceView.current = true;
+
+        setTimeout(() => {
+            trackEvent({
+                userId: user?.id || null,
+                eventName: "place_view",
+                entityType: "place",
+                entityId: info.id,
+                metadata: {
+                    slug: info.slug,
+                    title: info.title || info.name,
+                    category: info.category || null,
+                    district: info.district || null,
+                    province: info.province || null,
+                    source: "place_detail"
+                }
+            }).catch((error) => {
+                console.warn("No se pudo registrar vista del lugar:", error);
+            });
+        }, 300);
+
+    }, [info?.id, user?.id]);
 
     if (!info) return <div>No hay datos</div>;
 
@@ -38,7 +81,7 @@ export default function PlaceDetail ({ info }) {
                     <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={handleBack}><IconArrowLeft/></ButtonIcon>
                     <div className="flex gap-sm">
                         <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={handleToggleFavorite} disabled={loadingFavorite}><IconHeart color={isFavorite ? "var(--color-brand-500)" : "currentColor"} fill={isFavorite ? "var(--color-brand-500)" : "none"}/></ButtonIcon>
-                        <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={() => onShare(info)}><IconShare3/></ButtonIcon>
+                        <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={() => setView(true)}><IconShare3/></ButtonIcon>
                     </div>
                 </div>
                 <Image src={info.cover_image_url} alt={`Foto de portada de ${info.name}`} fill placeholder="blur" blurDataURL="https://placehold.net/600x600.png" />
@@ -78,6 +121,45 @@ export default function PlaceDetail ({ info }) {
                     <div className="w-full h rounded-md hidden bg-surface" style={{"--h": "240px"}}></div>
                 </div>
             </main>
+            {view && (
+                <SharedModal
+                    open={view}
+                    onClose={() => setView(false)}
+                    type="place"
+                    info={info}
+                    user={user}
+                    extraOptions={[
+                        {
+                            key: "gallery",
+                            label: "Ver galería",
+                            icon: IconPhoto,
+                            eventName: "place_gallery_opened",
+                            onClick: () => {
+                                setView(false);
+                                document
+                                    .getElementById("place-gallery")
+                                    ?.scrollIntoView({
+                                        behavior: "smooth"
+                                    });
+                            }
+                        },
+                        {
+                            key: "route",
+                            label: "Cómo llegar",
+                            icon: IconRoute,
+                            eventName: "place_route_opened",
+                            onClick: () => {
+                                setView(false);
+                                document
+                                    .getElementById("place-route")
+                                    ?.scrollIntoView({
+                                        behavior: "smooth"
+                                    });
+                            }
+                        }
+                    ]}
+                />
+            )}
         </>
     )
 }

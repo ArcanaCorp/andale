@@ -1,5 +1,6 @@
 'use client';
 
+import { trackEvent } from "@/services/events.service";
 import {
     getFavoriteStatus,
     toggleFavorite
@@ -8,11 +9,8 @@ import {
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-export function useFavorite({
-    user,
-    favoriteType,
-    itemId
-}) {
+export function useFavorite({ user, favoriteType, itemId, info }) {
+
     const [isFavorite, setIsFavorite] = useState(false);
     const [loadingFavorite, setLoadingFavorite] = useState(false);
 
@@ -44,13 +42,25 @@ export function useFavorite({
 
             setLoadingFavorite(true);
 
-            const result = await toggleFavorite({
-                userId: user.id,
-                favoriteType,
-                itemId
-            });
+            const result = await toggleFavorite({userId: user.id, favoriteType, itemId});
 
             setIsFavorite(result.isFavorite);
+
+            try {
+                await trackEvent({
+                    userId: user.id,
+                    eventName: result.isFavorite ? "favorite_added" : "favorite_removed",
+                    entityType: favoriteType, // "business" o "place"
+                    entityId: itemId,
+                    metadata: {
+                        slug: info?.slug || null,
+                        title: info?.title || info?.name || info?.commercial_name || null,
+                        favorite_type: favoriteType
+                    }
+                });
+            } catch (trackError) {
+                console.warn("No se pudo registrar evento favorito:", trackError);
+            }
 
             toast.success(result.message);
 
@@ -65,10 +75,7 @@ export function useFavorite({
 
     useEffect(() => {
         loadFavorite();
-    }, [
-        user?.id,
-        itemId
-    ]);
+    }, [user?.id,itemId]);
 
     return {
         isFavorite,

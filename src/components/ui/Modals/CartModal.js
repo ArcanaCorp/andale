@@ -4,9 +4,12 @@ import Avatar from "../Avatars/Avatar";
 import ButtonIcon from "../Buttons/ButtonIcon";
 import { useEffect, useState } from "react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
+import { trackEvent } from "@/services/events.service";
 
-export default function CartModal ({ dish, selectedDish }) {
+export default function CartModal ({ dish, selectedDish, business = null }) {
 
+    const { user } = useAuth();
     const { cart, addToCart, removeToCart } = useCart();
 
     const [ item, setItem ] = useState({
@@ -30,13 +33,63 @@ export default function CartModal ({ dish, selectedDish }) {
         });
     };
 
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
         addToCart(item);
+        try {
+            await trackEvent({
+                userId: user?.id || null,
+                eventName: "dish_added_to_cart",
+                entityType: "dish",
+                entityId: dish.id,
+                metadata: {
+                    dish_id: dish.id,
+                    dish_name: dish.name,
+                    dish_price: Number(dish.price || 0),
+                    quantity: item.amount,
+                    subtotal: item.subtotal,
+                    business_id: dish.foodie_id || business?.id || null,
+                    business_slug: business?.slug || null,
+                    business_name:
+                        business?.commercial_name ||
+                        business?.commercial ||
+                        business?.name ||
+                        business?.title ||
+                        null
+                }
+            });
+        } catch (error) {
+            console.warn("No se pudo registrar agregado al carrito:", error);
+        }
         selectedDish('');
     };
 
-    const handleRemove = (id) => {
-        removeToCart(id)
+    const handleRemove = async (id) => {
+        removeToCart(id);
+        try {
+            await trackEvent({
+                userId: user?.id || null,
+                eventName: "dish_removed_from_cart",
+                entityType: "dish",
+                entityId: dish.id,
+                metadata: {
+                    dish_id: dish.id,
+                    dish_name: dish.name,
+                    dish_price: Number(dish.price || 0),
+                    quantity: item.amount,
+                    subtotal: item.subtotal,
+                    business_id: dish.foodie_id || business?.id || null,
+                    business_slug: business?.slug || null,
+                    business_name:
+                        business?.commercial_name ||
+                        business?.commercial ||
+                        business?.name ||
+                        business?.title ||
+                        null
+                }
+            });
+        } catch (error) {
+            console.warn("No se pudo registrar eliminado del carrito:", error);
+        }
         selectedDish('');
     }
 

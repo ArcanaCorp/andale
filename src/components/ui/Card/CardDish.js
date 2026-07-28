@@ -1,16 +1,44 @@
 'use client'
 import { useCart } from "@/context/CartContext";
 import Avatar from "../Avatars/Avatar";
+import { useAuth } from "@/context/AuthContext";
+import { trackEvent } from "@/services/events.service";
 
-export default function CardDish ({ dish, onSeleted }) {
+export default function CardDish ({ dish, onSeleted, business = null }) {
 
+    const { user } = useAuth();
     const { cart } = useCart();
 
     const cartItem = cart.products.find(item => item.id === dish.id);
 
+    const handleOpenModal = (dish) => {
+        onSeleted(dish);
+        trackEvent({
+            userId: user?.id || null,
+            eventName: "dish_opened",
+            entityType: "dish",
+            entityId: dish.id,
+            metadata: {
+                dish_id: dish.id,
+                dish_name: dish.name,
+                dish_price: dish.price,
+                business_id: dish.foodie_id || business?.id || null,
+                business_slug: business?.slug || null,
+                business_name:
+                    business?.commercial_name ||
+                    business?.commercial ||
+                    business?.name ||
+                    business?.title ||
+                    null
+            }
+        }).catch((error) => {
+            console.warn("No se pudo registrar apertura de plato:", error);
+        });
+    }
+
     return (
         <>
-            <article className="w-full flex gap-md pointer" onClick={() => onSeleted(dish)}>
+            <article className="w-full flex gap-md pointer" onClick={() => handleOpenModal(dish)}>
                 <div className="w-full flex flex-col">
                     <h4>{dish.name}</h4>
                     <p className="text-xs text-muted mb-sm">{dish.description}</p>

@@ -4,13 +4,16 @@ import ButtonIcon from "@/components/ui/Buttons/ButtonIcon";
 import ListCategory from "@/components/ui/List/ListCategory";
 import ListDishes from "@/components/ui/List/ListDishes";
 import CartModal from "@/components/ui/Modals/CartModal";
+import SharedModal from "@/components/ui/Modals/SharedModal";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { handleShare } from "@/functions/share.function";
 import { useFavorite } from "@/hooks/useFavorite";
 import { useFoodieMenu } from "@/hooks/useFoodie";
 import { useOpeningStatus } from "@/hooks/useOpeningStatus";
-import { IconArrowLeft, IconChevronRight, IconDotsVertical, IconHeart, IconInfoCircle, IconShare3, IconShoppingBag, IconStar, IconX } from "@tabler/icons-react";
+import { trackEvent } from "@/services/events.service";
+import { createSharedLink } from "@/services/shared-links.service";
+import { IconArrowLeft, IconDotsVertical, IconHeart, IconShoppingBag, } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -26,47 +29,42 @@ export default function FoodieDetail ({ info }) {
 
     const { categories, dishes, activeCategory, selectCategory, loadingCategories, loadingDishes, dish, selectedDish } = useFoodieMenu(info?.id, 10);
 
-    const { isFavorite, loadingFavorite, handleToggleFavorite } = useFavorite({ user, favoriteType: "business", itemId: info?.id});
+    const { isFavorite, loadingFavorite, handleToggleFavorite } = useFavorite({ user, favoriteType: "business", itemId: info?.id, info});
 
     const openingStatus = useOpeningStatus(info?.opening_hours);
 
     const handleBack = () => router.back();
 
-    const onShare = async () => {
-
-        try {
-
-            const result = await handleShare(
-                info.name,
-                info.description,
-                `https://andaleya.pe/foodies/${info.slug}?utm_source=shared`
-            );
-
-            if (!result.ok) return toast.warning("Alerta", {description: result.message || "No se pudo compartir"});
-
-                toast.success("Éxito", {description:"Se compartió exitosamente."});
-
-        } catch (error) {
-            toast.error("Error", {description: error.message});
-        }
-    };
-
-    const handleGoInfo = () => {
-        sessionStorage.setItem(
-            `business_${info.slug}`,
-            JSON.stringify(info)
-        );
-
-        router.push(`/foodies/${info.slug}/info`);
-    };
-
-    const handleGoReviews = () => {
-        router.push(`/foodies/${info.slug}/reviews`);
+    const handleOpenView = () => {
+        setView(true);
     };
 
     const deliveryFee = Number(info.delivery.fee) === 0 ? "Gratis" : `S/ ${Number(info.delivery.fee).toFixed(2)}`;
 
-    const handleToCart = () => router.push('/cart');
+    const handleToCart = async () => {
+        try {
+            await trackEvent({
+                userId: user?.id || null,
+                eventName: "cart_opened_from_float",
+                entityType: "business",
+                entityId: info.id,
+                metadata: {
+                    slug: info.slug,
+                    title:
+                        info.title ||
+                        info.name ||
+                        info.commercial ||
+                        null,
+                    source: "floating_cart_button",
+                    cart_items_count: cart?.products?.length || 0,
+                    cart_total: cart?.total || 0
+                }
+            });
+        } catch (error) {
+            console.warn("No se pudo registrar apertura de carrito:", error);
+        }
+        router.push('/cart');
+    }
 
     if (!info) return <div>No hay datos</div>;
 
@@ -79,7 +77,7 @@ export default function FoodieDetail ({ info }) {
                     <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={handleBack}><IconArrowLeft/></ButtonIcon>
                     <div className="flex gap-md">
                         <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={handleToggleFavorite}disabled={loadingFavorite}><IconHeart color={isFavorite ? "var(--color-brand-500)" : "currentColor"} fill={isFavorite ? "var(--color-brand-500)" : "none"}/></ButtonIcon>
-                        <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={() => setView(true)}><IconDotsVertical/></ButtonIcon>
+                        <ButtonIcon bg={'bg-white'} rounded={'rounded-full'} onClick={handleOpenView}><IconDotsVertical/></ButtonIcon>
                     </div>
                 </div>
                 <Image src={info.image} alt={`Foto de portada de ${info.title || info.name}`} fill placeholder="blur" blurDataURL="https://placehold.net/600x600.png" />
@@ -106,26 +104,32 @@ export default function FoodieDetail ({ info }) {
                 </div>
                 <div className="w-full flex flex-col gap-md">
                     <ListCategory list={categories} load={loadingCategories} active={activeCategory} onSelected={selectCategory} />
-                    <ListDishes list={dishes} load={loadingDishes} onSelected={selectedDish} />
+                    <ListDishes list={dishes} load={loadingDishes} onSelected={selectedDish} info={info} />
                 </div>
             </main>
 
             {view && (
-                <div className="absolute inset w-screen h-screen bg-overlay flex flex-col justify-end zIndex-modal">
-                    <div className="w-full bg-white rounded-top-md p-md">
-                        <div className="w-full flex items-center justify-end">
-                            <ButtonIcon bg={'bg-surface'} rounded={'rounded-full'} onClick={() => setView(false)}><IconX/></ButtonIcon>
-                        </div>
-                        <ul className="w-full flex flex-col gap-md">
-                            <button className="flex items-center justify-between py-md" onClick={handleGoInfo}><div className="flex gap-sm items-center text-sm"><IconInfoCircle/> Información sobre el local</div> <IconChevronRight/></button>
-                            <button className="flex items-center justify-between py-md" onClick={handleGoReviews}><div className="flex gap-sm items-center text-sm"><IconStar/> Leer opiniones</div> <IconChevronRight/></button>
-                            <button className="flex items-center justify-between py-md" onClick={() => onShare(info)}><div className="flex gap-sm items-center text-sm"><IconShare3/> Compartir</div> <IconChevronRight/></button>
-                        </ul>
-                    </div>
-                </div>
+                <SharedModal
+                    open={view}
+                    onClose={() => setView(false)}
+                    type="foodie"
+                    info={info}
+                    user={user}
+                    onGoInfo={() => {
+                        sessionStorage.setItem(
+                            `business_${info.slug}`,
+                            JSON.stringify(info)
+                        );
+
+                        router.push(`/foodies/${info.slug}/info`);
+                    }}
+                    onGoReviews={() => {
+                        router.push(`/foodies/${info.slug}/reviews`);
+                    }}
+                />
             )}
 
-            {dish && (<CartModal dish={dish} selectedDish={selectedDish} /> )}
+            {dish && (<CartModal dish={dish} selectedDish={selectedDish} business={info} /> )}
 
             {cart.products.length > 0 && ( <button className="absolute flex gap-md items-center px-md h rounded-full bg-dark text-white zIndex-float text-sm text-medium" style={{"--h": "48px", "bottom": "10px", "left": "30%"}} onClick={handleToCart}><IconShoppingBag/> Carrito <span className="grid-center w h bg-white text-dark text-sm rounded-full" style={{"--w": "20px", "--mnw": "20px", "--h": "20px"}}>{cart.products.length}</span></button> )}
 

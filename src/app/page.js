@@ -8,10 +8,53 @@ import Link from "next/link";
 import Login from "./auth/login";
 import Loading from "@/components/views/Loading";
 import ButtonCustomerNotifications from "@/components/ui/Buttons/ButtonCustomerNotifications";
+import { useEffect, useRef } from "react";
+import { trackEvent } from "@/services/events.service";
 
 export default function Page() {
     const { places, business } = useDB();
     const { user, loadAuth } = useAuth();
+
+    const trackedHomeView = useRef(false);
+
+    const handleSeeAllPlaces = () => {
+        trackEvent({
+            userId: user?.id || null,
+            eventName: "places_see_all_clicked",
+            entityType: "navigation",
+            entityId: null,
+            metadata: {
+                source: "home_places_section",
+                target: "/places",
+                visible_places_count: places?.feed?.list?.length || 0
+            }
+        }).catch((error) => {
+            console.warn("No se pudo registrar Ver más lugares:", error);
+        });
+    };
+
+    useEffect(() => {
+        if (trackedHomeView.current) return;
+        if (!user?.id) return;
+
+        trackedHomeView.current = true;
+
+        trackEvent({
+            userId: user.id,
+            eventName: "home_viewed",
+            entityType: "page",
+            entityId: null,
+            metadata: {
+                route: "/",
+                places_count: places?.feed?.list?.length || 0,
+                businesses_count: business?.list?.length || 0,
+                source: "home_page"
+            }
+        }).catch((error) => {
+            console.warn("No se pudo registrar vista del home:", error);
+        });
+
+    }, [ user?.id, places?.feed?.list?.length, business?.list?.length]);
 
     if (loadAuth) return <Loading/>;
 
@@ -21,21 +64,18 @@ export default function Page() {
 
     return (
         <>
+            
             <Header />
-            <main className="w-full h scroll-y py-md" style={{"--h": "calc(100dvh - 190px)"}}>
-                <ButtonCustomerNotifications user={user} />
-                <section>
-                    <div className="flex w-full items-center justify-between px-md">
-                        <h3 className="text-md text-semibold">
-                            Lugares por conocer
-                        </h3>
 
-                        <Link
-                            href="/places"
-                            className="text-xs text-medium text-primary"
-                        >
-                            Ver más
-                        </Link>
+            <main className="w-full h scroll-y py-md" style={{"--h": "calc(100dvh - 190px)"}}>
+                
+                <ButtonCustomerNotifications user={user} />
+                
+                <section>
+
+                    <div className="flex w-full items-center justify-between px-md">
+                        <h3 className="text-md text-semibold">Lugares por conocer</h3>
+                        <Link href="/places" className="text-xs text-medium text-primary" onClick={handleSeeAllPlaces}>Ver más</Link>
                     </div>
 
                     <List
@@ -51,9 +91,7 @@ export default function Page() {
 
                 <section>
                     <div className="w-full px-md">
-                        <h3 className="text-md text-semibold">
-                            Los mejores sabores
-                        </h3>
+                        <h3 className="text-md text-semibold">Los mejores sabores</h3>
                     </div>
 
                     <List
